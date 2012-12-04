@@ -1,5 +1,5 @@
 <?php
-
+//Hi Matthew! - Fatima
 final class Fields {
 	const AcadYear			 = 1;
 	const Semester			 = 2;
