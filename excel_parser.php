@@ -128,13 +128,13 @@
 		private function parseClassName($field, &$queryData) {
 			if (empty($field))
 				throw new Exception("Class is empty");
-			if ($lastspace = strrpos($field, " ") == false)// no spaces
+			if (($lastspace = strrpos($field, " ")) === false)// no spaces
 				throw new Exception("Course name and section cannot be distinguished");
-			$coursename = substr($field, 0, -$lastspace);
+			$coursename = substr($field, 0, $lastspace);
 			$section = substr($field, $lastspace);
 			// check if $coursename is in table?
 			$queryData->coursename = $coursename;
-			$queryData->section = -$section;
+			$queryData->section = $section;
 		}
 	
 		private function parseGrade($grade, $compgrade, $secondcompgrade, &$queryData) {
