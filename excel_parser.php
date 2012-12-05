@@ -3,6 +3,7 @@
 	error_reporting(E_ALL ^ E_NOTICE);
 	require_once 'excel_reader.php';
 	require_once 'input_fields.php';
+	require_once 'semester.php';
 	require_once 'query_data.php';
 	
 	class ExcelParser {
@@ -65,7 +66,7 @@
 		}
 		
 		private function parseAcadYear($field, &$queryData) {
-			$field = preg_replace('/(.^\d)/', '', $field, 1); // skip to first numeric char
+			$field = preg_replace('/[^\d]*/', '', $field, 1); // skip to first numeric char
 			$field = preg_replace('/[^\d\-]/', '', $field); // strip all other non-numeric and non-hyphen chars
 			if (empty($field)) // nothing was left
 				throw new Exception("Acad Year has no numeric characters");
@@ -84,19 +85,10 @@
 		private function parseSemester($field, &$queryData) {
 			if (empty($field))
 				throw new Exception("Semester cannot be blank");
-			else if (strcasecmp($field, 'First') == 0)
-				$queryData->semester = 1;
-			else if (strcasecmp($field, 'Second') == 0)
-				$queryData->semester = 2;
-			else if (strcasecmp($field, 'Summer') == 0)
-				$queryData->semester = 3;
-			else {
-				$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
-				if ($field >= 1 && $field <= 3)
-					$queryData->semester = $field;
-				else
-					throw new Exception("Semester is invalid");
-			}
+			else if (($semester = Semester::getSemesterCode($field)) == Semester::Invalid)
+				throw new Exception("Semester is invalid");
+			else
+				$queryData->semester = $semester;
 		}
 	
 		private function parseStudentNo($field, &$queryData) {
@@ -125,6 +117,11 @@
 		}
 		
 		private function parseClassCode($field, &$queryData) {
+			$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
+			if (empty($field))
+				throw new Exception("Class code has no numeric characters");
+			else if (strlen($field) != 5)
+				throw new Exception("Class code must be exactly 5 digits long");
 			$queryData->classcode = $field;
 		}
 		
@@ -143,6 +140,6 @@
 		private function parseGrade($grade, $compgrade, $secondcompgrade, &$queryData) {
 			$queryData->grade = $grade;
 		}
-	}
 
+	}
 ?>
