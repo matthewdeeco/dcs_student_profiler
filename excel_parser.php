@@ -2,8 +2,8 @@
 
 	error_reporting(E_ALL ^ E_NOTICE);
 	require_once 'excel_reader.php';
-	require_once 'fields.php';
-	require_once 'student.php';
+	require_once 'input_fields.php';
+	require_once 'query_data.php';
 	
 	class ExcelParser {
 	
@@ -17,9 +17,9 @@
 			// If 1st row is not a header, change to $i = 1
 			for ($i = 2; $i <= $rows; $i++) {
 				try {
-					$student = $this->parseRow($i);
-					$student->printInfo();
-					// add $student to db
+					$queryData = $this->parseRow($i);
+					$queryData->printInfo();
+					// add $queryData to db
 				} catch (Exception $e) {
 					echo "Row $i has an error: ".$e->getMessage()."<br><br>";
 				}
@@ -27,91 +27,121 @@
 		}
 			
 		private function parseRow($row) {
-			$student = new Student();
+			$queryData = new QueryData;
 			
-			// parse acad year
-			$acadyear = $this->spreadsheet->val($row, Fields::AcadYear);
-			$acadyear = preg_replace('/[^\d]/', '', $acadyear, 1); // skip to first numeric char
-			$acadyear = preg_replace('/[^\d\-]/', '', $acadyear); // strip all other non-numeric and non-hyphen chars
-			if (empty($acadyear))
+			$field = $this->spreadsheet->val($row, InputFields::AcadYear);
+			$this->parseAcadYear($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::Semester);
+			$this->parseSemester($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::StudentNo);
+			$this->parseStudentNo($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::LastName);
+			$this->parseLastName($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::FirstName);
+			$this->parseFirstName($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::MiddleName);
+			$this->parseMiddleName($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::Pedigree);
+			$this->parsePedigree($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::ClassCode);
+			$this->parseClassCode($field, $queryData);
+			
+			$field = $this->spreadsheet->val($row, InputFields::ClassName);
+			$this->parseClassName($field, $queryData);
+			
+			$grade = $this->spreadsheet->val($row, InputFields::Grade);
+			$compgrade = $this->spreadsheet->val($row, InputFields::CompGrade);
+			$secondcompgrade = $this->spreadsheet->val($row, InputFields::SecondCompGrade);
+			$this->parseGrade($grade, $compgrade, $secondcompgrade, $queryData);
+			
+			return $queryData;
+		}
+		
+		private function parseAcadYear($field, &$queryData) {
+			$field = preg_replace('/(.^\d)/', '', $field, 1); // skip to first numeric char
+			$field = preg_replace('/[^\d\-]/', '', $field); // strip all other non-numeric and non-hyphen chars
+			if (empty($field)) // nothing was left
 				throw new Exception("Acad Year has no numeric characters");
-			$acadyear = explode("-", $acadyear); // separate by hyphen (e.g. 2010-2011)
-			$start = $acadyear[0];
-			if (count($acadyear) == 1)
-				$student->setAcadYear($start."-".($start + 1));
-			else {
-				$end = $acadyear[1];
+			$field = explode("-", $field); // separate by hyphen (e.g. 2010-2011)
+			$start = $field[0];
+			if (count($field) == 1) // no end year was specified
+				$queryData->acadyear = $start."-".($start + 1);
+			else { // end year was specified
+				$end = $field[1];
 				if ($end - $start !== 1)
 					throw new Exception("Start and end of Acad Year is not 1 year apart");
-				$student->setAcadYear($start."-".$end);
+				$queryData->acadyear = $start."-".$end;
 			}
-			
-			// parse semester
-			$semester = $this->spreadsheet->val($row, Fields::Semester);
-			if (empty($semester))
+		}
+		
+		private function parseSemester($field, &$queryData) {
+			if (empty($field))
 				throw new Exception("Semester cannot be blank");
-			if (strcasecmp($semester, 'First') == 0)
-				$student->setSemester(1);
-			else if (strcasecmp($semester, 'Second') == 0)
-				$student->setSemester(2);
-			else if (strcasecmp($semester, 'Summer') == 0)
-				$student->setSemester(3);
+			else if (strcasecmp($field, 'First') == 0)
+				$queryData->semester = 1;
+			else if (strcasecmp($field, 'Second') == 0)
+				$queryData->semester = 2;
+			else if (strcasecmp($field, 'Summer') == 0)
+				$queryData->semester = 3;
 			else {
-				$semester = preg_replace('/[^\d]/', '', $semester); // strip non-numeric chars
-				if ($semester >= 1 && $semester <= 3)
-					$student->setSemester($semester);
+				$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
+				if ($field >= 1 && $field <= 3)
+					$queryData->semester = $field;
 				else
 					throw new Exception("Semester is invalid");
 			}
-			
-			// parse student no
-			$studentno = $this->spreadsheet->val($row, Fields::StudentNo);
-			if (empty($studentno))
+		}
+	
+		private function parseStudentNo($field, &$queryData) {
+			if (empty($field))
 				throw new Exception("Student no cannot be blank");
-			$studentno = str_replace("-", "", $studentno);
-			if (strlen($studentno) != 9)
+			$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
+			if (strlen($field) != 9)
 				throw new Exception("Student no must be exactly 9 digits long");
-			$student->setStudentNo($studentno);
-			
-			$lastname = $this->spreadsheet->val($row, Fields::LastName);
-			// parse last name code here
-			$student->setLastName($lastname);
-			
-			$firstname = $this->spreadsheet->val($row, Fields::FirstName);
-			// parse first name
-			$student->setFirstName($firstname);
-			
-			$middlename = $this->spreadsheet->val($row, Fields::MiddleName);
-			// parse middle name
-			$student->setMiddleName($middlename);
-			
-			$pedigree = $this->spreadsheet->val($row, Fields::Pedigree);
-			// parse pedigree
-			$student->setPedigree($pedigree);
-			
-			$classcode = $this->spreadsheet->val($row, Fields::ClassCode);
-			// parse class code
-			$student->setClassCode($classcode);
-			
-			// parse course name and section
-			$classname = $this->spreadsheet->val($row, Fields::ClassName);
-			if (empty($classname))
+			$queryData->studentno = $field;
+		}
+
+		private function parseLastName($field, &$queryData) {
+			$queryData->lastname = $field;
+		}
+		
+		private function parseFirstName($field, &$queryData) {
+			$queryData->firstname = $field;
+		}
+		
+		private function parseMiddleName($field, &$queryData) {
+			$queryData->middlename = $field;
+		}
+		
+		private function parsePedigree($field, &$queryData) {
+			$queryData->pedigree = $field;
+		}
+		
+		private function parseClassCode($field, &$queryData) {
+			$queryData->classcode = $field;
+		}
+		
+		private function parseClassName($field, &$queryData) {
+			if (empty($field))
 				throw new Exception("Class is empty");
-			if ($lastspace = strrpos($classname, " ") == false)// no spaces
+			if ($lastspace = strrpos($field, " ") == false)// no spaces
 				throw new Exception("Course name and section cannot be distinguished");
-			$coursename = substr($classname, 0, -$lastspace);
-			$section = substr($classname, $lastspace);
+			$coursename = substr($field, 0, -$lastspace);
+			$section = substr($field, $lastspace);
 			// check if $coursename is in table?
-			$student->setCourseName($coursename);
-			$student->setSection($section);
-			
-			$grade = $this->spreadsheet->val($row, Fields::Grade);
-			$compgrade = $this->spreadsheet->val($row, Fields::CompGrade);
-			$secondcompgrade = $this->spreadsheet->val($row, Fields::SecondCompGrade);
-			// parse grade
-			$student->setGrade($grade);
-			
-			return $student;
+			$queryData->coursename = $coursename;
+			$queryData->section = -$section;
+		}
+	
+		private function parseGrade($grade, $compgrade, $secondcompgrade, &$queryData) {
+			$queryData->grade = $grade;
 		}
 	}
 
