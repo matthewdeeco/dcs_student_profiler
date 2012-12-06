@@ -71,6 +71,7 @@
 				throw new Exception("Acad Year has no numeric characters");
 			$field = explode("-", $field); // separate by hyphen (e.g. 2010-2011)
 			$field = array_filter($field); // remove empty elements
+			$field = array_values($field); // rearrange elements to remove gaps in index
 			$start = $field[0];
 			if (count($field) == 1) // no end year was specified
 				$queryData->acadyear = $start."-".($start + 1);
