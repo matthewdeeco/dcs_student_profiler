@@ -9,17 +9,17 @@ final class Semester {
 	// prevent instantiation
 	private function Semesters(){}
 	
-	public static function getSemesterCode($field) {
-		if (strcasecmp($field, 'First') == 0)
+	public static function getSemesterCode($semester) {
+		if (strcasecmp($semester, 'First') == 0)
 			return Semester::First;
-		else if (strcasecmp($field, 'Second') == 0)
+		else if (strcasecmp($semester, 'Second') == 0)
 			return Semester::Second;
-		else if (strcasecmp($field, 'Summer') == 0)
+		else if (strcasecmp($semester, 'Summer') == 0)
 			return Semester::Summer;
 		else {
-			$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
-			if ($field >= Semester::First && $field <= Semester::Summer)
-				return $field;
+			$semester = preg_replace('/[^\d]/', '', $semester); // strip non-numeric chars
+			if ($semester >= Semester::First && $semester <= Semester::Summer)
+				return $semester;
 			else
 				return Semester::Invalid;
 		}
