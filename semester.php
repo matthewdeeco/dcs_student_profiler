@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 /** Defines constants related to Semester and functions to
 	convert integer to text interpretations of Semester. */
