@@ -24,6 +24,17 @@ final class Semester {
 				return Semester::Invalid;
 		}
 	}
+	
+	public static function toString($semester) {
+		if ($semester == Semester::First)
+			return "1st Semester";
+		else if ($semester == Semester::Second)
+			return "2nd Semester";
+		else if ($semester == Semester::Summer)
+			return "Summer";
+		else
+			throw new Exception("toString: Invalid semester");
+	}
 }
 
 ?>

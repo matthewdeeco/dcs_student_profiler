@@ -30,11 +30,9 @@
 		private function parseRow($row) {
 			$queryData = new QueryData;
 			
-			$field = $this->spreadsheet->val($row, InputFields::AcadYear);
-			$this->parseAcadYear($field, $queryData);
-			
-			$field = $this->spreadsheet->val($row, InputFields::Semester);
-			$this->parseSemester($field, $queryData);
+			$acadyear = $this->spreadsheet->val($row, InputFields::AcadYear);
+			$semester = $this->spreadsheet->val($row, InputFields::Semester);
+			$this->parseTermName($acadyear, $semester, $queryData);
 			
 			$field = $this->spreadsheet->val($row, InputFields::StudentNo);
 			$this->parseStudentNo($field, $queryData);
@@ -65,74 +63,81 @@
 			return $queryData;
 		}
 		
-		private function parseAcadYear($field, &$queryData) {
-			$field = preg_replace('/[^\d\-]*/', '', $field); // remove non-numeric and non-hyphen chars
-			if (empty($field)) // nothing was left
-				throw new Exception("Acad Year has no numeric characters");
-			$field = explode("-", $field); // separate by hyphen (e.g. 2010-2011)
-			$field = array_filter($field); // remove empty elements
-			$field = array_values($field); // rearrange elements to remove gaps in index
-			$start = $field[0];
-			if (count($field) == 1) // no end year was specified
-				$queryData->acadyear = $start."-".($start + 1);
-			else { // end year was specified
-				$end = $field[1];
-				if ($end - $start !== 1)
-					throw new Exception("Start and end of Acad Year is not 1 year apart");
-				$queryData->acadyear = $start."-".$end;
-			}
+		private function parseTermName($acadyear, $semester, &$queryData) {
+			$this->parseAcadYear($acadyear, $queryData);
+			$this->parseSemester($semester, $queryData);
+			$queryData->termname = Semester::toString($semester)." ".$acadyear;
 		}
 		
-		private function parseSemester($field, &$queryData) {
-			if (empty($field))
+		private function parseAcadYear(&$acadyear, &$queryData) {
+			$acadyear = preg_replace('/[^\d\-]*/', '', $acadyear); // remove non-numeric and non-hyphen chars
+			if (empty($acadyear)) // nothing was left
+				throw new Exception("Acad Year has no numeric characters");
+			$acadyear = explode("-", $acadyear); // separate by hyphen (e.g. 2010-2011)
+			$acadyear = array_filter($acadyear); // remove empty elements
+			$acadyear = array_values($acadyear); // rearrange elements to remove gaps in index
+			$start = $acadyear[0];
+			if (count($acadyear) == 1) // no end year was specified
+				$acadyear = $start."-".($start + 1);
+			else { // end year was specified
+				$end = $acadyear[1];
+				if ($end - $start !== 1)
+					throw new Exception("Start and end of Acad Year is not 1 year apart");
+				$acadyear = $start."-".$end;
+			}
+			$queryData->acadyear = $acadyear;
+		}
+		
+		private function parseSemester(&$semester, &$queryData) {
+			if (empty($semester))
 				throw new Exception("Semester cannot be blank");
-			else if (($semester = Semester::getSemesterCode($field)) == Semester::Invalid)
+			else if (($semester = Semester::getSemesterCode($semester)) == Semester::Invalid)
 				throw new Exception("Semester is invalid");
 			else
 				$queryData->semester = $semester;
 		}
 	
-		private function parseStudentNo($field, &$queryData) {
-			if (empty($field))
+		private function parseStudentNo(&$studentno, &$queryData) {
+			if (empty($studentno))
 				throw new Exception("Student no cannot be blank");
-			$field = preg_replace('/[^\d]*/', '', $field); // strip non-numeric chars
-			if (strlen($field) != 9)
+			$studentno = preg_replace('/[^\d]*/', '', $studentno); // strip non-numeric chars
+			if (strlen($studentno) != 9)
 				throw new Exception("Student no must be exactly 9 digits long");
-			$queryData->studentno = $field;
+			$queryData->studentno = $studentno;
 		}
 
-		private function parseLastName($field, &$queryData) {
-			$queryData->lastname = $field;
+		private function parseLastName(&$lastname, &$queryData) {
+			$queryData->lastname = $lastname;
 		}
 		
-		private function parseFirstName($field, &$queryData) {
-			$queryData->firstname = $field;
+		private function parseFirstName(&$firstname, &$queryData) {
+			$queryData->firstname = $firstname;
 		}
 		
-		private function parseMiddleName($field, &$queryData) {
-			$queryData->middlename = $field;
+		private function parseMiddleName(&$middlename, &$queryData) {
+			$queryData->middlename = $middlename;
 		}
 		
-		private function parsePedigree($field, &$queryData) {
-			$queryData->pedigree = $field;
+		private function parsePedigree(&$pedigree, &$queryData) {
+			$queryData->pedigree = $pedigree;
 		}
 		
-		private function parseClassCode($field, &$queryData) {
-			$field = preg_replace('/[^\d]*/', '', $field); // strip non-numeric chars
-			if (empty($field))
+		private function parseClassCode(&$classcode, &$queryData) {
+			$classcode = preg_replace('/[^\d]*/', '', $classcode); // strip non-numeric chars
+			if (empty($classcode))
 				throw new Exception("Class code has no numeric characters");
-			else if (strlen($field) != 5)
+			else if (strlen($classcode) != 5)
 				throw new Exception("Class code must be exactly 5 digits long");
-			$queryData->classcode = $field;
+			$queryData->classcode = $classcode;
 		}
 		
-		private function parseClassName($field, &$queryData) {
-			if (empty($field))
+		private function parseClassName($classname, &$queryData) {
+			if (empty($classname))
 				throw new Exception("Class is empty");
-			if (($lastspace = strrpos($field, " ")) === false)// no spaces
+			if (($lastspace = strrpos($classname, " ")) === false)// no spaces
 				throw new Exception("Course name and section cannot be distinguished");
-			$coursename = substr($field, 0, $lastspace);
-			$section = substr($field, $lastspace);
+			$coursename = substr($classname, 0, $lastspace);
+			$section = substr($classname, $lastspace);
 			// check if $coursename is in table?
 			/*
 			$sql = "SELECT * FROM courses WHERE coursename = '$coursename'; "
@@ -148,7 +153,7 @@
 			$queryData->section = $section;
 		}
 	
-		private function parseGrade($grade, $compgrade, $secondcompgrade, &$queryData) {
+		private function parseGrade(&$grade, $compgrade, $secondcompgrade, &$queryData) {
 			$queryData->grade = $grade;
 		}
 

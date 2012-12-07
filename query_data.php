@@ -7,8 +7,7 @@ class QueryData {
 	function printInfo() {
 		echo "Student #: $this->studentno<br>";
 		echo "Name: $this->lastname, $this->firstname $this->middlename $this->pedigree<br>";
-		echo "Acad Year: $this->acadyear<br>";
-		echo "Semester: $this->semester<br>";
+		echo "Term: $this->termname<br>";
 		echo "Class: $this->coursename $this->section<br>";
 		echo "Class Code: $this->classcode<br>";
 		echo "Grade: $this->grade<br>";
