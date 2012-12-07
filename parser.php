@@ -46,26 +46,32 @@ abstract class Parser {
 				throw new Exception("Student no must be exactly 9 digits long");
 			$queryData->studentno = $studentno;
 		}
-
-		private function parseName(&$name) {
-		}
 		
 		protected function parseLastName(&$lastname, &$queryData) {
 			if (empty($lastname))
 				throw new Exception("Last name is empty");
-			$this->parseName($lastname);
+			else if(preg_match('/[0-9]/', $lastname)){
+				throw new Exception("Last name contains numeric characters!");
+			}
 			$queryData->lastname = $lastname;
 		}
 		
 		protected function parseFirstName(&$firstname, &$queryData) {
 			if(empty($firstname))
 				throw new Exception("First name is empty");
-			$this->parseName($firstname);
+			else if(preg_match('/[0-9]/', $firstname)){
+				throw new Exception("First name contains numeric characters!");
+			}
 			$queryData->firstname = $firstname;
 		}
 		
 		protected function parseMiddleName(&$middlename, &$queryData) {
-			$this->parseName($middlename);
+			if(empty($middlename))
+				throw new Exception("Middle name is empty");
+			else if(preg_match('/[0-9]/', $middlename)){
+				throw new Exception("Middle name contains numeric characters!");
+			}
+
 			$queryData->middlename = $middlename;
 		}
 		
