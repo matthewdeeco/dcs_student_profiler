@@ -1,10 +1,13 @@
 <?php
 
+/** Holds a row of data to be added to the database. */
 class QueryData {
 	
+	/** Holds the query data (acad year, last name, grade, etc. */
 	private $data = array();
 	
-	function printInfo() {
+	/** Prints the query data in readable form. */
+	public function printInfo() {
 		echo "Student #: $this->studentno<br>";
 		echo "Name: $this->lastname, $this->firstname $this->middlename $this->pedigree<br>";
 		echo "Term: $this->termname<br>";
@@ -14,6 +17,7 @@ class QueryData {
 		echo "<br>";
 	}
 	
+	// Groupmates, you don't need to understand everything else below, just leave it as is.
 	// From http://php.net/manual/en/language.oop5.overloading.php#object.get
 	public function __get($name) {
 		if (isset($this->data[$name]))

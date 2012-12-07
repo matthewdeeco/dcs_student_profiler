@@ -31,7 +31,6 @@ table.excel tbody td {
 
 <body>
 <?php
-
 	require_once 'excel_parser.php';
 	$printer = new Spreadsheet_Excel_Reader("students.xls");
 	echo $printer->dump(true,true);

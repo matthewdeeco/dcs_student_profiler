@@ -1,14 +1,19 @@
 <?php
 
+/** Defines constants related to Semester and functions to
+	convert integer to text interpretations of Semester. */
 final class Semester {
 	const Invalid = 0;
 	const First  = 1;
 	const Second = 2;
 	const Summer = 3;
 	
-	// prevent instantiation
+	/** Private constructor to prevent instantiation. */
 	private function Semesters(){}
 	
+	/** Returns the semester code of $semester.
+		$semester - the text or number to be interpreted
+	*/
 	public static function getSemesterCode($semester) {
 		if (strcasecmp($semester, 'First') == 0)
 			return Semester::First;
@@ -25,6 +30,9 @@ final class Semester {
 		}
 	}
 	
+	/** Returns the text representation of $semester.
+		$semester - the semester code
+	*/
 	public static function toString($semester) {
 		if ($semester == Semester::First)
 			return "1st Semester";
