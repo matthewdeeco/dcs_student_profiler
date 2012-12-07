@@ -66,11 +66,12 @@
 		}
 		
 		private function parseAcadYear($field, &$queryData) {
-			$field = preg_replace('/[^\d]*/', '', $field, 1); // skip to first numeric char
-			$field = preg_replace('/[^\d\-]/', '', $field); // strip all other non-numeric and non-hyphen chars
+			$field = preg_replace('/[^\d\-]*/', '', $field); // remove non-numeric and non-hyphen chars
 			if (empty($field)) // nothing was left
 				throw new Exception("Acad Year has no numeric characters");
 			$field = explode("-", $field); // separate by hyphen (e.g. 2010-2011)
+			$field = array_filter($field); // remove empty elements
+			$field = array_values($field); // rearrange elements to remove gaps in index
 			$start = $field[0];
 			if (count($field) == 1) // no end year was specified
 				$queryData->acadyear = $start."-".($start + 1);
@@ -94,7 +95,7 @@
 		private function parseStudentNo($field, &$queryData) {
 			if (empty($field))
 				throw new Exception("Student no cannot be blank");
-			$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
+			$field = preg_replace('/[^\d]*/', '', $field); // strip non-numeric chars
 			if (strlen($field) != 9)
 				throw new Exception("Student no must be exactly 9 digits long");
 			$queryData->studentno = $field;
@@ -117,7 +118,7 @@
 		}
 		
 		private function parseClassCode($field, &$queryData) {
-			$field = preg_replace('/[^\d]/', '', $field); // strip non-numeric chars
+			$field = preg_replace('/[^\d]*/', '', $field); // strip non-numeric chars
 			if (empty($field))
 				throw new Exception("Class code has no numeric characters");
 			else if (strlen($field) != 5)
