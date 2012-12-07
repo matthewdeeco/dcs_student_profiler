@@ -1,7 +1,9 @@
 <?php
 
+/** Defines a family of Parser classes (Excel Parser, in the future CSV Parser) */
 abstract class Parser {
 		
+		/** Implementation depends on the type of Parser. */
 		public abstract function parse();
 		
 		protected function parseTermName($acadyear, $semester, &$queryData) {
