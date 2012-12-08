@@ -20,17 +20,30 @@ class ExcelParser extends Parser {
 	public function parse() {
 		$rows = $this->spreadsheet->rowcount();
 		
+		echo "<table class='excel'>
+		<thead><tr><th>Row</th>
+		<th>Term</th>
+		<th>Student #</th>
+		<th>Name</th>
+		<th>Course Name</th>
+		<th>Section</th>
+		<th>Class Code</th>
+		<th>Grade</th>
+		</tr></thead>";
 		// If 1st row is not a header, change to $i = 1
 		for ($i = 2; $i <= $rows; $i++) {
+			echo "<tr><th>$i</th>";
 			try { // if parsing the row failed, will skip to catch (research try-catch if confused)
 				$querydata = $this->parseRow($i);
 				$querydata->printInfo();
 				// add $querydata to db
 			} catch (Exception $e) {
 				// print error message
-				echo "Row $i has an error: ".$e->getMessage()."<br><br>";
+				echo "<td colspan = 7 align=center><i>Error: ".$e->getMessage()."</i></td>";
 			}
+			echo "</tr>";
 		}
+		echo "</table>";
 	}
 	
 	/** Parse a row in the excel file.

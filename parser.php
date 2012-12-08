@@ -49,6 +49,8 @@ abstract class Parser {
 		$querydata->studentno = $studentno;
 	}
 	
+	// private function parseName
+	
 	protected function parseLastName(&$lastname, &$queryData) {
 		if (empty($lastname))
 			throw new Exception("Last name is empty");

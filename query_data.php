@@ -8,13 +8,14 @@ class QueryData {
 	
 	/** Prints the query data in readable form. */
 	public function printInfo() {
-		echo "Student #: $this->studentno<br>";
-		echo "Name: $this->lastname, $this->firstname $this->middlename $this->pedigree<br>";
-		echo "Term: $this->termname<br>";
-		echo "Class: $this->coursename $this->section<br>";
-		echo "Class Code: $this->classcode<br>";
-		echo "Grade: $this->grade<br>";
-		echo "<br>";
+		echo "
+		<td>$this->termname</td>
+		<td>$this->studentno</td>
+		<td>$this->firstname $this->middlename $this->lastname $this->pedigree</td>
+		<td>$this->coursename</td>
+		<td>$this->section</td>
+		<td>$this->classcode</td>
+		<td>$this->grade</td>";
 	}
 	
 	// Groupmates, you don't need to understand everything else below, just leave it as is.
