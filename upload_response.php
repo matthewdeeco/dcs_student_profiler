@@ -18,10 +18,13 @@ if (move_uploaded_file($_FILES['gradessheet']['tmp_name'], $target)) {
 	
 	echo "File successfully uploaded.\nParsing about to begin.<br><br>";
 	
+	$parser = new Grade_Parser($target);
+	
 	/*begin parsing*/
-	require_once 'excel_parser.php';
+	/*require_once 'excel_parser.php';
 	$parser = new ExcelParser($target);
-	$parser->parse();
+	$parser->parse();*/
+
 }
 else{
 	$upload_error = "file upload";

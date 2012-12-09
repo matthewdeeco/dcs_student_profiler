@@ -32,11 +32,19 @@ table.excel tbody td {
 <body>
 <?php
 	require_once 'excel_parser.php';
-	$printer = new Spreadsheet_Excel_Reader("students.xls");
-	echo $printer->dump(true,true);
+
+	class Grade_Parser{
+		public function Grade_Parser($file){
+			$this->target = $file
+			$this->printer = new Spreadsheet_Excel_Reader($this->target);
+			echo $this->printer->dump(true,true);
+		}
 	
-	$parser = new ExcelParser("students.xls");
-	$parser->parse();
+		
+		
+		/*$parser = new ExcelParser($this->target);
+		$parser->parse();*/
+	}
 ?>
 </body>
 </html>
