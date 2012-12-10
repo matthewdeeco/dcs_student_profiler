@@ -1,5 +1,6 @@
 <html>
 <head>
+<!-- style is from http://code.google.com/p/php-excel-reader/ -->
 <style>
 table.excel {
 	border-style:ridge;
@@ -23,7 +24,7 @@ table.excel tbody td {
 	vertical-align:bottom;
 }
 table.excel tbody td {
-    padding: 0 3px;
+    padding: 0 5px;
 	border: 1px solid #EEEEEE;
 }
 </style>
@@ -33,17 +34,16 @@ table.excel tbody td {
 <?php
 	require_once 'excel_parser.php';
 
-	class Grade_Parser{
-		public function Grade_Parser($file){
-			$this->target = $file
-			$this->printer = new Spreadsheet_Excel_Reader($this->target);
+	class ParseResponse {
+		public function ParseResponse($file) {
+			// dump the input excel file
+			$this->printer = new Spreadsheet_Excel_Reader($file);
 			echo $this->printer->dump(true,true);
+			echo "<br>";
+			// start parsing
+			$this->parser = new ExcelParser($file);
+			$this->parser->parse();
 		}
-	
-		
-		
-		/*$parser = new ExcelParser($this->target);
-		$parser->parse();*/
 	}
 ?>
 </body>

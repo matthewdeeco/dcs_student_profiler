@@ -33,7 +33,7 @@ class ExcelParser extends Parser {
 		// If 1st row is not a header, change to $i = 1
 		for ($i = 2; $i <= $rows; $i++) {
 			echo "<tr><th>$i</th>";
-			try { // if parsing the row failed, will skip to catch (research try-catch if confused)
+			try { // if parsing the row failed, will immediately skip to catch
 				$querydata = $this->parseRow($i);
 				$querydata->printInfo();
 				// add $querydata to db
