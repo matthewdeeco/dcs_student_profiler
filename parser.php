@@ -58,7 +58,7 @@ abstract class Parser {
 			throw new Exception("Last name contains numeric characters!");
 		}
 		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
-			throw new Exception("Last name contains non-alphanumeric characters!");
+			throw new Exception("Last name contains non-alphabetic characters!");
 		}
 		
 		$queryData->lastname = $lastname;
@@ -77,23 +77,13 @@ abstract class Parser {
 	}
 	
 	protected function parseMiddleName(&$middlename, &$queryData) {
-		if(empty($middlename))
-			throw new Exception("Middle name is empty");
-		else if(preg_match('/\d/', $middlename)){
+		if(preg_match('/\d/', $middlename)){
 			throw new Exception("Middle name contains numeric characters!");
 		}
 		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
-			throw new Exception("Last name contains non-alphanumeric characters!");
+			throw new Exception("Middle name contains non-alphanumeric characters!");
 		}
 		$queryData->middlename = $middlename;
-	}
-	
-	protection function parseCompletion(&$completion, &$queryData){
-	
-	}
-	
-	protection function parseSecondCompletion(&$secondCompletion, &$queryData){
-	
 	}
 	
 	protected function parsePedigree(&$pedigree, &$queryData) {
@@ -104,8 +94,8 @@ abstract class Parser {
 		$classcode = preg_replace('/[^\d]*/', '', $classcode); // strip non-numeric chars
 		if (empty($classcode))
 			throw new Exception("Class code has no numeric characters");
-		else if (strlen($classcode) != 5)
-			throw new Exception("Class code must be exactly 5 digits long");
+		/*else if (strlen($classcode) != 5)
+			throw new Exception("Class code must be exactly 5 digits long");*/
 		$queryData->classcode = $classcode;
 	}
 	
