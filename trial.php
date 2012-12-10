@@ -33,7 +33,7 @@ table.excel tbody td {
 <body>
 <?php
 	require_once 'excel_parser.php';
-	$file = 'students.xls';
+	$file = 'valid.xls';
 	// dump the input excel file
 	$printer = new Spreadsheet_Excel_Reader($file);
 	echo $printer->dump(true,true);

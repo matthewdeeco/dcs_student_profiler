@@ -632,7 +632,8 @@ class Spreadsheet_Excel_Reader {
 					$val = $this->val($row,$col,$sheet);
 					if ($val=='') { $val="&nbsp;"; }
 					else { 
-						$val = htmlentities($val); 
+						//$val = htmlentities($val); 
+                        $val = htmlentities($val,ENT_COMPAT,$this->_defaultEncoding);
 						$link = $this->hyperlink($row,$col,$sheet);
 						if ($link!='') {
 							$val = "<a href=\"$link\">$val</a>";
@@ -1117,7 +1118,11 @@ class Spreadsheet_Excel_Reader {
 								$spos += $len;
 							}
 						}
-						$retstr = ($asciiEncoding) ? $retstr : $this->_encodeUTF16($retstr);
+                        
+						//$retstr = ($asciiEncoding) ? $retstr : $this->_encodeUTF16($retstr);
+                        if($asciiEncoding)
+                            $retstr = preg_replace("/(.)/s", "$1\0", $retstr);
+                        $retstr = $this->_encodeUTF16($retstr);
 
 						if ($richString){
 							$spos += 4 * $formattingRuns;
@@ -1484,8 +1489,13 @@ class Spreadsheet_Excel_Reader {
 						}
 						$len = ($asciiEncoding)?$numChars : $numChars*2;
 						$retstr =substr($data, $xpos, $len);
-						$xpos += $len;
-						$retstr = ($asciiEncoding)? $retstr : $this->_encodeUTF16($retstr);
+						$xpos += $len;                        
+						//$retstr = ($asciiEncoding)? $retstr : $this->_encodeUTF16($retstr);
+                        if($asciiEncoding)
+                            $retstr = preg_replace("/(.)/s", "$1\0", $retstr);
+                        $retstr = $this->_encodeUTF16($retstr);
+                        
+                        
 					}
 					elseif ($version == SPREADSHEET_EXCEL_READER_BIFF7){
 						// Simple byte string

@@ -53,49 +53,49 @@ abstract class Parser {
 		$querydata->studentno = $studentno;
 	}
 	
-	protected function parseLastName(&$lastname, &$queryData) {
+	protected function parseLastName(&$lastname, &$querydata) {
 		if (empty($lastname))
 			throw new Exception("Last name is empty");
 		else if (preg_match('/\d/', $lastname))
 			throw new Exception("Last name contains numeric characters");
-		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+		else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $lastname))
 			throw new Exception("Last name contains non-alphabetic characters");
-		$queryData->lastname = $lastname;
+		$querydata->lastname = $lastname;
 	}
 	
-	protected function parseFirstName(&$firstname, &$queryData) {
+	protected function parseFirstName(&$firstname, &$querydata) {
 		if (empty($firstname))
 			throw new Exception("First name is empty");
 		else if (preg_match('/\d/', $firstname))
 			throw new Exception("First name contains numeric characters");
-		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+		else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $firstname))
 			throw new Exception("First name contains non-alphabetic characters");
-		$queryData->firstname = $firstname;
+		$querydata->firstname = $firstname;
 	}
 	
-	protected function parseMiddleName(&$middlename, &$queryData) {
+	protected function parseMiddleName(&$middlename, &$querydata) {
 		if (preg_match('/\d/', $middlename))
 			throw new Exception("Middle name contains numeric characters");
-		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+		else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $middlename))
 			throw new Exception("Middle name contains non-alphabetic characters!");
-		$queryData->middlename = $middlename;
+		$querydata->middlename = $middlename;
 	}
 	
-	protected function parsePedigree(&$pedigree, &$queryData) {
-		$queryData->pedigree = $pedigree;
+	protected function parsePedigree(&$pedigree, &$querydata) {
+		$querydata->pedigree = $pedigree;
 	}
 	
-	protected function parseClassCode(&$classcode, &$queryData) {
+	protected function parseClassCode(&$classcode, &$querydata) {
 		if (empty($classcode))
 			throw new Exception("Class code is empty");
 		else if (preg_match('/[^\d]/', $classcode))
 			throw new Exception("Class code contains non-numeric characters");
 		/* else if (strlen($classcode) != 5)
 			throw new Exception("Class code must be exactly 5 digits long"); */
-		$queryData->classcode = $classcode;
+		$querydata->classcode = $classcode;
 	}
 	
-	protected function parseClassName($classname, &$queryData) {
+	protected function parseClassName($classname, &$querydata) {
 		if (empty($classname))
 			throw new Exception("Class is empty");
 		if (($lastspace = strrpos($classname, " ")) === false)// no spaces
@@ -113,16 +113,14 @@ abstract class Parser {
 			exit();
 		}
 		*/
-		$queryData->coursename = $coursename;
-		$queryData->section = $section;
+		$querydata->coursename = $coursename;
+		$querydata->section = $section;
 	}
 	
 	protected function parseGrade(&$grade, $compgrade, $secondcompgrade, &$querydata) {
 		if (empty($grade))
 			throw new Exception("Grade is empty");
-		$grade = preg_replace('/[^\d.]*/', '', $grade); // strip non-numeric and non-dot chars
-		// what about inc/drp?
-		$grade = floatval($grade);
+		// $grade = preg_replace('/[^\d.]*/', '', $grade); // strip non-numeric and non-dot chars
 		$querydata->grade = $grade;
 	}
 }
