@@ -22,7 +22,8 @@ final class Semester {
 		else if (strcasecmp($semester, 'Summer') == 0)
 			return Semester::Summer;
 		else {
-			$semester = preg_replace('/[^\d]/', '', $semester); // strip non-numeric chars
+			$semester = preg_replace('/ /', '', $semester);
+			$semester = $semester[0];
 			if ($semester >= Semester::First && $semester <= Semester::Summer)
 				return $semester;
 			else

@@ -13,9 +13,11 @@ abstract class Parser {
 	}
 	
 	protected function parseAcadYear(&$acadyear, &$querydata) {
-		$acadyear = preg_replace('/[^\d\-]*/', '', $acadyear); // remove non-numeric and non-hyphen chars
+		$acadyear = preg_replace('/ /', '', $acadyear); // remove spaces
 		if (empty($acadyear)) // nothing was left
-			throw new Exception("Acad Year has no numeric characters");
+			throw new Exception("Acad Year is empty");
+		else if (preg_match('/[^\d\-]/', $acadyear))
+			throw new Exception("Acad Year contains non-numeric characters");
 		$acadyear = explode("-", $acadyear); // separate by hyphen (e.g. 2010-2011)
 		$acadyear = array_filter($acadyear); // remove empty elements
 		$acadyear = array_values($acadyear); // rearrange elements to remove gaps in index
@@ -33,7 +35,7 @@ abstract class Parser {
 	
 	protected function parseSemester(&$semester, &$querydata) {
 		if (empty($semester))
-			throw new Exception("Semester cannot be blank");
+			throw new Exception("Semester is blank");
 		else if (($semester = Semester::getSemesterCode($semester)) == Semester::Invalid)
 			throw new Exception("Semester is invalid");
 		else
@@ -41,48 +43,41 @@ abstract class Parser {
 	}
 
 	protected function parseStudentNo(&$studentno, &$querydata) {
+		$studentno = preg_replace('/[ \-]/', '', $studentno); // remove spaces and hyphens
 		if (empty($studentno))
-			throw new Exception("Student no cannot be blank");
-		$studentno = preg_replace('/[^\d]*/', '', $studentno); // strip non-numeric chars
-		if (strlen($studentno) != 9)
-			throw new Exception("Student no must be exactly 9 digits long");
+			throw new Exception("Student # is empty");
+		else if (preg_match('/[^\d]/', $studentno))
+			throw new Exception("Student # contains non-numeric characters");
+		else if (strlen($studentno) != 9)
+			throw new Exception("Student # must be exactly 9 digits long");
 		$querydata->studentno = $studentno;
 	}
-	
-	// private function parseName
 	
 	protected function parseLastName(&$lastname, &$queryData) {
 		if (empty($lastname))
 			throw new Exception("Last name is empty");
-		else if(preg_match('/\d/', $lastname)){
-			throw new Exception("Last name contains numeric characters!");
-		}
-		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
-			throw new Exception("Last name contains non-alphabetic characters!");
-		}
-		
+		else if (preg_match('/\d/', $lastname))
+			throw new Exception("Last name contains numeric characters");
+		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+			throw new Exception("Last name contains non-alphabetic characters");
 		$queryData->lastname = $lastname;
 	}
 	
 	protected function parseFirstName(&$firstname, &$queryData) {
-		if(empty($firstname))
+		if (empty($firstname))
 			throw new Exception("First name is empty");
-		else if(preg_match('/\d/', $firstname)){
-			throw new Exception("First name contains numeric characters!");
-		}
-		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
-			throw new Exception("First name contains non-alphanumeric characters!");
-		}
+		else if (preg_match('/\d/', $firstname))
+			throw new Exception("First name contains numeric characters");
+		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+			throw new Exception("First name contains non-alphabetic characters");
 		$queryData->firstname = $firstname;
 	}
 	
 	protected function parseMiddleName(&$middlename, &$queryData) {
-		if(preg_match('/\d/', $middlename)){
-			throw new Exception("Middle name contains numeric characters!");
-		}
-		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
-			throw new Exception("Middle name contains non-alphanumeric characters!");
-		}
+		if (preg_match('/\d/', $middlename))
+			throw new Exception("Middle name contains numeric characters");
+		else if (preg_match('/[^a-zA-Z\.]/', $lastname))
+			throw new Exception("Middle name contains non-alphabetic characters!");
 		$queryData->middlename = $middlename;
 	}
 	
@@ -91,11 +86,12 @@ abstract class Parser {
 	}
 	
 	protected function parseClassCode(&$classcode, &$queryData) {
-		$classcode = preg_replace('/[^\d]*/', '', $classcode); // strip non-numeric chars
 		if (empty($classcode))
-			throw new Exception("Class code has no numeric characters");
-		/*else if (strlen($classcode) != 5)
-			throw new Exception("Class code must be exactly 5 digits long");*/
+			throw new Exception("Class code is empty");
+		else if (preg_match('/[^\d]/', $classcode))
+			throw new Exception("Class code contains non-numeric characters");
+		/* else if (strlen($classcode) != 5)
+			throw new Exception("Class code must be exactly 5 digits long"); */
 		$queryData->classcode = $classcode;
 	}
 	

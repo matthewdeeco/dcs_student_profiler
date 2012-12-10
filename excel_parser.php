@@ -37,6 +37,7 @@ class ExcelParser extends Parser {
 				$querydata = $this->parseRow($i);
 				$querydata->printInfo();
 				// add $querydata to db
+				// $queryData->addToDatabase();
 			} catch (Exception $e) {
 				// print error message
 				echo "<td colspan = 7 align=center><i>Error: ".$e->getMessage()."</i></td>";
