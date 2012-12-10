@@ -1,9 +1,9 @@
 <?php
 	 // attempt a connection
-	$conn = pg_connect("host=localhost dbname=dcsstudentprofiler user=postgres");
+	$conn = pg_connect("host=localhost dbname=dcsstudentprofiler port=5432 user=postgres password=PASSWD");
 	
 	//if connection fails
-	if (!$dbh) {
+	if (!$conn) {
 		die("Error in connection: " . pg_last_error());
 	}  
 
