@@ -1,5 +1,7 @@
 <?php
 
+require_once ('pg_connect.php');
+
 /** Holds a row of data to be added to the database. */
 class QueryData {
 	
@@ -16,6 +18,9 @@ class QueryData {
 		<td>$this->section</td>
 		<td>$this->classcode</td>
 		<td>$this->grade</td>";
+	}
+	
+	public function addToDatabase() {
 	}
 	
 	// Groupmates, you don't need to understand everything else below, just leave it as is.
