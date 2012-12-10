@@ -1,12 +1,17 @@
 <?php
 
-// require_once 'pg_connect.php';
+require_once 'pg_connect.php';
 
 /** Holds a row of data to be added to the database. */
 class QueryData {
 	
 	/** Holds the query data (acad year, last name, grade, etc. */
 	private $data = array();
+	/* Data list:
+		acadyear	semester	termname	studentno
+		firstname	middlename	lastname	pedigree
+		classcode	coursename	section		grade
+	*/
 	
 	/** Prints the query data in readable form. */
 	public function printInfo() {
@@ -14,9 +19,9 @@ class QueryData {
 		<td>$this->termname</td>
 		<td>$this->studentno</td>
 		<td>$this->firstname $this->middlename $this->lastname $this->pedigree</td>
+		<td>$this->classcode</td>
 		<td>$this->coursename</td>
 		<td>$this->section</td>
-		<td>$this->classcode</td>
 		<td>$this->grade</td>";
 	}
 	
@@ -34,7 +39,7 @@ class QueryData {
 		
 		//get batch for curriculumid
 		$batch = substr($this->studentno, 0, 4);
-		if($batch = '2010' || $batch = '2011')
+		if($batch == '2010' || $batch == '2011')
 			$curriculumid = 2;
 		else
 			$curriculumid = 1;

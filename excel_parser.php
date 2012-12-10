@@ -25,9 +25,9 @@ class ExcelParser extends Parser {
 		<th>Term</th>
 		<th>Student #</th>
 		<th>Name</th>
+		<th>Class Code</th>
 		<th>Course Name</th>
 		<th>Section</th>
-		<th>Class Code</th>
 		<th>Grade</th>
 		</tr></thead>";
 		// If 1st row is not a header, change to $i = 1
