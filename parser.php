@@ -54,17 +54,24 @@ abstract class Parser {
 	protected function parseLastName(&$lastname, &$queryData) {
 		if (empty($lastname))
 			throw new Exception("Last name is empty");
-		else if(preg_match('/[0-9]/', $lastname)){
+		else if(preg_match('/\d/', $lastname)){
 			throw new Exception("Last name contains numeric characters!");
 		}
+		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
+			throw new Exception("Last name contains non-alphanumeric characters!");
+		}
+		
 		$queryData->lastname = $lastname;
 	}
 	
 	protected function parseFirstName(&$firstname, &$queryData) {
 		if(empty($firstname))
 			throw new Exception("First name is empty");
-		else if(preg_match('/[0-9]/', $firstname)){
+		else if(preg_match('/\d/', $firstname)){
 			throw new Exception("First name contains numeric characters!");
+		}
+		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
+			throw new Exception("First name contains non-alphanumeric characters!");
 		}
 		$queryData->firstname = $firstname;
 	}
@@ -72,11 +79,21 @@ abstract class Parser {
 	protected function parseMiddleName(&$middlename, &$queryData) {
 		if(empty($middlename))
 			throw new Exception("Middle name is empty");
-		else if(preg_match('/[0-9]/', $middlename)){
+		else if(preg_match('/\d/', $middlename)){
 			throw new Exception("Middle name contains numeric characters!");
 		}
-
+		else if(preg_match('/[^a-zA-Z\.]/', $lastname)){
+			throw new Exception("Last name contains non-alphanumeric characters!");
+		}
 		$queryData->middlename = $middlename;
+	}
+	
+	protection function parseCompletion(&$completion, &$queryData){
+	
+	}
+	
+	protection function parseSecondCompletion(&$secondCompletion, &$queryData){
+	
 	}
 	
 	protected function parsePedigree(&$pedigree, &$queryData) {
