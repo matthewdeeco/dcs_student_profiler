@@ -118,10 +118,30 @@ abstract class Parser {
 	}
 	
 	protected function parseGrade(&$grade, $compgrade, $secondcompgrade, &$querydata) {
-		if (empty($grade))
-			throw new Exception("Grade is empty");
-		// $grade = preg_replace('/[^\d.]*/', '', $grade); // strip non-numeric and non-dot chars
-		$querydata->grade = $grade;
+		if (empty($compgrade)) {
+			if (empty($secondcompgrade)) {
+				if (empty($grade))
+					throw new Exception("Grade is empty");
+				else if (preg_match('/^([1-2]\.([27]5|[05]0))|([3-5]\.00)$/', $grade))
+					$querydata->grade = $grade;
+				else
+					throw new Exception("Invalid input in grade");
+			}
+			else
+				throw new Exception("Expected input in completion(g)");
+		}
+		else if (preg_match('/^(4\.00)$|^DRP$|^INC$/', $compgrade))
+			if (empty($secondcompgrade))
+				$querydata->grade = $compgrade;
+			else if (preg_match('/^([1-2]\.([27]5|[05]0))|([3-5]\.00)$/', $secondcompgrade))
+				if($grade != $secondcompgrade)
+					throw new Exception("Grade and secondcompletion should have the same values");
+				else	
+					$querydata->grade = $secondcompgrade;
+			else
+				throw new Exception("Invalid input in secondcompletion");			
+		else
+			throw new Exception("Expected input in completion(g): '4.00', 'INC', 'DRP'");					
 	}
 }
 
