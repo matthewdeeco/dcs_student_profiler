@@ -1,0 +1,313 @@
+@charset "UTF-8";
+/* CSS Document */
+
+::selection{ background-color: #f5f5f5; color: white; }
+::moz-selection{ background-color: #E13300; color: white; }
+::webkit-selection{ background-color: #E13300; color: white; }
+
+	body {
+		background-color: #fff;
+		margin: 40px;
+		font: 13px/20px normal Helvetica, Arial, sans-serif;
+		color: #4F5155;
+	}
+
+	
+	a:link { color: #000; text-decoration:none; }
+	a:visited { color: #000; text-decoration:none; } 
+	a:hover { color: #f5f5f5; text-decoration:none; } 
+	a:active { color: #000; text-decoration:none; }
+	
+
+	#header {
+		color: #444;
+		background-color: white;
+		border-bottom: 1px solid #D0D0D0;
+		margin: 0 0 14px 0;
+		padding: 14px 15px 10px 15px;
+	}
+	
+	#login_form {
+		background-image:url(../img/login_bg.png);
+		margin-left: 970px;
+		text-align:right;
+		line-height:normal;
+		position:absolute;
+		top:10px;
+		width:200px;	
+		font: Trebuchet MS, Arial, "Helvetica", sans-serif;
+	}
+
+	code {
+		font-family: Consolas, Monaco, Courier New, Courier, monospace;
+		font-size: 12px;
+		background-color: #f9f9f9;
+		border: 1px solid #D0D0D0;
+		color: #002166;
+		display: block;
+		margin: 14px 0 14px 0;
+		padding: 12px 10px 12px 10px;
+	}
+
+	#body{
+		margin: 0 15px 0 15px;
+		background:#FFF;
+	}
+	
+	p.footer{
+		text-align: right;
+		font-size: 11px;
+		border-top: 1px solid #D0D0D0;
+		line-height: 32px;
+		padding: 0 10px 0 10px;
+		margin: 20px 0 0 0;
+	}
+	
+	#sidebar {
+		margin: 10px;
+		margin-left: 5px;
+		width: 150px;
+		-webkit-box-shadow: 0 0 8px #D0D0D0;
+		background:#FFF;
+		border: 1px solid #D0D0D0;
+		float:left;
+	}
+	
+	.sidebar {
+		list-style:none;
+		font: Trebuchet MS, Arial, "Helvetica", sans-serif;
+		font-size: 14px;
+		margin-left: 5px;
+		padding: 0;
+	}
+	
+	.sidebar li a {
+		text-decoration: none;
+		color: black;	
+		-moz-transition:width 2s; /* Firefox 4 */
+		-webkit-transition:width 2s; /* Safari and Chrome */
+		-o-transition:width 2s; /* Opera */
+	}
+	
+	.sidebar li a:hover {
+		color: #548444;
+		border-radius:10px 0 0 10px;
+		-moz-border-radius:10px 0 0 10px;
+		-webkit-border-radius:10px;
+		-webkit-border-top-right-radius:10px;			
+		-webkit-border-bottom-right-radius:10px;
+		-moz-transition:all 0.5s;
+		-webkit-transition:all 0.5s;
+		-o-transition:all 0.5s;
+	}
+	
+	#container{
+		margin: 10px;
+		margin-left: 20px;
+		width: 950px;
+		border: 1px solid #D0D0D0;
+		-webkit-box-shadow: 0 0 8px #D0D0D0;
+		background:#FFF;
+		float:left;
+	}
+	
+	
+	#menu{
+		margin-left: 50px;
+		background:#FFF;	
+	}
+	
+	.input_fields {
+		border:none; padding: 1px;  
+       	font-size: 15px;  
+       	text-shadow: 0px 1px 0px #fff;  
+        outline: none;  
+        background: -webkit-gradient(linear, left top, left bottombottom, from(#bcbcbe), to(#ffffff)); 
+		background: -moz-linear-gradient(top,  #bcbcbe,  #ffffff);  
+        -webkit-border-radius: 3px;  
+        -moz-border-radius: 3px;  
+        border-radius: 3px;  
+        border: 1px solid #717171;  
+        -webkit-box-shadow: 1px 1px 0px #efefef;  
+        -moz-box-shadow: 1px 1px 0px #efefef;  
+        box-shadow:  1px 1px 0px #efefef; 	
+	}
+	
+		.CSSTableGenerator {
+	
+		margin:0px;padding:0px;
+	
+		width:100%;
+		box-shadow: 10px 10px 5px #888888;
+	
+		border:1px solid #ffffff;
+	
+		
+	
+		-moz-border-radius-bottomleft:12px;
+	
+		-webkit-border-bottom-left-radius:12px;
+	
+		border-bottom-left-radius:12px;
+	
+		
+	
+		-moz-border-radius-bottomright:12px;
+	
+		-webkit-border-bottom-right-radius:12px;
+	
+		border-bottom-right-radius:12px;
+	
+		
+	
+		-moz-border-radius-topright:12px;
+	
+		-webkit-border-top-right-radius:12px;
+	
+		border-top-right-radius:12px;
+	
+		
+	
+		-moz-border-radius-topleft:12px;
+	
+		-webkit-border-top-left-radius:12px;
+	
+		border-top-left-radius:12px;
+	
+	}.CSSTableGenerator table{
+	
+		width:100%;
+	
+		height:100%;
+	
+		margin:0px;padding:0px;
+	
+	}.CSSTableGenerator tr:last-child td:last-child {
+	
+		-moz-border-radius-bottomright:12px;
+	
+		-webkit-border-bottom-right-radius:12px;
+	
+		border-bottom-right-radius:12px;
+	
+	}
+	
+	.CSSTableGenerator table tr:first-child td:first-child {
+	
+		-moz-border-radius-topleft:12px;
+	
+		-webkit-border-top-left-radius:12px;
+	
+		border-top-left-radius:12px;
+	
+	}
+	
+	.CSSTableGenerator table tr:first-child td:last-child {
+	
+		-moz-border-radius-topright:12px;
+	
+		-webkit-border-top-right-radius:12px;
+	
+		border-top-right-radius:12px;
+	
+	}.CSSTableGenerator tr:last-child td:first-child{
+	
+		-moz-border-radius-bottomleft:12px;
+	
+		-webkit-border-bottom-left-radius:12px;
+	
+		border-bottom-left-radius:12px;
+	
+	}.CSSTableGenerator tr:hover td{
+	
+		
+	
+	}
+	.CSSTableGenerator tr:nth-child(odd){ background-color:#e5e5e5; }
+	
+	.CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }
+	.CSSTableGenerator td{
+	
+		vertical-align:middle;
+	
+		
+	
+		
+	
+		border:1px solid #ffffff;
+	
+		border-width:0px 1px 1px 0px;
+	
+		text-align:left;
+	
+		padding:6px;
+	
+		font-size:11px;
+	
+		font-family:Helvetica;
+	
+		font-weight:normal;
+	
+		color:#000000;
+	
+	}.CSSTableGenerator tr:last-child td{
+	
+		border-width:0px 1px 0px 0px;
+	
+	}.CSSTableGenerator tr td:last-child{
+	
+		border-width:0px 0px 1px 0px;
+	
+	}.CSSTableGenerator tr:last-child td:last-child{
+	
+		border-width:0px 0px 0px 0px;
+	
+	}
+	
+	.CSSTableGenerator tr:first-child td{
+	
+			background:-o-linear-gradient(bottom, #c4cebb 5%, #c4cebb 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c4cebb), color-stop(1, #c4cebb) );
+		background:-moz-linear-gradient( center top, #c4cebb 5%, #c4cebb 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#c4cebb", endColorstr="#c4cebb");	background: -o-linear-gradient(top,#c4cebb,c4cebb);
+	
+	
+		background-color:#c4cebb;
+	
+		border:0px solid #ffffff;
+	
+		text-align:center;
+	
+		border-width:0px 0px 1px 1px;
+	
+		font-size:15px;
+	
+		font-family:Helvetica;
+	
+		font-weight:bold;
+	
+		color:#000000;
+	
+	}
+	
+	.CSSTableGenerator tr:first-child:hover td{
+	
+		background:-o-linear-gradient(bottom, #c4cebb 5%, #c4cebb 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c4cebb), color-stop(1, #c4cebb) );
+		background:-moz-linear-gradient( center top, #c4cebb 5%, #c4cebb 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#c4cebb", endColorstr="#c4cebb");	background: -o-linear-gradient(top,#c4cebb,c4cebb);
+	
+	
+		background-color:#c4cebb;
+	
+	}
+	
+	.CSSTableGenerator tr:first-child td:first-child{
+	
+		border-width:0px 0px 1px 0px;
+	
+	}
+	
+	.CSSTableGenerator tr:first-child td:last-child{
+	
+		border-width:0px 0px 1px 1px;
+	
+	}
