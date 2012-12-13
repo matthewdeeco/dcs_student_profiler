@@ -30,7 +30,7 @@ curriculumid		integer		REFERENCES curricula(curriculumid)
 );
 
 CREATE TABLE terms (
-termid		integer		PRIMARY KEY,
+termid		SERIAL	PRIMARY KEY,
 name		varchar(45),
 year		varchar(9),
 sem		varchar(3)
