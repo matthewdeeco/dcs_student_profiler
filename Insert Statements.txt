@@ -1,5 +1,5 @@
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Balatico',  'Juan Carlito', 'Sales');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(1, 'Balatico',  'Juan Carlito', 'Sales');
 INSERT INTO persons (lastname, firstname, middlename) VALUES 
 ('Quilala', 'Magdalena Marie', 'Aquilina');
 INSERT INTO persons (lastname, firstname, middlename, pedigree) VALUES 
@@ -30,7 +30,7 @@ INSERT INTO persons (lastname, firstname, middlename) VALUES
 INSERT INTO persons (lastname, firstname, middlename) VALUES
 ('Tenor', 'Karol Kyle', 'Perez');
 
-INSERT INTO curricula (curriculumname) VALUES ('new');
+INSERT INTO curricula (curriculumid, curriculumname) VALUES (1, 'new');
 INSERT INTO curricula (curriculumname) VALUES ('old');
 
 INSERT INTO students (personid, studentno, curriculumid) VALUES 
