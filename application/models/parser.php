@@ -6,10 +6,14 @@ abstract class Parser extends CI_Model {
 	/** Implementation depends on the type of parser. */
 	public abstract function parse();
 	
+	function __construct() {
+        parent::__construct();
+    }
+	
 	protected function parseTermName($acadyear, $semester) {
 		$this->parseAcadYear($acadyear, $this->querydata);
 		$this->parseSemester($semester, $this->querydata);
-		$this->querydata->termname = Semester::toString($semester)." ".$acadyear;
+		$this->querydata->termname = Semester::toString($semester, TRUE)." ".$acadyear;
 	}
 	
 	protected function parseAcadYear(&$acadyear) {
@@ -39,7 +43,7 @@ abstract class Parser extends CI_Model {
 		else if (($semester = Semester::getSemesterCode($semester)) == Semester::Invalid)
 			throw new Exception("Semester is invalid");
 		else
-			$this->querydata->semester = $semester;
+			$this->querydata->semester = Semester::toString($semester, FALSE);
 	}
 
 	protected function parseStudentNo(&$studentno) {
@@ -51,6 +55,8 @@ abstract class Parser extends CI_Model {
 		else if (strlen($studentno) != 9)
 			throw new Exception("Student # must be exactly 9 digits long");
 		$this->querydata->studentno = $studentno;
+		
+		$this->querydata->batch = substr($studentno, 0, 4);
 	}
 	
 	protected function parseLastName(&$lastname) {
@@ -101,18 +107,17 @@ abstract class Parser extends CI_Model {
 		if (($lastspace = strrpos($classname, " ")) === false)// no spaces
 			throw new Exception("Course name and section cannot be distinguished");
 		$coursename = substr($classname, 0, $lastspace);
-		$section = substr($classname, $lastspace);
-		// check if $coursename is in table?
-		/*
-		$sql = "SELECT * FROM courses WHERE coursename = '$coursename'; "
-		//send sql
-		$result = pg_query($conn, $sql); //yung $conn, connection sa database. i.e. $conn = pg_pconnect("dbname=publisher"); 
-		if(!$result){
-			//not sure what to do. :D
-			throw new Exception("Class is invalid.");
-			exit();
-		}
-		*/
+		$section = substr($classname, $lastspace + 1);
+		if (strlen($section) > 5)
+			throw new Exception("Section is too long");
+		
+		$lowercoursename = strtolower($coursename);
+		$query = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		if(empty($row))
+			throw new Exception("Course name is not in the list of courses");
+		
 		$this->querydata->coursename = $coursename;
 		$this->querydata->section = $section;
 	}

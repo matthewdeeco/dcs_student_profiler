@@ -62,7 +62,7 @@ INSERT INTO instructors (personid) VALUES (13);
 INSERT INTO instructors (personid) VALUES (14);
 INSERT INTO instructors (personid) VALUES (15);
 
-INSERT INTO grades (gradeid, gradename, gradevalue) VALUES (1, '1.00', 1.00);
+INSERT INTO grades (gradename, gradevalue) VALUES ('1.00', 1.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('1.25', 1.25);
 INSERT INTO grades (gradename, gradevalue) VALUES ('1.50', 1.50);
 INSERT INTO grades (gradename, gradevalue) VALUES ('1.75', 1.75);
@@ -76,8 +76,8 @@ INSERT INTO grades (gradename, gradevalue) VALUES ('5.00', 5.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('INC', -1.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('DRP', 0.00);
 
-INSERT INTO terms (gradeid, name, year, sem) VALUES 
-(1, '1st Semester 2009-2010', '2009-2010', '1st');
+INSERT INTO terms (name, year, sem) VALUES 
+('1st Semester 2009-2010', '2009-2010', '1st');
 INSERT INTO terms (name, year, sem) VALUES
 ('2nd Semester 2009-2010', '2009-2010', '2nd');
 INSERT INTO terms (name, year, sem) VALUES

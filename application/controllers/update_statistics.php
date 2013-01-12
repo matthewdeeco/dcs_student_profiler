@@ -2,23 +2,7 @@
 
 class Update_Statistics extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-	public function index()
-	{
+	public function index() {
 		$this->load->view('include/header');
 		$this->load->view('update_statistics_view');
 		$this->load->view('include/footer');
@@ -51,13 +35,17 @@ class Update_Statistics extends CI_Controller {
 	}
 
 	public function parse($file) {
-		echo "Parsing $file about to begin.<br><br>";
+		echo "Parsing about to begin.<br><br>";
 		$reader_file = './application/models/excel_reader.php';
 		require_once $reader_file;
+		
 		// dump the input excel file
 		$printer = new Spreadsheet_Excel_Reader($file);
+		error_reporting(0);
 		echo $printer->dump(true,true);
+		error_reporting(E_ALL);
 		echo "<br>";
+		
 		// start parsing
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);

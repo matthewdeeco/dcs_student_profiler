@@ -13,8 +13,7 @@ class Excel_Parser extends Parser {
 	*/
 	public function initialize($excelfile) {
 		$this->spreadsheet = new Spreadsheet_Excel_Reader($excelfile);
-		$this->load->model('query_data', 'querydata', TRUE);
-		
+		$this->load->model('query_data', 'querydata');
 	}
 	
 	/** Start parsing $this->spreadsheet. */
@@ -56,33 +55,33 @@ class Excel_Parser extends Parser {
 		
 		$acadyear = $this->spreadsheet->val($row, InputFields::AcadYear);
 		$semester = $this->spreadsheet->val($row, InputFields::Semester);
-		$this->parseTermName($acadyear, $semester, $querydata);
+		$this->parseTermName($acadyear, $semester);
 		
 		$studentno = $this->spreadsheet->val($row, InputFields::StudentNo);
-		$this->parseStudentNo($studentno, $querydata);
+		$this->parseStudentNo($studentno);
 		
 		$lastname = $this->spreadsheet->val($row, InputFields::LastName);
-		$this->parseLastName($lastname, $querydata);
+		$this->parseLastName($lastname);
 		
 		$firstname = $this->spreadsheet->val($row, InputFields::FirstName);
-		$this->parseFirstName($firstname, $querydata);
+		$this->parseFirstName($firstname);
 		
 		$middlename = $this->spreadsheet->val($row, InputFields::MiddleName);
-		$this->parseMiddleName($middlename, $querydata);
+		$this->parseMiddleName($middlename);
 		
 		$pedigree = $this->spreadsheet->val($row, InputFields::Pedigree);
-		$this->parsePedigree($pedigree, $querydata);
+		$this->parsePedigree($pedigree);
 		
 		$classcode = $this->spreadsheet->val($row, InputFields::ClassCode);
-		$this->parseClassCode($classcode, $querydata);
+		$this->parseClassCode($classcode);
 		
 		$classname = $this->spreadsheet->val($row, InputFields::ClassName);
-		$this->parseClassName($classname, $querydata);
+		$this->parseClassName($classname);
 		
 		$grade = $this->spreadsheet->val($row, InputFields::Grade);
 		$compgrade = $this->spreadsheet->val($row, InputFields::CompGrade);
 		$secondcompgrade = $this->spreadsheet->val($row, InputFields::SecondCompGrade);
-		$this->parseGrade($grade, $compgrade, $secondcompgrade, $querydata);
+		$this->parseGrade($grade, $compgrade, $secondcompgrade);
 		
 		return $querydata;
 	}

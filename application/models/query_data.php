@@ -3,10 +3,9 @@
 /** Holds a row of data to be added to the database. */
 class Query_Data extends CI_Model {
 	
-	public function __construct()
-   {
-      parent::__construct();
-   }
+	public function __construct() {
+	  parent::__construct();
+	}
 
 	/** Holds the query data (acad year, last name, grade, etc. */
 	private $data = array();
@@ -35,81 +34,92 @@ class Query_Data extends CI_Model {
 		
 		/*Students Table*/
 		//find person
-		$sql = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$personid = $row['personid'];
+		$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$personid = $row[0]['personid'];
 		
 		//get batch for curriculumid
-		$batch = substr($this->studentno, 0, 4);
-		if($batch == '2010' || $batch == '2011')
-			$curriculumid = 2;
+		$query = "SELECT curriculumid FROM curricula WHERE curriculumname='new'";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$new = $row[0]['curriculumid'];
+		$query = "SELECT curriculumid FROM curricula WHERE curriculumname='old'";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$old = $row[0]['curriculumid'];
+		
+		if($this->batch == '2010' || $this->batch == '2011')
+			$curriculumid = $old;
 		else
-			$curriculumid = 1;
+			$curriculumid = $new;
 		
 		//insert student
-		$sql = "INSERT INTO students(personid, studentno, curriculumid) VALUES($personid, '$this->studentno', $curriculumid);";
-		$result = pg_query($conn, $sql);
+		$query = "INSERT INTO students(personid, studentno, curriculumid) VALUES($personid, $this->studentno, $curriculumid);";
+		$result = $this->db->query($query);
 		
 		/*Terms Table -- insert every sem a new entry*/
 		
 		/*Classes Table*/
 		//get termid
-		$sql = "SELECT termid FROM terms WHERE year = '$this->acadyear' AND sem = '$this->semester';";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$termid = $row['termid'];
+		$query = "SELECT termid FROM terms WHERE year = '$this->acadyear' AND sem = '$this->semester';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$termid = $row[0]['termid'];
 		
 		//get courseid
-		$sql = "SELECT courseid FROM courses WHERE coursename = '$this->coursename';";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$courseid = $row['courseid'];
+		$lowercoursename = strtolower($this->coursename);
+		$query = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$courseid = $row[0]['courseid'];
 		
 		//insert class
-		$sql = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, '$this->section', '$this->classcode');";
-		$result = pg_query($conn, $sql);
+		$query = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, '$this->section', '$this->classcode');";
+		$result = $this->db->query($query);
 		
 		/*Student Terms Table*/
 		//get studentid
-		$sql = "SELECT studentid FROM students WHERE studentno = '$this->studentno';";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$studentid = $row['studentid'];
+		$query = "SELECT studentid FROM students WHERE studentno = '$this->studentno';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$studentid = $row[0]['studentid'];
 		
 		//insert studentterms
-		$sql = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, 'N/A', TRUE);";
-		$result = pg_query($conn, $sql);
+		$query = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, 'N/A', TRUE);";
+		$result = $this->db->query($query);
 		
 		/*Student Classes Table*/
 		//get studenttermid
-		$sql = "SELECT studenttermid FROM studentterms WHERE studentid = $studentid;";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$studenttermid = $row['studenttermid'];
+		$query = "SELECT studenttermid FROM studentterms WHERE studentid = $studentid;";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$studenttermid = $row[0]['studenttermid'];
 		
 		//get classid
-		$sql = "SELECT classid FROM classes WHERE section = '$this->section' AND classcode = '$this->classcode';";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$classid = $row['classid'];
+		$query = "SELECT classid FROM classes WHERE section = '$this->section' AND classcode = '$this->classcode';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$classid = $row[0]['classid'];
 		
 		//get gradeid
-		$sql = "SELECT gradeid FROM grades WHERE gradevalue = $this->grade;";
-		$result = pg_query($conn, $sql);
-		$row = pg_fetch_array($result);
-		$gradeid = $row['gradeid'];
+		$query = "SELECT gradeid FROM grades WHERE gradename = '$this->grade';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		$gradeid = $row[0]['gradeid'];
 		
 		//insert student classes
-		$sql = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
-		$result = pg_query($conn, $sql);
+		$query = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
+		$result = $this->db->query($query);
 	
 	}
 	
 	// Groupmates, you don't need to understand everything else below, just leave it as is.
 	// From http://php.net/manual/en/language.oop5.overloading.php#object.get
 	public function __get($name) {
-		if (isset($this->data[$name]))
+		if ($name === "db")
+			return parent::__get($name);
+		else
 			return $this->data[$name];
 	} 
 

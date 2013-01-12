@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 /** Defines constants related to Semester and functions to
 	convert integer to text interpretations of Semester. */
@@ -34,11 +34,11 @@ final class Semester {
 	/** Returns the text representation of $semester.
 		$semester - the semester code
 	*/
-	public static function toString($semester) {
+	public static function toString($semester, $withSemWord) {
 		if ($semester == Semester::First)
-			return "1st Semester";
+			return "1st".($withSemWord ? " Semester" : "");
 		else if ($semester == Semester::Second)
-			return "2nd Semester";
+			return "2nd".($withSemWord ? " Semester" : "");
 		else if ($semester == Semester::Summer)
 			return "Summer";
 		else
