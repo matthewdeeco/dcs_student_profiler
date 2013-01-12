@@ -13,7 +13,8 @@ abstract class Parser extends CI_Model {
 	protected function parseTermName($acadyear, $semester) {
 		$this->parseAcadYear($acadyear, $this->querydata);
 		$this->parseSemester($semester, $this->querydata);
-		$this->querydata->termname = Semester::toString($semester, TRUE)." ".$acadyear;
+		$this->querydata->termname = Semester::semname($this->querydata->semester)." ".$this->querydata->acadyear;
+		$this->querydata->termid = $this->querydata->startyear.Semester::semtermid($this->querydata->semester);
 	}
 	
 	protected function parseAcadYear(&$acadyear) {
@@ -34,16 +35,14 @@ abstract class Parser extends CI_Model {
 				throw new Exception("Start and end of Acad Year is not 1 year apart");
 			$acadyear = $start."-".$end;
 		}
+		$this->querydata->startyear = $start;
 		$this->querydata->acadyear = $acadyear;
 	}
 	
 	protected function parseSemester(&$semester) {
 		if (empty($semester))
 			throw new Exception("Semester is blank");
-		else if (($semester = Semester::getSemesterCode($semester)) == Semester::Invalid)
-			throw new Exception("Semester is invalid");
-		else
-			$this->querydata->semester = Semester::toString($semester, FALSE);
+		$this->querydata->semester = Semester::getSemesterCode($semester);
 	}
 
 	protected function parseStudentNo(&$studentno) {
@@ -108,7 +107,7 @@ abstract class Parser extends CI_Model {
 			throw new Exception("Course name and section cannot be distinguished");
 		$coursename = substr($classname, 0, $lastspace);
 		$section = substr($classname, $lastspace + 1);
-		if (strlen($section) > 5)
+		if (strlen($section) > 7)
 			throw new Exception("Section is too long");
 		
 		$lowercoursename = strtolower($coursename);

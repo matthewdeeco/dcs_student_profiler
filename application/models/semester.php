@@ -3,10 +3,9 @@
 /** Defines constants related to Semester and functions to
 	convert integer to text interpretations of Semester. */
 final class Semester {
-	const Invalid = 0;
-	const First  = 1;
-	const Second = 2;
-	const Summer = 3;
+	const First  = "1st";
+	const Second = "2nd";
+	const Summer = "Sum";
 	
 	/** Private constructor to prevent instantiation. */
 	private function Semesters(){}
@@ -22,27 +21,41 @@ final class Semester {
 		else if (strcasecmp($semester, 'Summer') == 0)
 			return Semester::Summer;
 		else {
-			$semester = preg_replace('/ /', '', $semester);
+			$semester = trim($semester);
 			$semester = $semester[0];
-			if ($semester >= Semester::First && $semester <= Semester::Summer)
-				return $semester;
-			else
-				return Semester::Invalid;
+			switch($semester) {
+				case 1: return Semester::First;
+				case 2: return Semester::Second;
+				case 3: return Semester::Summer;
+				default: throw new Exception("Semester is invalid");
+			}
 		}
 	}
 	
 	/** Returns the text representation of $semester.
 		$semester - the semester code
 	*/
-	public static function toString($semester, $withSemWord) {
-		if ($semester == Semester::First)
-			return "1st".($withSemWord ? " Semester" : "");
-		else if ($semester == Semester::Second)
-			return "2nd".($withSemWord ? " Semester" : "");
+	public static function semname($semester) {
+		if ($semester == Semester::First || $semester == Semester::Second)
+			return $semester." Semester";
 		else if ($semester == Semester::Summer)
 			return "Summer";
 		else
-			throw new Exception("toString: Invalid semester");
+			throw new Exception("Invalid semester");
+	}
+	
+	/** Returns the termid representation of $semester.
+		$semester - the semester code
+	*/
+	public static function semtermid($semester) {
+		if ($semester == Semester::First)
+			return 1;
+		else if ($semester == Semester::Second)
+			return 2;
+		else if ($semester == Semester::Summer)
+			return 3;
+		else
+			throw new Exception("Invalid semester");
 	}
 }
 

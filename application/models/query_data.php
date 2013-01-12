@@ -27,17 +27,36 @@ class Query_Data extends CI_Model {
 		<td>$this->grade</td>";
 	}
 	
-	public function addToDatabase() {
-		/*Persons Table*/
-		$query = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree');";
-		$result = $this->db->query($query);
-		
-		/*Students Table*/
-		//find person
+	private function get_personid() {
 		$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
 		$result = $this->db->query($query);
 		$row = $result->result_array();
+		
+		if (empty($row)) {
+			$query = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES ('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree') RETURNING personid;";
+			$result = $this->db->query($query);
+			$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
+			$result = $this->db->query($query);
+			$row = $result->result_array();
+		}
 		$personid = $row[0]['personid'];
+		return $personid;
+	}
+	
+	private function get_termid() {
+		$query = "SELECT termid FROM terms WHERE termid = '$this->termid' AND year = '$this->acadyear' AND sem = '$this->semester';";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+		
+		if (empty($row)) {
+			$query = "INSERT INTO terms VALUES ('$this->termid', '$this->termname', '$this->acadyear', '$this->semester');";
+			$result = $this->db->query($query);
+		}
+		return $this->termid;
+	}
+	
+	public function addToDatabase() {
+		$personid = $this->get_personid();
 		
 		//get batch for curriculumid
 		$query = "SELECT curriculumid FROM curricula WHERE curriculumname='new'";
@@ -62,10 +81,7 @@ class Query_Data extends CI_Model {
 		
 		/*Classes Table*/
 		//get termid
-		$query = "SELECT termid FROM terms WHERE year = '$this->acadyear' AND sem = '$this->semester';";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		$termid = $row[0]['termid'];
+		$termid = $this->get_termid();
 		
 		//get courseid
 		$lowercoursename = strtolower($this->coursename);

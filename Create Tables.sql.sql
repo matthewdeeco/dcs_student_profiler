@@ -54,7 +54,7 @@ CREATE TABLE classes (
 classid		SERIAL	PRIMARY KEY,
 termid		integer	REFERENCES terms(termid),
 courseid	integer		REFERENCES courses(courseid),
-section		varchar(5),
+section		varchar(7),
 classcode	varchar(5)
 );
 
