@@ -1,97 +1,82 @@
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Balatico',  'Juan Carlito', 'Sales');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Quilala', 'Magdalena Marie', 'Aquilina');
-INSERT INTO persons (lastname, firstname, middlename, pedigree) VALUES 
-('Terrado', 'Ramon Bienvenido', 'Ispado', 'Jr.');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Kilayko', 'Evangeline Donita', 'Pilar');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Cutiongco', 'Honey Girl', 'Lim');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Orongan', 'Christina Maria', 'Coral');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Castillote', 'Aileen Kristina', 'Esteban');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Balandra', 'Gomburza Carlos', 'Matalino');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Cabrera', 'Ferdinand Jose', 'Manalo');
-INSERT INTO persons (lastname, firstname, middlename) VALUES 
-('Balandra', 'Gomburza Carlos', 'Matalino');
-INSERT INTO persons (lastname, firstname, middlename, pedigree) VALUES 
-('Reyes', 'Ernesto Miguel', 'Contreras', 'Jr.');
-INSERT INTO persons (lastname, firstname, middlename, pedigree) VALUES 
-('Torrente', 'Raymundo Jun-jun', 'Santos', 'III');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(1, 'Balatico', 'Juan Carlito', 'Sales');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(2, 'Quilala', 'Magdalena Marie', 'Aquilina');
+INSERT INTO persons (personid, lastname, firstname, middlename, pedigree) VALUES 
+(3, 'Terrado', 'Ramon Bienvenido', 'Ispado', 'Jr.');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(4, 'Kilayko', 'Evangeline Donita', 'Pilar');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(5, 'Cutiongco', 'Honey Girl', 'Lim');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(6, 'Orongan', 'Christina Maria', 'Coral');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(7, 'Castillote', 'Aileen Kristina', 'Esteban');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(8, 'Balandra', 'Gomburza Carlos', 'Matalino');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(9, 'Cabrera', 'Ferdinand Jose', 'Manalo');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES 
+(10, 'Balandra', 'Gomburza Carlos', 'Matalino');
+INSERT INTO persons (personid, lastname, firstname, middlename, pedigree) VALUES 
+(11, 'Reyes', 'Ernesto Miguel', 'Contreras', 'Jr.');
+INSERT INTO persons (personid, lastname, firstname, middlename, pedigree) VALUES 
+(12, 'Torrente', 'Raymundo Jun-jun', 'Santos', 'III');
 
-INSERT INTO persons (lastname, firstname, middlename) VALUES
-('Meren', 'Gil Troy', 'Mercado');
-INSERT INTO persons (lastname, firstname, middlename) VALUES
-('Cortez', 'Marie Janelle', 'Sy');
-INSERT INTO persons (lastname, firstname, middlename) VALUES
-('Tenor', 'Karol Kyle', 'Perez');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES
+(13, 'Meren', 'Gil Troy', 'Mercado');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES
+(14, 'Cortez', 'Marie Janelle', 'Sy');
+INSERT INTO persons (personid, lastname, firstname, middlename) VALUES
+(15, 'Tenor', 'Karol Kyle', 'Perez');
 
-INSERT INTO curricula (curriculumname) VALUES ('new');
-INSERT INTO curricula (curriculumname) VALUES ('old');
+INSERT INTO curricula VALUES (1, 'new');
+INSERT INTO curricula VALUES (2, 'old');
 
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(1, '201228374', 1);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(2, '201247583', 1);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(3, '201237561', 1);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(4, '201275639', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(5, '201109570', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(6, '201183647', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(7, '201017263', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(8, '201012341', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(9, '201034567', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(10, '200912651', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(11, '200912341', 2);
-INSERT INTO students (personid, studentno, curriculumid) VALUES 
-(12, '200909876', 2);
+INSERT INTO students VALUES (1, 1, '201228374', 1);
+INSERT INTO students VALUES (2, 2, '201247583', 1);
+INSERT INTO students VALUES (3, 3, '201237561', 1);
+INSERT INTO students VALUES (4, 4, '201275639', 2);
+INSERT INTO students VALUES (5, 5, '201109570', 2);
+INSERT INTO students VALUES (6, 6, '201183647', 2);
+INSERT INTO students VALUES (7, 7, '201017263', 2);
+INSERT INTO students VALUES (8, 8, '201012341', 2);
+INSERT INTO students VALUES (9, 9, '201034567', 2);
+INSERT INTO students VALUES (10, 10, '200912651', 2);
+INSERT INTO students VALUES (11, 11, '200912341', 2);
+INSERT INTO students VALUES (12, 12, '200909876', 2);
 
-INSERT INTO instructors (personid) VALUES (13);
-INSERT INTO instructors (personid) VALUES (14);
-INSERT INTO instructors (personid) VALUES (15);
+INSERT INTO instructors VALUES (13, 13);
+INSERT INTO instructors VALUES (14, 14);
+INSERT INTO instructors VALUES (15, 15);
 
-INSERT INTO grades (gradename, gradevalue) VALUES ('1.00', 1.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('1.25', 1.25);
-INSERT INTO grades (gradename, gradevalue) VALUES ('1.50', 1.50);
-INSERT INTO grades (gradename, gradevalue) VALUES ('1.75', 1.75);
-INSERT INTO grades (gradename, gradevalue) VALUES ('2.00', 2.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('2.25', 2.25);
-INSERT INTO grades (gradename, gradevalue) VALUES ('2.50', 2.50);
-INSERT INTO grades (gradename, gradevalue) VALUES ('2.75', 2.75);
-INSERT INTO grades (gradename, gradevalue) VALUES ('3.00', 3.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('4.00', 4.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('5.00', 5.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('INC', -1.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('DRP', 0.00);
+INSERT INTO grades VALUES (1, '1.00', 1.00);
+INSERT INTO grades VALUES (2, '1.25', 1.25);
+INSERT INTO grades VALUES (3, '1.50', 1.50);
+INSERT INTO grades VALUES (4, '1.75', 1.75);
+INSERT INTO grades VALUES (5, '2.00', 2.00);
+INSERT INTO grades VALUES (6, '2.25', 2.25);
+INSERT INTO grades VALUES (7, '2.50', 2.50);
+INSERT INTO grades VALUES (8, '2.75', 2.75);
+INSERT INTO grades VALUES (9, '3.00', 3.00);
+INSERT INTO grades VALUES (10, '4.00', 4.00);
+INSERT INTO grades VALUES (11, '5.00', 5.00);
+INSERT INTO grades VALUES (12, 'INC', -1.00);
+INSERT INTO grades VALUES (13, 'DRP', 0.00);
 
-INSERT INTO terms (name, year, sem) VALUES 
-('1st Semester 2009-2010', '2009-2010', '1st');
-INSERT INTO terms (name, year, sem) VALUES
-('2nd Semester 2009-2010', '2009-2010', '2nd');
-INSERT INTO terms (name, year, sem) VALUES
-('1st Semester 2010-2011', '2010-2011', '1st');
-INSERT INTO terms (name, year, sem) VALUES
-('2nd Semester 2010-2011', '2010-2011', '2nd');
-INSERT INTO terms (name, year, sem) VALUES
-('1st Semester 2011-2012', '2011-2012', '1st');
-INSERT INTO terms (name, year, sem) VALUES
-('2nd Semester 2011-2012', '2011-2012', '2nd');
-INSERT INTO terms (name, year, sem) VALUES
-('1st Semester 2012-2013', '2012-2013', '1st');
-INSERT INTO terms (name, year, sem) VALUES
-('2nd Semester 2012-2013', '2012-2013', '2nd');
+INSERT INTO terms VALUES (20091, '1st Semester 2009-2010', '2009-2010', '1st');
+INSERT INTO terms VALUES (20092, '2nd Semester 2009-2010', '2009-2010', '2nd');
+INSERT INTO terms VALUES (20093, 'Summer Semester 2009-2010', '2009-2010', 'Sum');
+INSERT INTO terms VALUES (20101, '1st Semester 2010-2011', '2010-2011', '1st');
+INSERT INTO terms VALUES (20102, '2nd Semester 2010-2011', '2010-2011', '2nd');
+INSERT INTO terms VALUES (20103, 'Summer Semester 2010-2011', '2010-2011', 'Sum');
+INSERT INTO terms VALUES (20111, '1st Semester 2011-2012', '2011-2012', '1st');
+INSERT INTO terms VALUES (20112, '2nd Semester 2011-2012', '2011-2012', '2nd');
+INSERT INTO terms VALUES (20113, 'Summer Semester 2011-2012', '2011-2012', 'Sum');
+INSERT INTO terms VALUES (20121, '1st Semester 2012-2013', '2012-2013', '1st');
+INSERT INTO terms VALUES (20122, '2nd Semester 2012-2013', '2012-2013', '2nd');
+INSERT INTO terms VALUES (20123, 'Summer Semester 2012-2013', '2012-2013', 'Sum');
+
 
 INSERT INTO courses VALUES (1, 'cs 11', 3, 'MAJ', NULL);
 INSERT INTO courses VALUES (2, 'cs 12', 3, 'MAJ', NULL);
@@ -210,291 +195,284 @@ INSERT INTO courses VALUES(107, 'math 55', 3, 'MAJ', NULL);
 INSERT INTO courses VALUES(108, 'physics 71', 4, 'MAJ', NULL);
 INSERT INTO courses VALUES(109, 'physics 72', 4, 'MAJ', NULL);
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (1, 1, 'FWXY', '3456');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (1, 39, 'THU', '236');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (1, 70, 'WFV', '1235');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (2, 45, 'THV', '2312');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (2, 81, 'THU-1', '3783');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (2, 93, 'WFW', '3467');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (1, 20091, 1, 'FWXY', '3456');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (2, 20091, 39, 'THU', '236');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (3, 20101, 70, 'WFV', '1235');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (3, 40, 'THV', '5592');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (3, 59, 'WFX', '3846');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (3, 84, 'THY', '32145');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (4, 96, 'THY', '4235');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (4, 3, 'WFW', '3456');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (4, 4, 'WFX', '45673');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (4, 20112, 45, 'THV', '2312');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (5, 20092, 81, 'THU-1', '3783');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (6, 20102, 93, 'WFW', '3467');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (5, 6, 'THU', '1234');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (5, 5, 'WFW', '3456');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (5, 8, 'THY', '3467');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (7, 20091, 40, 'THV', '5592');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (8, 20103, 59, 'WFX', '3846');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (9, 20113, 84, 'THY', '32145');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (10, 20091, 96, 'THY', '4235');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (11, 20102, 3, 'WFW', '3456');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (12, 20111, 4, 'WFX', '45673');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (6, 48, 'Z', '2345');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (6, 86, 'THY', '2345');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (6, 102, 'WFY', '3403');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (13, 20111, 6, 'THU', '1234');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (14, 20112, 5, 'WFW', '3456');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (15, 20102, 8, 'THY', '3467');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (7, 9, 'THU', '234');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (7, 41, 'WFW', '111');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (7, 78, 'THX', '5678');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (16, 20101, 48, 'Z', '2345');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (17, 20101, 86, 'THY', '2345');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (18, 20093, 102, 'WFY', '3403');
 
-INSERT INTO classes (termid, courseid, section, classid) VALUES (8, 11, 'WFX', '3456');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (8, 12, 'THXY', '341');
-INSERT INTO classes (termid, courseid, section, classid) VALUES (8, 17, 'WFX', '457');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (19, 20091, 9, 'THU', '234');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (20, 20101, 41, 'WFW', '111');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (21, 20102, 78, 'THX', '5678');
 
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (1, 7, 'N/A', TRUE);;
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (2, 7, 'N/A', TRUE);;
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (3, 7, 'N/A', TRUE);;
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (4, 7, 'N/A', TRUE);;
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (5, 7, 'NO F137', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (6, 7, 'NO F137', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (7, 7, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (8, 7, 'NO F137', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (9, 7, 'NO F137', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 7, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 7, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 7, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (5, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (6, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (7, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (8, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (9, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 6, 'LIBRARY ACCOUNTABILITY', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 6, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (5, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (6, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (7, 5, 'LIBRARY ACCOUNTABILITY', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (8, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (9, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 5, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (7, 4, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (8, 4, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (9, 4, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 4, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 4, 'LIBRARY ACCOUNTABILITY', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 4, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (7, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (8, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (9, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 3, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 2, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 2, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 2, 'N/A', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (10, 1, 'ZERO PASSING', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (11, 1, 'ZERO PASSING', TRUE);
-INSERT INTO studentterms (studentid, termid, ineligibilities, issettled) VALUES (12, 1, 'ZERO PASSING', TRUE);
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (22, 20111, 11, 'WFX', '3456');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (23, 20112, 12, 'THXY', '341');
+INSERT INTO classes (classid, termid, courseid, section, classcode) VALUES (24, 20121, 17, 'WFX', '457');
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 41, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 70, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 91, 1);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (1, 1, 20101, 'N/A', TRUE);;
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (2, 2, 20101, 'N/A', TRUE);;
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (3, 3, 20102, 'N/A', TRUE);;
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (4, 4, 20102, 'N/A', TRUE);;
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (5, 5, 20103, 'NO F137', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (6, 6, 20103, 'NO F137', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (7, 7, 20091, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (8, 8, 20092, 'NO F137', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (9, 9, 20111, 'NO F137', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (10, 10, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (11, 11, 20093, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (12, 12, 20113, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (13, 5, 20111, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (14, 6, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (15, 7, 20101, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (16, 8, 20102, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (17, 9, 20102, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (18, 10, 20103, 'LIBRARY ACCOUNTABILITY', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (19, 11, 20101, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (20, 12, 20091, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (21, 5, 20091, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (22, 6, 20093, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (23, 7, 20092, 'LIBRARY ACCOUNTABILITY', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (24, 8, 20101, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (25, 9, 20102, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (26, 10, 20111, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (27, 11, 20111, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (28, 12, 20111, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (29, 7, 20102, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (30, 8, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (31, 9, 20113, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (32, 10, 20101, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (33, 11, 20101, 'LIBRARY ACCOUNTABILITY', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (34, 12, 20103, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (35, 7, 20092, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (36, 8, 20092, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (37, 9, 20091, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (38, 10, 20093, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (39, 11, 20111, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (40, 12, 20103, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (41, 10, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (42, 11, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (43, 12, 20112, 'N/A', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (44, 10, 20101, 'ZERO PASSING', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (45, 11, 20111, 'ZERO PASSING', TRUE);
+INSERT INTO studentterms (studenttermid, studentid, termid, ineligibilities, issettled) VALUES (46, 12, 20101, 'ZERO PASSING', TRUE);
+
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 1, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 41, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 70, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 1, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 41, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 70, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 1, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 41, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 70, 9);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 1, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 41, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 70, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 91, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 1, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 41, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 70, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 91, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 1, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 41, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 70, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 1, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 41, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 70, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 1, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 41, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 70, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 91, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 2, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 3, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (1, 4, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 5, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 7, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 9, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (2, 11, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 12, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 20, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 21, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (3, 22, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 23, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 24, 9);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 15, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (4, 16, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 14, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 17, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 19, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (5, 19, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 21, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 20, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 21, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (6, 21, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 21, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 22, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 22, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (7, 23, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 24, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 17, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 19, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (8, 11, 8);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 1, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 41, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 70, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 1, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 41, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 70, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 91, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 1, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 41, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 70, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 91, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 1, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 7, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 2, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (9, 2, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 3, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 4, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 5, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (10, 6, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 7, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 7, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 9, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (11, 8, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 9, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 10, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 11, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (12, 12, 1);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 96, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 48, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 86, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 2, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 96, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 48, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 86, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 2, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 96, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 48, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 86, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 2, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 96, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 48, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 86, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 2, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 96, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 48, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 86, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 13, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 14, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 16, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (13, 15, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 17, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 18, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 19, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (14, 20, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 21, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 22, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 23, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (15, 24, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 1, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 2, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 3, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (16, 4, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 6, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 8, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 6, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (17, 2, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 96, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 48, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 86, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 2, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 96, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 48, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 86, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 10, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 11, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 12, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (18, 21, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 2, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 5, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 6, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (19, 2, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 96, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 48, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 86, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 6, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 8, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 6, 2);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (20, 2, 1);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 42, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 3, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 4, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 5, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 42, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 3, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 4, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 5, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 42, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 3, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 4, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 5, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 42, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 3, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 4, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 5, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 42, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 3, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 4, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 24, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 24, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 23, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (21, 22, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 21, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 20, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 19, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (22, 18, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 17, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 13, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 14, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (23, 15, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 16, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 15, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 14, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (24, 1, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 1, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 23, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 24, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (25, 5, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 42, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 3, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 4, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 5, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 42, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 3, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 4, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 5, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 42, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 3, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 24, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 23, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 24, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (26, 15, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 16, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 18, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 12, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (27, 11, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 10, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 9, 6);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 4, 6);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (28, 5, 7);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 50, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 71, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 6, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 5, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 7, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 50, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 71, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 6, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 7, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 50, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 71, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 6, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 7, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 50, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 71, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 6, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 7, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 50, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 71, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 6, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 7, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 50, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 71, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 6, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 7, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 6, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (29, 5, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 4, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 3, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 2, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (30, 1, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 2, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 11, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 12, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (31, 13, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 14, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 9, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 16, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (32, 17, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 15, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 17, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 18, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (33, 19, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 20, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 21, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 22, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (34, 23, 8);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 39, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 24, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 8, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 9, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 10, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 39, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 8, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 9, 4);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 10, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 39, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 8, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 6, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (35, 7, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 5, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 4, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 5, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (36, 3, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 3, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 9, 7);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 9, 5);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (37, 10, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 39, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 8, 5);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 9, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 19, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 19, 5);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 19, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (38, 10, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 39, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 8, 6);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 9, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 10, 8);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 39, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 8, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 19, 3);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 18, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 19, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (39, 20, 8);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 19, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 18, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 9, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (40, 10, 1);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 92, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 20, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 11, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 14, 5);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 16, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 2, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 20, 2);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 15, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (41, 13, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 92, 7);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 11, 6);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 21, 7);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 1, 6);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 14, 7);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 16, 4);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 2, 4);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 15, 5);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (42, 13, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 92, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 11, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 22, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 1, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 14, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 16, 3);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 2, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 12, 4);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 15, 2);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (43, 13, 1);
 
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 103, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 84, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 13, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 13, 2);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 19, 3);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 20, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (44, 17, 2);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 103, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 84, 2);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 13, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 14, 2);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 19, 1);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 20, 4);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (45, 17, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 103, 1);
-INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 84, 4);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 13, 1);
+INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 14, 4);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 19, 5);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 20, 5);
 INSERT INTO studentclasses (studenttermid, classid, gradeid) VALUES (46, 17, 3);
-
-
-
-
-
-
-
-
