@@ -51,7 +51,7 @@ class Excel_Parser extends Parser {
 		foreach ($tables as $table) {
 			$tablename = $table['table_name'];
 			echo "<b>$tablename</b><br>";
-			$result = $this->db->query("SELECT array(SELECT $tablename FROM $tablename);");
+			$result = $this->db->query("SELECT * FROM $tablename;");
 			print_r($result->result_array());
 			echo "<br><br>";
 		}
