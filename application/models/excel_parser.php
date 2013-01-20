@@ -52,7 +52,13 @@ class Excel_Parser extends Parser {
 			$tablename = $table['table_name'];
 			echo "<b>$tablename</b><br>";
 			$result = $this->db->query("SELECT * FROM $tablename;");
-			print_r($result->result_array());
+			$rows = $result->result_array();
+			foreach($rows as $row) {
+				foreach ($row as $key => $value) {
+					echo "$key: $value<br>";
+				}
+				echo "<br>";
+			}
 			echo "<br><br>";
 		}
 	}
