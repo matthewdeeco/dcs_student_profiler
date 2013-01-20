@@ -45,6 +45,16 @@ class Excel_Parser extends Parser {
 			echo "</tr>";
 		}
 		echo "</table>";
+		
+		$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
+		$tables = $result->result_array();
+		foreach ($tables as $table) {
+			$tablename = $table['table_name'];
+			echo "<b>$tablename</b><br>";
+			$result = $this->db->query("SELECT array(SELECT $tablename FROM $tablename);");
+			print_r($result->result_array());
+			echo "<br><br>";
+		}
 	}
 	
 	/** Parse a row in the excel file.

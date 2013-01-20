@@ -33,7 +33,7 @@ class Query_Data extends CI_Model {
 		$row = $result->result_array();
 		
 		if (empty($row)) {
-			$query = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES ('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree') RETURNING personid;";
+			$query = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES ('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree');";
 			$result = $this->db->query($query);
 			$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
 			$result = $this->db->query($query);
@@ -55,10 +55,7 @@ class Query_Data extends CI_Model {
 		return $this->termid;
 	}
 	
-	public function addToDatabase() {
-		$personid = $this->get_personid();
-		
-		//get batch for curriculumid
+	private function get_curriculumid() {
 		$query = "SELECT curriculumid FROM curricula WHERE curriculumname='new'";
 		$result = $this->db->query($query);
 		$row = $result->result_array();
@@ -67,17 +64,23 @@ class Query_Data extends CI_Model {
 		$result = $this->db->query($query);
 		$row = $result->result_array();
 		$old = $row[0]['curriculumid'];
-		
+			
 		if($this->batch == '2010' || $this->batch == '2011')
-			$curriculumid = $old;
+			return $old;
 		else
-			$curriculumid = $new;
-		
+			return $new;
+	}
+	
+	private function insertToStudents() {
+		$personid = $this->get_personid();
+		$curriculumid = $this->get_curriculumid();
 		//insert student
 		$query = "INSERT INTO students(personid, studentno, curriculumid) VALUES($personid, $this->studentno, $curriculumid);";
 		$result = $this->db->query($query);
-		
-		/*Terms Table -- insert every sem a new entry*/
+	}
+	
+	public function addToDatabase() {
+		$this->insertToStudents();
 		
 		/*Classes Table*/
 		//get termid
