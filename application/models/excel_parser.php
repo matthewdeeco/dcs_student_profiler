@@ -51,15 +51,23 @@ class Excel_Parser extends Parser {
 		foreach ($tables as $table) {
 			$tablename = $table['table_name'];
 			echo "<b>$tablename</b><br>";
+			echo "<table>";
 			$result = $this->db->query("SELECT * FROM $tablename;");
 			$rows = $result->result_array();
-			foreach($rows as $row) {
-				foreach ($row as $key => $value) {
-					echo "$key: $value<br>";
+			if (!empty($rows)) {
+				echo "<tr>";
+				foreach ($rows[0] as $key => $value)
+						echo "<th>$key</th>";
+				echo "</tr>";
+				foreach($rows as $row) {
+					echo "<tr>";
+					foreach ($row as $key => $value) {
+						echo "<td>$value</td>";
+					}
+					echo "</tr>";
 				}
-				echo "<br>";
 			}
-			echo "<br><br>";
+			echo "</table><br><br>";
 		}
 	}
 	

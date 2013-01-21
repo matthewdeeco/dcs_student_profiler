@@ -1,3 +1,6 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 CREATE TABLE requirements (
 requirementid		SERIAL		PRIMARY KEY,
 requirementname	varchar(50),
