@@ -28,18 +28,20 @@ function editdatabase($tables){
 		if (!empty($rows)) {
 			echo "<tr>";
 			foreach ($rows[0] as $key => $value)
-					echo "<th>$key</th>";
+				echo "<th>$key</th>";
 			echo "</tr>";
 			foreach($rows as $row) {
 				echo "<tr>";
 				foreach ($row as $value) {
 					$length = strlen($value) + 1;
-					echo "<td><div class='databasecell'>
-					<input type='text' size=$length style='width:100%' value=\"$value\">
-					</div></td>";
+					echo "<td><div class='databasecell'><input type='text' size=$length value=\"$value\"></div></td>";
 				}
 				echo "</tr>";
 			}
+			echo "<tr>";
+			foreach ($rows[0] as $key => $value)
+				echo "<td><div class='databasecell'><input type='text' size=1></div></td>";
+			echo "</tr>";
 		}
 		echo "</table><br><br>";
 	}

@@ -2,8 +2,8 @@
 /* CSS Document */
 
 	.tablename {
-		font-size: 20px;
-		font-weight: bold;
+		font-size:20px;
+		font-weight:bold;
 	}
 	
 	.databasetable {
@@ -13,19 +13,29 @@
 	.databasetable table, th, td{
 		border-collapse:collapse;
 		border:1px solid green;
+		padding:0px;
 	}
 	
 	.databasetable th {
+		font-size:17px;
 		background-color:green;
 		color:white;
-		padding: 0 5px 0 5px;
+		padding:0px 5px 0px 5px;
+	}
+	
+	.databasetableid {
+		font-size:15px;
+		background-color:#00A42F;
+		color:white;
+		text-align:center;
 	}
 	
 	.databasecell {
 		overflow:hidden;
-		height: 25px;
+		height:23px;
 	}
 	
 	.databasecell input {
-		border: none;
+		border:none;
+		width:100%;
 	}
