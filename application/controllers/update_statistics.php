@@ -26,7 +26,9 @@ class Update_Statistics extends CI_Controller {
 			/*maintain a table to store uploaded gradessheets?*/
 			
 			echo "File successfully uploaded.<br>";
+			
 			$this->parse($target);
+			$this->view();
 		}
 		else{
 			$upload_error = "file upload";
@@ -52,6 +54,26 @@ class Update_Statistics extends CI_Controller {
 		//$this->parser = new ExcelParser($file);
 		$this->parser->parse();
 	}
+
+	public function view() {
+		$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
+		$tables = $result->result_array();
+		foreach ($tables as &$table) {
+			$tablename = $table['table_name'];
+			$result = $this->db->query("SELECT * FROM $tablename;");
+			$rows = $result->result_array();
+			$table['rows'] = $rows;
+		}
+		$data['tables'] = $tables;
+		$this->load->view('include/header');
+		$this->load->view('edit_database', $data);
+		$this->load->view('include/footer');
+	}
+	
+	public function edit() {
+		$this->view();
+	}
+	
 }
 
 /* Location: ./application/controllers/update_statistics.php */

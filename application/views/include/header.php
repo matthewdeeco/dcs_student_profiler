@@ -88,7 +88,7 @@
             <li><a href="#">Student Rankings</a></li>
             <li><a href="#">Course Statistics</a></li>
             <li><a href="#">Eligibility Checking</a></li>
-            <li><a href="#">Update Statistics</a></li>
+            <li><a href="<?= site_url('update_statistics/index') ?>">Update Statistics</a></li>
 			<li><a href="#">About</a></li>
           </ul>
         </div><!-- /.nav-collapse -->

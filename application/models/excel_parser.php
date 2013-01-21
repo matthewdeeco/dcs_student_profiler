@@ -45,30 +45,6 @@ class Excel_Parser extends Parser {
 			echo "</tr>";
 		}
 		echo "</table>";
-		
-		$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
-		$tables = $result->result_array();
-		foreach ($tables as $table) {
-			$tablename = $table['table_name'];
-			echo "<b>$tablename</b><br>";
-			echo "<table>";
-			$result = $this->db->query("SELECT * FROM $tablename;");
-			$rows = $result->result_array();
-			if (!empty($rows)) {
-				echo "<tr>";
-				foreach ($rows[0] as $key => $value)
-						echo "<th>$key</th>";
-				echo "</tr>";
-				foreach($rows as $row) {
-					echo "<tr>";
-					foreach ($row as $key => $value) {
-						echo "<td>$value</td>";
-					}
-					echo "</tr>";
-				}
-			}
-			echo "</table><br><br>";
-		}
 	}
 	
 	/** Parse a row in the excel file.
