@@ -1,0 +1,46 @@
+<?php
+
+
+  function updateTerms(){
+  	$termid = $_POST['termid'];
+		$name = $_POST['name'];
+		$year = $_POST['year'];
+		$sem = $_POST['sem'];
+
+		//check if term already exists
+		$query = "SELECT * FROM terms WHERE name == $name";
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+
+		//new entry 
+		if(empty($row)){
+			$query = "INSERT INTO terms(name, year, sem) VALUES ($name, $year, $sem);"
+			$result = $this->db->query($query);
+		} else{
+			$query = "UPDATE terms SET name=$name, year=$year, sem = $sem WHERE termid = $termid ;"
+			$result = $this->db->query($query);
+		}
+	}
+
+	function updateClasses(){
+		$termid = $_POST['termid'];
+		$courseid = $_POST['courseid'];
+		$section = $_POST['section'];
+		$classcode = $_POST['classcode'];
+
+		//check if class already exists
+		$query = "SELECT * FROM classes WHERE section == $section AND courseid == $courseid;"
+		$result = $this->db->query($query);
+		$row = $result->result_array();
+
+		//new entry 
+		if(empty($row)){
+			$query = "INSERT INTO classes(termid, courseid, section, classcode) VALUES ($termid, $courseid, $section, $classcode);"
+			$result = $this->db->query($query);
+		} else{
+			$query = "UPDATE classes SET termid=$termid, courseid=$courseid, section=$section, classcode=$classcode WHERE classid=$classid;"
+			$result = $this->db->query($query);
+		}
+	}
+
+?>
