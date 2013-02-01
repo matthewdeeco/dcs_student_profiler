@@ -1,4 +1,7 @@
-<div id = "sidebar" style ="width:13%;">
+<div id="sidebar" style ="
+	width:13%;
+	padding-left: 5px;
+	">
 <a href="<?= site_url("update_statistics/index") ?>">Upload</a><br>
 Edit
 <ul>
@@ -12,8 +15,8 @@ foreach ($table_names as $table_name) {
 </div>
 
 <div id = "container" style="
-	width:80%;
+	width:78%;
 	padding-left:30px;
 	padding-top:10px;
-	padding-bottom:30px;
+	padding-bottom:10px;
 	">
