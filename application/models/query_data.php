@@ -79,7 +79,7 @@ class Query_Data extends CI_Model {
 		$result = $this->db->query($query);
 	}
 	
-	public function addToDatabase() {
+	public function execute() {
 		$this->insertToStudents();
 		
 		/*Classes Table*/

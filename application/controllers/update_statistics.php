@@ -8,8 +8,16 @@ class Update_Statistics extends CI_Controller {
 		$this->initializeTableNames();
 	}
 	
+	private function displayUploadFileView($data = null)  {
+		if ($data == null)
+			$data = array();
+		$data['message'] = 'Select the xls file with grades to be uploaded!';
+		$data['dest'] = site_url('update_statistics/upload');
+		$this->displayview('upload_file', $data);
+	}
+	
 	public function index() {
-		$this->displayview('upload_file');
+		$this->displayUploadFileView();
 	}
 	
 	public function edit($tablename = null) {
@@ -26,27 +34,31 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function upload() {
-		$grades_spreadsheet = $_FILES['gradessheet']['name'];
-		$spreadsheet_type = $_FILES['gradessheet']['type'];
-		$spreadsheet_size = $_FILES['gradessheet']['size'];
+		$data = array('success' => false);
+		// maintain a table to store uploaded gradessheets?
+		try {
+			$file = $this->getUploadedFile();
+			$data['excel_dump'] = $this->dumpExcelTable($file);
+			$data['success'] = true;
+			$this->parse($file, $data);
+		} catch (Exception $e) {
+			$data['errormessage'] = $e->getMessage();
+		}
+		$this->displayUploadFileView($data);
+	}
+	
+	private function getUploadedFile() {
+		$filename = $_FILES['upload_file']['name'];
+		$filetype = $_FILES['upload_file']['type'];
+		$filesize = $_FILES['upload_file']['size'];
 
 		// customize filename for ease of access?
 		// check for filetypes that are allowed?
-		$target = "./assets/uploads/".$grades_spreadsheet;
-
-		$data = array('success' => false);
-		if (move_uploaded_file($_FILES['gradessheet']['tmp_name'], $target)) {
-			// maintain a table to store uploaded gradessheets?
-			try {
-				$data['excel_dump'] = $this->dumpExcelTable($target);
-				$data['parse_output'] = $this->parse($target);
-				$data['success'] = true;
-			} catch (Exception $e) {
-				$data['errormessage'] = "$grades_spreadsheet cannot be parsed.";
-			}
+		$target = "./assets/uploads/".$filename;
+		if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $target)) {
+			return $target;
 		} else
-			$data['errormessage'] = "$grades_spreadsheet could not be uploaded.";
-		$this->displayview('upload_file_response', $data);
+			throw new Exception("Error: $filename could not be uploaded.");
 	}
 
 	private function dumpExcelTable($file) {
@@ -61,11 +73,14 @@ class Update_Statistics extends CI_Controller {
 		return $excel_dump;
 	}
 	
-	private function parse($file) {
+	private function parse($file, &$data) {
 		// start parsing
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);
-		return $this->parser->parse();
+		$data['parse_output'] = $this->parser->parse();
+		$success_rows = $this->parser->getSuccessCount();
+		$error_rows = $this->parser->getErrorCount();
+		$data['success_message'] = "<span class='success'>".$success_rows."</span> rows added, <span class='error'>".$error_rows."</span> errors encountered";
 	}
 	
 	private function getTableRows($tablename) {

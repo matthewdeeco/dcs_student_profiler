@@ -1,19 +1,31 @@
+<div id="uploadgrades">
 <?php
-$dest = site_url('update_statistics/upload');
-echo '<div id="uploadgrades"><h2></h2>
-<table width="50%">
-	<form enctype="multipart/form-data" action='.$dest.' method="POST">
-		<tr><strong>Select the xls file with grades to be uploaded!</strong></tr>
+if (!isset($success));
+else if ($success) {
+	echo "<span class='success'>File successfully uploaded<br></span>";
+	echo $success_message;
+	// echo $excel_dump;
+	echo "<br>";
+	// echo $parse_output;
+	// echo "<br>";
+} else if (!$success) {
+	echo "<span class='error'>$errormessage</span><br><br>";
+}
+?>
+<table width="50%" class="noborder">
+	<form enctype="multipart/form-data" action="<?=$dest?>" method="POST">
+		<tr><strong><?=$message?></strong></tr>
 		<tr>
-			<td>Grades Spreadsheet:</td>
-			<td><input type="file" id="gradessheet" name="gradessheet" /></td>
+			<td>&nbsp;Upload File:</td>
+			<td><input type="file" id="upload_file" name="upload_file" /></td>
 		</tr>
 		<tr>
-		<td></td>
-		<td>
-		<input type="submit" name="uploadgrades" value="Submit" /><input type="reset" name="cancel" value="Cancel"/></td>
+			<td></td>
+			<td>
+				<input type="submit" name="uploadfile" value="Submit" />
+				<input type="reset" name="cancel" value="Cancel"/>
+			</td>
 		</tr>
 	</form>
 </table>
-</div>';
-?>
+</div>

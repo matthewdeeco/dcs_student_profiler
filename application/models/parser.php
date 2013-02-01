@@ -10,6 +10,14 @@ abstract class Parser extends CI_Model {
         parent::__construct();
     }
 	
+	public function getErrorCount() {
+		return $this->errorcount;
+	}
+	
+	public function getSuccessCount() {
+		return $this->successcount;
+	}
+	
 	protected function parseTermName($acadyear, $semester) {
 		$this->parseAcadYear($acadyear, $this->querydata);
 		$this->parseSemester($semester, $this->querydata);

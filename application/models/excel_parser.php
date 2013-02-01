@@ -30,16 +30,20 @@ class Excel_Parser extends Parser {
 		<th>Section</th>
 		<th>Grade</th>
 		</tr></thead>";
+		$this->successcount = 0;
+		$this->errorcount = 0;
 		// If 1st row is not a header, change to $i = 1
 		for ($i = 2; $i <= $rows; $i++) {
 			$output .= "<tr><th>$i</th>";
 			try { // if parsing the row failed, will immediately skip to catch
 				$this->parseRow($i);
 				$output .= $this->querydata->tostring();
-				$this->querydata->addToDatabase();
+				$this->querydata->execute();
+				$this->successcount++;
 			} catch (Exception $e) {
 				// print error message
 				$output .= "<td colspan = 7 align='center' class='error'>Error: ".$e->getMessage()."</td>";
+				$this->errorcount++;
 			}
 			$output .= "</tr>";
 		}

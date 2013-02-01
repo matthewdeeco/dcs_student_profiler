@@ -18,5 +18,5 @@ foreach ($table_names as $table_name) {
 	width:78%;
 	padding-left:30px;
 	padding-top:10px;
-	padding-bottom:10px;
+	padding-bottom:20px;
 	">

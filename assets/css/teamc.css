@@ -5,8 +5,16 @@
 	color:red;
 }
 
+.success {
+	color:green;
+}
+
+.noborder, .noborder tr, .noborder th, .noborder td{
+	border:10px;
+}
+
 .excel table, th, td{
-	padding: 5px;
+	padding:5px;
 }
 
 .databasetablename {
