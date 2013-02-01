@@ -14,15 +14,15 @@ function printtables($tables) {
 		echo "<table class='databasetable'>";
 		$rows = $table['rows'];
 		if (!empty($rows)) {
-			printtablerows($rows);
-			//printblankrow($rows);
+			printTableRows($rows);
+			//printBlankRow($rows);
 		}
-		echo "</table><br><br>";
+		echo "</table><br>";
 	}
 	echo "</form>";
 }
 
-function printtablerows($rows) {
+function printTableRows($rows) {
 	echo "<tr>";
 	foreach ($rows[0] as $key => $value)
 		echo "<th>$key</th>";
@@ -42,7 +42,7 @@ function printtablerows($rows) {
 	}
 }
 
-function printblankrow($rows) {
+function printBlankRow($rows) {
 	echo "<tr>";
 	$column = 0;
 	foreach ($rows[0] as $key => $value) {

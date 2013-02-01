@@ -1,9 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Update_Statistics extends CI_Controller {
-
+	var $tablenames;
+	
+	public function __construct() {
+		parent::__construct();
+		$this->initializeTableNames();
+	}
+	
 	public function index() {
 		$this->displayview('upload_file');
+	}
+	
+	public function edit($tablename = null) {
+		$db['default']['db_debug'] = FALSE;
+		$data['tables'] = $this->getTablesForDisplay($tablename);
+		$errormessage = $this->db->_error_message();
+		if (!empty($errormessage))
+			$data['errormessage'] = "Table ".$tablename." does not exist!";
+		$this->displayview('edit_database', $data);
+	}
+	
+	public function view($tablename = null) {
+		$this->edit($tablename);
 	}
 	
 	public function upload() {
@@ -58,11 +77,17 @@ class Update_Statistics extends CI_Controller {
 		return $table;
 	}
 
-	private function getAllTables() {
+	private function initializeTableNames() {
 		$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
-		$tables = $result->result_array();
-		foreach ($tables as &$table)
-			$table = $this->getTableRows($table['table_name']);
+		$this->tablenames['table_names'] = $result->result_array();
+		foreach ($this->tablenames['table_names'] as &$tablename)
+			$tablename = $tablename['table_name'];
+	}
+	
+	private function getAllTables() {
+		$tables = array();
+		foreach ($this->tablenames['table_names'] as $tablename)
+			$tables[] = $this->getTableRows($tablename);
 		return $tables;
 	}
 	
@@ -81,24 +106,11 @@ class Update_Statistics extends CI_Controller {
 		return $tables;
 	}
 	
-	public function edit($tablename = null) {
-		$db['default']['db_debug'] = FALSE;
-		$data['tables'] = $this->getTablesForDisplay($tablename);
-		$errormessage = $this->db->_error_message();
-		if (!empty($errormessage))
-			$data['errormessage'] = "Table ".$tablename." does not exist!";
-		$this->displayview('edit_database', $data);
-	}
-	
-	public function view($tablename = null) {
-		$this->edit($tablename);
-	}
-	
-	public function displayView($viewname, $data = null) {
+	private function displayView($viewname, $data = null) {
 		$this->load->view('include/header');
-		$this->load->view('include/header-teamc');
+		$this->load->view('include/header-teamc', $this->tablenames);
 		$this->load->view($viewname, $data); 
-		$this->load->view('include/footer-teamc');
+		$this->load->view('include/footer-teamc', $this->tablenames);
 		$this->load->view('include/footer');
 	}
 }
