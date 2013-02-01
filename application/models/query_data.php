@@ -16,8 +16,8 @@ class Query_Data extends CI_Model {
 	*/
 	
 	/** Prints the query data in readable form. */
-	public function printInfo() {
-		echo "
+	public function tostring() {
+		return "
 		<td>$this->termname</td>
 		<td>$this->studentno</td>
 		<td>$this->firstname $this->middlename $this->lastname $this->pedigree</td>

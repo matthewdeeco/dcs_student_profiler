@@ -19,8 +19,8 @@ class Excel_Parser extends Parser {
 	/** Start parsing $this->spreadsheet. */
 	public function parse() {
 		$rows = $this->spreadsheet->rowcount();
-		
-		echo "<table class='excel'>
+		$output = 
+		"<table class='excel'>
 		<thead><tr><th>Row</th>
 		<th>Term</th>
 		<th>Student #</th>
@@ -32,19 +32,19 @@ class Excel_Parser extends Parser {
 		</tr></thead>";
 		// If 1st row is not a header, change to $i = 1
 		for ($i = 2; $i <= $rows; $i++) {
-			echo "<tr><th>$i</th>";
+			$output .= "<tr><th>$i</th>";
 			try { // if parsing the row failed, will immediately skip to catch
 				$this->parseRow($i);
-				$this->querydata->printInfo();
-				// add $querydata to db
+				$output .= $this->querydata->tostring();
 				$this->querydata->addToDatabase();
 			} catch (Exception $e) {
 				// print error message
-				echo "<td colspan = 7 align=center><i>Error: ".$e->getMessage()."</i></td>";
+				$output .= "<td colspan = 7 align='center' class='error'>Error: ".$e->getMessage()."</td>";
 			}
-			echo "</tr>";
+			$output .= "</tr>";
 		}
-		echo "</table>";
+		$output .= "</table>";
+		return $output;
 	}
 	
 	/** Parse a row in the excel file.
