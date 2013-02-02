@@ -93,9 +93,23 @@ class Query_Data extends CI_Model {
 		$row = $result->result_array();
 		$courseid = $row[0]['courseid'];
 		
-		//insert class
-		$query = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, '$this->section', '$this->classcode');";
+		//get section
+		$section = $this->section;
+		
+		//get classcode
+		$classcode = $this->classcode;
+		
+		//check first if there's already an entry in classes table 
+		$query = "SELECT * FROM classes WHERE termid = '$termid' AND courseid = '$courseid' AND section = '$section' AND 
+				  classcode = '$classcode';";
+				  
 		$result = $this->db->query($query);
+		
+		//insert class
+		if($result->num_rows() == 0){			
+			$query = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, $section, $classcode);";
+			$result = $this->db->query($query);
+		}
 		
 		/*Student Terms Table*/
 		//get studentid
@@ -104,9 +118,15 @@ class Query_Data extends CI_Model {
 		$row = $result->result_array();
 		$studentid = $row[0]['studentid'];
 		
-		//insert studentterms
-		$query = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, 'N/A', TRUE);";
+		//check if entry in studentterms already exists
+		$query = "SELECT * FROM studentterms WHERE studentid = '$studentid' AND termid = '$termid';";		
 		$result = $this->db->query($query);
+		
+			//insert studentterms
+		if($result->num_rows() == 0){	
+			$query = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, 'N/A', TRUE);";
+			$result = $this->db->query($query);
+		}
 		
 		/*Student Classes Table*/
 		//get studenttermid
@@ -127,9 +147,16 @@ class Query_Data extends CI_Model {
 		$row = $result->result_array();
 		$gradeid = $row[0]['gradeid'];
 		
-		//insert student classes
-		$query = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
+		//check entry in student_classes already exists
+		$query = "SELECT * FROM studentclasses WHERE studenttermid = '$studenttermid' AND classid = '$classid' AND
+				 gradeid = '$gradeid';";
+				 
 		$result = $this->db->query($query);
+		if($result->num_rows() == 0){				
+			//insert student student classes
+			$query = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
+			$result = $this->db->query($query);
+		}
 	
 	}
 	
