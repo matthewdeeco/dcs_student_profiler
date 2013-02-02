@@ -8,14 +8,6 @@ class Update_Statistics extends CI_Controller {
 		$this->initializeTableNames();
 	}
 	
-	private function displayUploadFileView($data = null)  {
-		if ($data == null)
-			$data = array();
-		$data['message'] = 'Select the xls file with grades to be uploaded!';
-		$data['dest'] = site_url('update_statistics/upload');
-		$this->displayview('upload_file', $data);
-	}
-	
 	public function index() {
 		$this->displayUploadFileView();
 	}
@@ -30,13 +22,12 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function update() {
-		echo '<script type="text/javascript"> alert("In the controller"); </script>';
 		$tablename = $_POST['tablename'];
 		$primarykeyname = $_POST['primarykeyname'];
 		$primarykeyvalue = $_POST['primarykeyvalue'];
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
-		$query = 'UPDATE '.$tablename.' SET '.$changedkeyname.'=\''.$changedkeyvalue.'\' WHERE '.$primarykeyname.'='.$primarykeyvalue.'';
+		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 	}
 	
@@ -56,6 +47,14 @@ class Update_Statistics extends CI_Controller {
 			$data['errormessage'] = $e->getMessage();
 		}
 		$this->displayUploadFileView($data);
+	}
+	
+	private function displayUploadFileView($data = null)  {
+		if (is_null($data))
+			$data = array();
+		$data['message'] = 'Select the xls file with grades to be uploaded';
+		$data['dest'] = site_url('update_statistics/upload');
+		$this->displayview('upload_file', $data);
 	}
 	
 	private function getUploadedFile() {
@@ -78,9 +77,7 @@ class Update_Statistics extends CI_Controller {
 		
 		// dump the input excel file
 		$printer = new Spreadsheet_Excel_Reader($file);
-		error_reporting(0);
-		$excel_dump = $printer->dump(true,true);
-		error_reporting(E_ALL);
+		$excel_dump = @$printer->dump(true,true);
 		return $excel_dump;
 	}
 	

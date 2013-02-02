@@ -4,7 +4,7 @@ if (!isset($success));
 else if ($success) {
 	echo "<span class='success'>File successfully uploaded<br></span>";
 	echo $success_message;
-	// echo $excel_dump;
+	echo $excel_dump;
 	echo "<br>";
 	// echo $parse_output;
 	// echo "<br>";

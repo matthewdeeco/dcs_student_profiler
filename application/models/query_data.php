@@ -27,31 +27,30 @@ class Query_Data extends CI_Model {
 		<td>$this->grade</td>";
 	}
 	
-	private function get_personid() {
-		$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
-		$result = $this->db->query($query);
+	private function distinctInsert($search_query, $insert_query, $primary_key) {
+		$result = $this->db->query($search_query);
 		$row = $result->result_array();
-		
 		if (empty($row)) {
-			$query = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES ('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree');";
-			$result = $this->db->query($query);
-			$query = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
-			$result = $this->db->query($query);
+			$result = $this->db->query($insert_query);
+			$result = $this->db->query($search_query);
 			$row = $result->result_array();
+			if (empty($row)) // was not inserted
+				throw new Exception("Failed to add to database");
 		}
-		$personid = $row[0]['personid'];
+		return $row[0][$primary_key];
+	}
+	
+	private function get_personid() {
+		$search = "SELECT personid FROM persons WHERE lastname = '$this->lastname' AND firstname = '$this->firstname' AND middlename = '$this->middlename' AND pedigree='$this->pedigree';";
+		$insert = "INSERT INTO persons(lastname, firstname, middlename, pedigree) VALUES ('$this->lastname', '$this->firstname', '$this->middlename', '$this->pedigree');";
+		$personid = $this->distinctInsert($search, $insert, 'personid');
 		return $personid;
 	}
 	
 	private function get_termid() {
-		$query = "SELECT termid FROM terms WHERE termid = '$this->termid' AND year = '$this->acadyear' AND sem = '$this->semester';";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		
-		if (empty($row)) {
-			$query = "INSERT INTO terms VALUES ('$this->termid', '$this->termname', '$this->acadyear', '$this->semester');";
-			$result = $this->db->query($query);
-		}
+		$search = "SELECT termid FROM terms WHERE termid = '$this->termid' AND year = '$this->acadyear' AND sem = '$this->semester';";
+		$insert = "INSERT INTO terms VALUES ('$this->termid', '$this->termname', '$this->acadyear', '$this->semester');";
+		$termid = $this->distinctInsert($search, $insert, 'termid');
 		return $this->termid;
 	}
 	
@@ -60,6 +59,7 @@ class Query_Data extends CI_Model {
 		$result = $this->db->query($query);
 		$row = $result->result_array();
 		$new = $row[0]['curriculumid'];
+		
 		$query = "SELECT curriculumid FROM curricula WHERE curriculumname='old'";
 		$result = $this->db->query($query);
 		$row = $result->result_array();
@@ -71,93 +71,65 @@ class Query_Data extends CI_Model {
 			return $new;
 	}
 	
-	private function insertToStudents() {
-		$personid = $this->get_personid();
-		$curriculumid = $this->get_curriculumid();
-		//insert student
-		$query = "INSERT INTO students(personid, studentno, curriculumid) VALUES($personid, $this->studentno, $curriculumid);";
-		$result = $this->db->query($query);
+	private function get_studentid($personid, $curriculumid) {
+		$search = "SELECT studentid FROM students WHERE personid='$personid'";
+		$insert = "INSERT INTO students(personid, studentno, curriculumid) VALUES($personid, $this->studentno, $curriculumid);";
+		$studentid = $this->distinctInsert($search, $insert, 'studentid');
+		return $studentid;
 	}
 	
-	public function execute() {
-		$this->insertToStudents();
-		
-		/*Classes Table*/
-		//get termid
-		$termid = $this->get_termid();
-		
-		//get courseid
+	private function get_courseid() {
 		$lowercoursename = strtolower($this->coursename);
-		$query = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
-		$result = $this->db->query($query);
+		$search = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
+		$result = $this->db->query($search);
 		$row = $result->result_array();
 		$courseid = $row[0]['courseid'];
-		
-		//get section
+		return $courseid;
+	}
+	
+	private function get_classid($termid, $courseid) {
 		$section = $this->section;
-		
-		//get classcode
 		$classcode = $this->classcode;
-		
-		//check first if there's already an entry in classes table 
-		$query = "SELECT * FROM classes WHERE termid = '$termid' AND courseid = '$courseid' AND section = '$section' AND 
-				  classcode = '$classcode';";
-				  
-		$result = $this->db->query($query);
-		
-		//insert class
-		if($result->num_rows() == 0){			
-			$query = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, $section, $classcode);";
-			$result = $this->db->query($query);
-		}
-		
-		/*Student Terms Table*/
-		//get studentid
-		$query = "SELECT studentid FROM students WHERE studentno = '$this->studentno';";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		$studentid = $row[0]['studentid'];
-		
-		//check if entry in studentterms already exists
-		$query = "SELECT * FROM studentterms WHERE studentid = '$studentid' AND termid = '$termid';";		
-		$result = $this->db->query($query);
-		
-			//insert studentterms
-		if($result->num_rows() == 0){	
-			$query = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, 'N/A', TRUE);";
-			$result = $this->db->query($query);
-		}
-		
-		/*Student Classes Table*/
-		//get studenttermid
-		$query = "SELECT studenttermid FROM studentterms WHERE studentid = $studentid;";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		$studenttermid = $row[0]['studenttermid'];
-		
-		//get classid
-		$query = "SELECT classid FROM classes WHERE section = '$this->section' AND classcode = '$this->classcode';";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		$classid = $row[0]['classid'];
-		
-		//get gradeid
+		$search = "SELECT classid FROM classes WHERE termid = '$termid' AND courseid = '$courseid' AND section = '$section' AND classcode = '$classcode';";
+		$insert = "INSERT INTO classes(termid, courseid, section, classcode) VALUES($termid, $courseid, '$section', '$classcode');";
+		$classid = $this->distinctInsert($search, $insert, 'classid');
+		return $classid;
+	}
+	
+	private function get_studenttermid($studentid, $termid) {
+		$ineligibilities = 'N/A';
+		$issettled = 'TRUE';
+		$search = "SELECT studenttermid FROM studentterms WHERE studentid = '$studentid' AND termid = '$termid';";		
+		$insert = "INSERT INTO studentterms(studentid, termid, ineligibilities, issettled) VALUES($studentid, $termid, '$ineligibilities', $issettled);";
+		$studenttermid = $this->distinctInsert($search, $insert, 'studenttermid');
+		return $studenttermid;
+	}
+	
+	private function get_gradeid() {
 		$query = "SELECT gradeid FROM grades WHERE gradename = '$this->grade';";
 		$result = $this->db->query($query);
 		$row = $result->result_array();
 		$gradeid = $row[0]['gradeid'];
-		
-		//check entry in student_classes already exists
-		$query = "SELECT * FROM studentclasses WHERE studenttermid = '$studenttermid' AND classid = '$classid' AND
-				 gradeid = '$gradeid';";
-				 
-		$result = $this->db->query($query);
-		if($result->num_rows() == 0){				
-			//insert student student classes
-			$query = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
-			$result = $this->db->query($query);
-		}
+		return $gradeid;
+	}
 	
+	private function get_studentclassid($studenttermid, $classid, $gradeid) {
+		$search = "SELECT studentclassid FROM studentclasses WHERE studenttermid = '$studenttermid' AND classid = '$classid' AND gradeid = '$gradeid';";
+		$insert = "INSERT INTO studentclasses(studenttermid, classid, gradeid) VALUES($studenttermid, $classid, $gradeid);";
+		$studentclassid = $this->distinctInsert($search, $insert, 'studentclassid');
+		return $studentclassid;
+	}
+	
+	public function execute() {
+		$personid = $this->get_personid();
+		$curriculumid = $this->get_curriculumid();
+		$studentid = $this->get_studentid($personid, $curriculumid);
+		$termid = $this->get_termid();
+		$courseid = $this->get_courseid();
+		$classid = $this->get_classid($termid, $courseid);
+		$studenttermid = $this->get_studenttermid($studentid, $termid);
+		$gradeid = $this->get_gradeid();
+		$studentclassid = $this->get_studentclassid($studenttermid, $classid, $gradeid);
 	}
 	
 	// Groupmates, you don't need to understand everything else below, just leave it as is.

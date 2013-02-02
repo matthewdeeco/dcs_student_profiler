@@ -23,61 +23,52 @@ function printTables($tables) {
 	echo "<form enctype='multipart/form-data' action='".$dest."' method='POST'";
 	foreach ($tables as $table) {
 		$tablename = $table['table_name'];
-		echo "<span class='databasetablename'>$tablename</span><br>";
-		echo "<table class='databasetable'>";
 		$rows = $table['rows'];
-		if (!empty($rows)) {
-			printTableRows($rows, $tablename);
-			//printBlankRow($rows);
-		}
-		echo "</table><br>";
+		printTableName($tablename);
+		if (!empty($rows))
+			printTable($rows, $tablename);
 	}
 	echo "</form>";
 }
 
-function printTableRows($rows, $tablename) {
+function printTableName($tablename) {
+	echo "<span class='databasetablename'>$tablename</span><br>";
+}
+
+function printTable($rows, $tablename) {
+	echo "<table class='databasetable'>";
 	echo "<tr>";
 	foreach ($rows[0] as $key => $value)
 		echo "<th>$key</th>";
 	echo "</tr>";
 	foreach($rows as $row) {
-		echo "<tr>";
-		$column = 0;
-		foreach ($row as $key => $value) {
-			$length = strlen($value) + 1;
-			if ($column == 0) {
-				$primarykeyname = $key;
-				$primarykeyvalue = $value;
-				echo "<td class='primarykey'>$primarykeyvalue</td>";
-			}
-			else {
-				$data = array('name'=>'databasecell', 'class'=>'inputcell', 'size'=>$length, 'value'=>$value, 
-					'data-tablename'=>$tablename, 'data-primarykeyname'=>$primarykeyname,
-					'data-primarykeyvalue'=>$primarykeyvalue, 'data-changedkeyname'=>$key);
-				// $js = 'onchange="updatedb(\''.$tablename.'\', \''.$primarykeyname.'\', \''.$primarykey.'\', \''.$key.'\', '.'this.value)"';
-				echo "<td><div class='databasecell'>".form_input($data)."</div></td>";
-				// echo "<td><div class='databasecell'><input type='text' size=$length value=\"$value\"></div></td>";
-			}
-			$column++;
-		}
-		echo "</tr>";
+		printRow($row, $tablename);
 	}
 }
 
-function printBlankRow($rows) {
+function printRow($row, $tablename) {
 	echo "<tr>";
 	$column = 0;
-	foreach ($rows[0] as $key => $value) {
+	foreach ($row as $key => $value) {
+		$length = strlen($value) + 1;
 		if ($column == 0) {
-			$rowcount = count($rows);
-			$nextkey = $rows[$rowcount - 1][$key] + 1;
-			echo "<td class='primarykey'>$nextkey</td>";
+			$primarykeyname = $key;
+			$primarykeyvalue = $value;
+			echo "<td class='primarykey'>$primarykeyvalue</td>";
 		}
-		else
-			echo "<td><div class='databasecell'><input type='text' size=1></div></td>";
+		else {
+			printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value);
+		}
 		$column++;
 	}
-	
 	echo "</tr>";
+}
+
+function printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value = '') {
+	$length = strlen($value) + 1;
+	$data = array('name'=>'databasecell', 'class'=>'inputcell', 'size'=>$length, 'value'=>$value, 
+		'data-tablename'=>$tablename, 'data-primarykeyname'=>$primarykeyname,
+		'data-primarykeyvalue'=>$primarykeyvalue, 'data-changedkeyname'=>$key);
+	echo "<td><div class='databasecell'>".form_input($data)."</div></td>";
 }
 ?>
