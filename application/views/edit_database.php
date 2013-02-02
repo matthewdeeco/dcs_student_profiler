@@ -44,6 +44,7 @@ function printTable($rows, $tablename) {
 	foreach($rows as $row) {
 		printRow($row, $tablename);
 	}
+	echo "</table>";
 }
 
 function printRow($row, $tablename) {

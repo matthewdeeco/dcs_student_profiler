@@ -6,9 +6,10 @@
 Edit
 <ul>
 <?php
+$url = site_url("update_statistics/edit");
+echo "<li><a href='$url'>All</a></li>";
 foreach ($table_names as $table_name) {
-	$url = site_url("update_statistics/edit/".$table_name);
-	echo '<li><a href='.$url.'>'.$table_name.'</a></li>';
+	echo "<li><a href='$url/$table_name'>$table_name</a></li>";
 }
 ?>
 </ul>
