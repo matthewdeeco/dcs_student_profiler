@@ -49,8 +49,6 @@
 	<script src="<?= base_url('assets/js/custom.js') ?>"></script>
 </head>
 <body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
-
-
 <script src="../js/bsa.js"></script>
   <!-- Navbar
     ================================================== -->

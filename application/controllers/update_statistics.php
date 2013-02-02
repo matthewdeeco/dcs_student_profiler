@@ -29,6 +29,17 @@ class Update_Statistics extends CI_Controller {
 		$this->displayview('edit_database', $data);
 	}
 	
+	public function update() {
+		echo '<script type="text/javascript"> alert("In the controller"); </script>';
+		$tablename = $_POST['tablename'];
+		$primarykeyname = $_POST['primarykeyname'];
+		$primarykeyvalue = $_POST['primarykeyvalue'];
+		$changedkeyname = $_POST['changedkeyname'];
+		$changedkeyvalue = $_POST['changedkeyvalue'];
+		$query = 'UPDATE '.$tablename.' SET '.$changedkeyname.'=\''.$changedkeyvalue.'\' WHERE '.$primarykeyname.'='.$primarykeyvalue.'';
+		$this->db->query($query);
+	}
+	
 	public function view($tablename = null) {
 		$this->edit($tablename);
 	}
