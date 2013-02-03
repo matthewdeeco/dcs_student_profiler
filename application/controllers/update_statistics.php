@@ -27,8 +27,23 @@ class Update_Statistics extends CI_Controller {
 		$primarykeyvalue = $_POST['primarykeyvalue'];
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
+		
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
+		
+		/*	This is not functional yet. I need help with the queries/checks on the input values edited.
+		try{
+			$this->load->model('edit_database_model', 'editor');
+			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
+			$this->displayView('update_database_view', $data);	//this view does not exist yet
+			//$data must hold changed values from the intial editable view with errors highlighted
+			
+		}catch(Exception $e){
+		
+		}
+		
+		*/
+		
 	}
 	
 	public function view($tablename = null) {

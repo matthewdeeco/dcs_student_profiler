@@ -8,6 +8,106 @@
 	  parent::__construct();
 	}	
 
+		
+	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
+		if($tablename == 'persons'){
+			$this->updatePersons($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'curricula'){
+			$this->updateCurricula($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'courses'){
+			$this->updateCourses($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'students'){
+			$this->updateStudents($changedkeyname, $changedkeyvalue);
+		}else if($tablename == terms){
+			$this->updateTerms($changedkeyname, $changedkeyvalue);
+		}else if($tablename == studentterms){
+			$this->updateStudentTerms($changedkeyname, $changedkeyvalue);
+		}else if($tablename == classes){
+			$this->updateClasses($changedkeyname, $changedkeyvalue);
+		}else if($tablename == studentclasses){		//Pati ba 'to pwedeng mabago?
+			$this->updateStudentClasses($changedkeyname, $changedkeyvalue);
+		}
+		
+		this->updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
+	}
+	
+	public function updateRow($tablename, $primarykeyname, $primarykeyvalue $changedkeyname, $changedkeyvalue)(
+		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+		$this->db->query($query);
+	}
+	
+	public function updatePersons($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'lastname'){
+			$this->parseLastName($changedkeyvalue);
+		}else if($changedkeyname == 'firstname'){
+			$this->parseFirstName($changedkeyvalue);
+		}else if($changedkeyname == 'middlename'){
+			$this->parseMiddleName($changedkeyvalue);
+		}else if($changedkeyname == 'pedigree'){
+			$this->parsePedigree($changedkeyvalue);
+		}
+	}	
+	
+	public function updateCurricula($changedkeyname, $changedkeyvalue){
+		//$this->parseCurriculumName($changedkeyvalue)	THIS FUNCTION DOES NOT EXIST YET
+	}
+	
+	public function updateStudents($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'studentno'){			
+			$this->parseStudentNo($changedkeyvalue)			//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'curriculumid'){
+			$this->parseCurriculumId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET	
+		}else if($changedkeyname == 'personid'){
+			$this->parsePersonId(($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET, Can we really change this?
+		}	
+	}	
+	
+	public function updateCourses($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'coursename'){	
+			$this->parseCourseName($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'credits'){
+			$this->parseCredits($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'domain'){
+			$this->parseDomain($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'commtype'){
+			$this->parseCommType($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}
+	}
+	
+	public function updateTerms($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'name'){
+			$this->checkTermName($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the parseTermName in parser
+		}else if($changedkeyname == 'year'){
+			$this->checkAcadYear($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the parseAcadYear in parser
+		}else if($changedkeyname == 'sem'){
+			$this->checkSemester($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}
+	}
+	
+	public function updateStudentTerms($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'termid'){
+			$this->checkTermId($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'ineligibilities'){
+			$this->checkIneligibilities($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'issettled'){
+			$this->checkIssettled($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+		}
+	}
+	
+	public function updateClasses($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'termid'){
+			$this->checkTermId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'courseid'){
+			$this->checkCourseId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+		}else if($changedkeyname == 'section'){
+			$this->checkSection($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+		}else if(($changedkeyname == 'classcode'){
+			$this->checkClassCode($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
+		}
+	}
+	
+	
+	/*
 	function updateCourses(){
 		$coursename = $_POST['coursename'];
 		$credits = $_POST['credits'];
@@ -161,5 +261,5 @@
 			$result = $this->db->query($query);
 		}
 	}
-
+	*/
 ?>
