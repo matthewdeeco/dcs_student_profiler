@@ -27,7 +27,6 @@ class Update_Statistics extends CI_Controller {
 		$primarykeyvalue = $_POST['primarykeyvalue'];
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
-		
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 		
@@ -41,15 +40,14 @@ class Update_Statistics extends CI_Controller {
 		}catch(Exception $e){
 		
 		}
-		
 		*/
-		
 	}
 	
 	public function view($tablename = null) {
 		$this->edit($tablename);
 	}
 	
+	// Called when an excel file is uploaded
 	public function upload() {
 		$data = array('success' => false);
 		// maintain a table to store uploaded gradessheets?
@@ -62,6 +60,30 @@ class Update_Statistics extends CI_Controller {
 			$data['errormessage'] = $e->getMessage();
 		}
 		$this->displayUploadFileView($data);
+	}
+	
+	public function backup() {
+		$data = array();
+		$data['message'] = 'Select your pg_dump executable file';
+		$data['dest'] = site_url('update_statistics/performBackup');
+		$file = getUploadedFile();
+		$saveas_filename = 'dcsstudentprofiler'.date("m-d-Y_gia").".sql";
+		$this->saveAsDialog($saveas_filename);
+	}
+	
+	public function restore() {
+		$data = array();
+		$data['message'] = 'Select the database backup to restore';
+		$data['dest'] = site_url('update_statistics/performRestore');
+		$this->displayview('upload_file', $data);
+	}
+	
+	private function saveAsDialog($saveas_filename) {
+		header ("Content-Type: application/download");
+		header ("Content-Disposition: attachment; filename=$saveas_filename");
+		header ("Content-Length: " . filesize("$saveas_filename"));
+		$fp = fopen("$saveas_filename", "r");
+		fpassthru($fp);
 	}
 	
 	private function displayUploadFileView($data = null)  {
@@ -103,7 +125,8 @@ class Update_Statistics extends CI_Controller {
 		$data['parse_output'] = $this->parser->parse();
 		$success_rows = $this->parser->getSuccessCount();
 		$error_rows = $this->parser->getErrorCount();
-		$data['success_message'] = "<span class='success'>".$success_rows."</span> rows added, <span class='error'>".$error_rows."</span> errors encountered";
+		$data['success_rows'] = $success_rows;
+		$data['error_rows'] = $error_rows;
 	}
 	
 	private function getTableRows($tablename) {
