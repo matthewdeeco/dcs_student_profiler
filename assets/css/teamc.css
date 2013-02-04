@@ -93,12 +93,14 @@
 
 .databasecell {
 	overflow:hidden;
-	height:23px;
+	height:22px;
 }
 
 .databasecell input {
 	border:none;
 	width:100%;
+	margin-top:-4px;
+	margin-left:-1px;
 }
 
 ul#css3menu1{

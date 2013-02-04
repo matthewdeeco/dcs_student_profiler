@@ -40,7 +40,7 @@ $(document).ready(function(){
 $(document).ready(function() {
 	$(".inputcell").change(function() {
 		var callback = "<?=site_url('update_statistics/update')?>";
-		var changed_cell = $(this).attr("id");
+		var changed_cell = $(this);
 		
 		 $.ajax({
 			type: 'post',
@@ -54,21 +54,12 @@ $(document).ready(function() {
 			},
 			dataType: 'html',
 			success: function (retVal) {
-				
-			  // success callback -- replace the div's innerHTML with
-			  // the response from the server.
-				if(retVal == 'true'){
-					//show check mark beside the row
-					
-				}else{
-					//alert(retVal);
-					alert(changed_cell);
-					//highlight row in red 
-					document.getElementById(changed_cell).addClass("edit_failure"); //add class function HUHU di pa rin gumagana
-				}
+				//show check mark beside the row
+				$(changed_cell).css("background-color","white").css("color","#555555");
 			},
 			error: function(){
-					alert("Error in connecting to the database.");
+				// $(changed_cell).addClass("edit_failure");
+				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}
 		  });//endajax
 	});//endchange
