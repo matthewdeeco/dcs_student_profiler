@@ -1,16 +1,4 @@
 <script>
-/*$(document).ready(function() {
-	$(".inputcell").change(function() {
-		var url = "<?=site_url('update_statistics/update')?>";
-		$.post(url, {
-			tablename: $(this).attr("data-tablename"),
-			primarykeyname: $(this).attr("data-primarykeyname"),
-			primarykeyvalue: $(this).attr("data-primarykeyvalue"),
-			changedkeyname: $(this).attr("data-changedkeyname"),
-			changedkeyvalue: $(this).val()
-		}, function(){});
-	})
-});	*/
 $(document).ready(function(){
 	$(".remove_button").click(function(){
 			alert("Remove?");//check 
@@ -27,7 +15,7 @@ $(document).ready(function(){
 				changedkeyname: $(this).attr("data-changedkeyname"),
 				changedkeyvalue: $(this).val()
 			},
-			dataType: 'html',		//call edit again in the controller after deleting?
+			dataType: 'html',
 			success: function (retVal) {
 			
 			},

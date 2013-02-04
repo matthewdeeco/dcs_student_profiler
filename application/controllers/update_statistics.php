@@ -28,7 +28,6 @@ class Update_Statistics extends CI_Controller {
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
 		
-		// Commented out first to check JQuery in edit_database view
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 		$error = $this->db->_error_message();
@@ -37,17 +36,14 @@ class Update_Statistics extends CI_Controller {
 		else
 			echo "false";
 		
-		// echo "false"; 
-		
 		/*	This is not functional yet. I need help with the queries/checks on the input values edited.
-		try{
+		try {
 			$this->load->model('edit_database_model', 'editor');
 			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
 			$this->displayView('update_database_view', $data);	//this view does not exist yet
 			//$data must hold changed values from the intial editable view with errors highlighted
 			
-		}catch(Exception $e){
-		
+		}catch (Exception $e) {
 		}
 		*/
 	}
