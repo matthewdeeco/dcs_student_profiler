@@ -21,4 +21,6 @@ foreach ($table_names as $table_name) {
 	padding-left:30px;
 	padding-top:10px;
 	padding-bottom:20px;
+	padding-right:10px;
+	overflow-x:scroll;
 	">

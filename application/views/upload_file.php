@@ -2,12 +2,7 @@
 <?php
 if (!isset($success));
 else if ($success) {
-	echo "<span class='success'>File successfully uploaded<br></span>";
-	echo $success_message;
-	echo $excel_dump;
-	echo "<br>";
-	// echo $parse_output;
-	// echo "<br>";
+	echo "<span class='success'>File successfully uploaded<br></span><br>";
 } else if (!$success) {
 	echo "<span class='error'>$errormessage</span><br><br>";
 }
@@ -28,4 +23,13 @@ else if ($success) {
 		</tr>
 	</form>
 </table>
+<?php
+if (isset($success) && $success) {
+	echo "<br><b><span class='success'>$success_rows</span></b> rows added, ";
+	echo "<b><span class='error'>$error_rows</span></b> rows with errors. ";
+	echo $excel_dump;
+	echo "<br>Parsing Details:<br>";
+	echo $parse_output;
+}
+?>
 </div>

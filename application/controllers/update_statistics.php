@@ -30,11 +30,6 @@ class Update_Statistics extends CI_Controller {
 		
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
-		$error = $this->db->_error_message();
-		if (empty($error))
-			echo "true";
-		else
-			echo "false";
 		
 		/*	This is not functional yet. I need help with the queries/checks on the input values edited.
 		try {
