@@ -67,16 +67,25 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function backup() {
-		$data = array();
-		$data['message'] = 'Select your pg_dump executable file';
-		$data['dest'] = site_url('update_statistics/performBackup');
-		$file = getUploadedFile();
-		$saveas_filename = 'dcsstudentprofiler'.date("m-d-Y_gia").".sql";
-		$this->saveAsDialog($saveas_filename);
+		$abs_basepath = $_SERVER['DOCUMENT_ROOT'].'/'; // absolute base path to this site
+		$abs_basepath.= explode('/', base_url(), 4)[3];
+		$saveas_filename = $abs_basepath.'dumps/';
+		$saveas_filename .= 'dcsstudentprofiler'.date("m-d-Y_gia").".sql";
+		$cmd = "-i -U postgres -o dcsstudentprofiler > $saveas_filename";
+		if (substr(php_uname(), 0, 7) == "Windows"){
+			// append path to our files
+			$pg_dump_location = $abs_basepath."assets/Postgres/pg_dump.exe";
+			exec($pg_dump_location.' '.$cmd);
+		} 
+		else { 
+			$pg_dump_location = "/usr/bin/pg_dump";
+			exec($pg_dump_location.' '.$cmd . " > /dev/null &");
+		}
+		$data['backup_location'] = $saveas_filename;
+		$this->displayView('backup_response', $data);
 	}
 	
 	public function restore() {
-		$data = array();
 		$data['message'] = 'Select the database backup to restore';
 		$data['dest'] = site_url('update_statistics/performRestore');
 		$this->displayview('upload_file', $data);
@@ -91,8 +100,6 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayUploadFileView($data = null)  {
-		if (is_null($data))
-			$data = array();
 		$data['message'] = 'Select the xls file with grades to be uploaded';
 		$data['dest'] = site_url('update_statistics/upload');
 		$this->displayview('upload_file', $data);

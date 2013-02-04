@@ -7,12 +7,13 @@ Edit
 <ul>
 <?php
 $url = site_url("update_statistics/edit");
-echo "<li><a href='$url'>All</a></li>";
 foreach ($table_names as $table_name) {
 	echo "<li><a href='$url/$table_name'>$table_name</a></li>";
 }
 ?>
 </ul>
+<a href="<?= site_url("update_statistics/backup") ?>">Backup</a><br>
+<a href="<?= site_url("update_statistics/restore") ?>">Restore</a><br>
 </div>
 
 <div id = "container" style="
