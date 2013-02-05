@@ -81,28 +81,69 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function backup() {
-		$abs_basepath = $_SERVER['DOCUMENT_ROOT'].'/'; // absolute base path to this site
-		$abs_basepath.= explode('/', base_url(), 4)[3];
+		$abs_basepath = $this->getAbsoluteBasePath();
 		$saveas_filename = $abs_basepath.'dumps/';
-		$saveas_filename .= 'dcsstudentprofiler'.date("m-d-Y_gia").".sql";
-		$cmd = "-i -U postgres -o dcsstudentprofiler > $saveas_filename";
+		if (!file_exists($saveas_filename))
+			mkdir($saveas_filename, 0755);
+		$saveas_filename .= $this->db->database.date("m-d-Y").".sql";
 		if (substr(php_uname(), 0, 7) == "Windows"){
 			// append path to our files
-			$pg_dump_location = $abs_basepath."assets/Postgres/pg_dump.exe";
-			exec($pg_dump_location.' '.$cmd);
+			$pg_dump_location = $abs_basepath."assets/postgres/pg_dump.exe";
 		} 
 		else { 
 			$pg_dump_location = "/usr/bin/pg_dump";
-			exec($pg_dump_location.' '.$cmd . " > /dev/null &");
 		}
+		$cmd = $pg_dump_location." -U postgres ".$this->db->database." > $saveas_filename 2>&1";
+		exec($cmd, $output, $status);
 		$data['backup_location'] = $saveas_filename;
+		$data['output'] = $output;
+		$data['status'] = $status;
 		$this->displayView('backup_response', $data);
+	}
+	
+	public function sql() {
+		$data['message'] = 'Select the sql file to run';
+		$data['dest'] = site_url('update_statistics/performSqlQuery');
+		$this->displayview('upload_file', $data);
+	}
+	
+	public function performSqlQuery() {
+		$sql_file = $this->getUploadedFile();
+		$sql_text = $this->load->file($sql_file, true);
+		$this->db->query($sql_text);
+		$data['success'] = true;
+		$this->displayView('sql_response', $data);
 	}
 	
 	public function restore() {
 		$data['message'] = 'Select the database backup to restore';
 		$data['dest'] = site_url('update_statistics/performRestore');
 		$this->displayview('upload_file', $data);
+	}
+	
+	public function performRestore() {
+		$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
+		if (substr(php_uname(), 0, 7) == "Windows"){
+			// append path to our files
+			$abs_basepath = $this->getAbsoluteBasePath();
+			$psql_location = $abs_basepath."assets/postgres/psql.exe";
+		} 
+		else { 
+			$psql_location = "/usr/bin/psql";
+		}
+		$cmd = $psql_location." -U postgres ".$this->db->database." < $backup_filename 2>&1";
+		exec($cmd, $output, $status);
+		$data['output'] = $output;
+		$data['status'] = $status;
+		$this->displayView('restore_response', $data);
+	}
+	
+	private function getUploadsFolder() {
+		return "./assets/uploads";
+	}
+	
+	private function getAbsoluteBasePath() {
+		return $_SERVER['DOCUMENT_ROOT'].'/'.explode('/', base_url(), 4)[3];
 	}
 	
 	private function saveAsDialog($saveas_filename) {
@@ -127,7 +168,7 @@ class Update_Statistics extends CI_Controller {
 
 		// customize filename for ease of access?
 		// check for filetypes that are allowed?
-		$target = "./assets/uploads/".$filename;
+		$target = $this->getUploadsFolder().'/'.$filename;
 		if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $target)) {
 			return $target;
 		} else

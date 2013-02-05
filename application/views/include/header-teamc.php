@@ -14,6 +14,7 @@ foreach ($table_names as $table_name) {
 </ul>
 <a href="<?= site_url("update_statistics/backup") ?>">Backup</a><br>
 <a href="<?= site_url("update_statistics/restore") ?>">Restore</a><br>
+<a href="<?= site_url("update_statistics/sql") ?>">Run SQL</a><br>
 </div>
 
 <div id = "container" style="
