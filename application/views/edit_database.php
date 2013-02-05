@@ -47,11 +47,9 @@ $(document).ready(function(){
 			dataType: 'html',
 			success: function (retVal) {
 				//show check mark beside the row
-				alert(retVal);
 				$(changed_cell).css("background-color","white").css("color","#555555");
 			},
 			error: function(){
-				alert("errors");
 				// $(changed_cell).addClass("edit_failure");
 				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}

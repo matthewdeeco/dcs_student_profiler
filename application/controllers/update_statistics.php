@@ -81,21 +81,32 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function backup() {
-		$abs_basepath = $this->getAbsoluteBasePath();
-		$saveas_filename = $abs_basepath.'dumps/';
-		if (!file_exists($saveas_filename))
-			mkdir($saveas_filename, 0755);
-		$saveas_filename .= $this->db->database.date("m-d-Y").".sql";
-		if (substr(php_uname(), 0, 7) == "Windows"){
-			// append path to our files
-			$pg_dump_location = $abs_basepath."assets/postgres/pg_dump.exe";
-		} 
-		else { 
-			$pg_dump_location = "/usr/bin/pg_dump";
+		$pg_dump_location = $this->input->cookie('pg_dump_location', TRUE);
+		if (!empty($pg_dump_location))
+			$this->performBackup($pg_dump_location);
+		else if (substr(php_uname(), 0, 7) == "Windows")
+			$this->displayview('backup_view');
+		else
+			$this->performBackup('/usr/bin/pg_dump');
+	}
+	
+	public function performBackup($pg_dump_location = null) {
+		if (is_null($pg_dump_location)) {
+			$pg_dump_location = $_POST['pg_dump_location'];
+			if (!preg_match("/pg_dump.exe$/", $pg_dump_location))
+				$pg_dump_location .= "/pg_dump.exe";
 		}
-		$cmd = $pg_dump_location." -U postgres ".$this->db->database." > $saveas_filename 2>&1";
+		$backup_dir = $this->getAbsoluteBasePath().'dumps/';
+		if (!file_exists($backup_dir))
+			mkdir($backup_dir, 0755);
+		$backup_name = $backup_dir.$this->db->database.date("m-d-Y").".sql";
+		$cmd = escapeshellarg($pg_dump_location)." -U postgres ".$this->db->database." > $backup_name 2>&1";
 		exec($cmd, $output, $status);
-		$data['backup_location'] = $saveas_filename;
+		if ($status == 0) { // save cookie
+			$cookie = array('name'=>'pg_dump_location', 'value'=>$pg_dump_location, 'expire'=>'5000000');
+			$this->input->set_cookie($cookie);
+		}
+		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
 		$data['status'] = $status;
 		$this->displayView('backup_response', $data);
@@ -139,7 +150,10 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function getUploadsFolder() {
-		return "./assets/uploads";
+		$upload_dir = "./assets/uploads";
+		if (!file_exists($upload_dir))
+			mkdir($upload_dir, 0755);
+		return $upload_dir;
 	}
 	
 	private function getAbsoluteBasePath() {
