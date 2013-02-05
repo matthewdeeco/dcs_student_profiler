@@ -1,8 +1,15 @@
 <script>
 $(document).ready(function(){
+
+	$('#sr').removeClass('active');
+	$('#cs').removeClass('active');
+	$('#et').removeClass('active');
+	$('#us').addClass('active');
+	$('#ab').removeClass('active');	
+
 	$(".remove_button").click(function(){
 			alert("Remove?");//check 
-		var callback = "<?=site_url('update_statistics/delete')?>";	//not yet existent
+		var callback = "<?=site_url('update_statistics/delete')?>";
 		var changed_cell = $(this);
 		
 		 $.ajax({
@@ -12,8 +19,6 @@ $(document).ready(function(){
 				tablename: $(this).attr("data-tablename"),
 				primarykeyname: $(this).attr("data-primarykeyname"),
 				primarykeyvalue: $(this).attr("data-primarykeyvalue"),
-				changedkeyname: $(this).attr("data-changedkeyname"),
-				changedkeyvalue: $(this).val()
 			},
 			dataType: 'html',
 			success: function (retVal) {
@@ -24,8 +29,7 @@ $(document).ready(function(){
 			}
 		  });//endajax	
 	})//endonclick
-});
-$(document).ready(function() {
+	
 	$(".inputcell").change(function() {
 		var callback = "<?=site_url('update_statistics/update')?>";
 		var changed_cell = $(this);
@@ -43,14 +47,17 @@ $(document).ready(function() {
 			dataType: 'html',
 			success: function (retVal) {
 				//show check mark beside the row
+				alert(retVal);
 				$(changed_cell).css("background-color","white").css("color","#555555");
 			},
 			error: function(){
+				alert("errors");
 				// $(changed_cell).addClass("edit_failure");
 				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}
 		  });//endajax
 	});//endchange
+	
 });//end ready ()
 
 </script>
@@ -62,6 +69,7 @@ else
 	
 function printTables($tables) {
 	$dest = site_url('update_statistics/edit');
+	echo '<div class="well form-search">';
 	echo "<form enctype='multipart/form-data' action='".$dest."' method='POST'";
 	foreach ($tables as $table) {
 		$tablename = $table['table_name'];
@@ -71,6 +79,7 @@ function printTables($tables) {
 			printTable($rows, $tablename);
 	}
 	echo "</form>";
+	echo "</div>";
 }
 
 function printTableName($tablename) {
@@ -79,6 +88,7 @@ function printTableName($tablename) {
 
 function printTable($rows, $tablename) {
 	echo "<table class='databasetable'>";
+	
 	echo "<tr>";
 	foreach ($rows[0] as $key => $value)
 		echo "<th>$key</th>";
