@@ -67,7 +67,7 @@ else
 	
 function printTables($tables) {
 	$dest = site_url('update_statistics/edit');
-	echo '<div class="well form-search">';
+	// echo '<div class="well form-search">';
 	echo "<form enctype='multipart/form-data' action='".$dest."' method='POST'";
 	foreach ($tables as $table) {
 		$tablename = $table['table_name'];
@@ -77,7 +77,7 @@ function printTables($tables) {
 			printTable($rows, $tablename);
 	}
 	echo "</form>";
-	echo "</div>";
+	// echo "</div>";
 }
 
 function printTableName($tablename) {

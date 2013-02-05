@@ -9,7 +9,11 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function index() {
-		$this->displayUploadFileView();
+		$this->load->view('include/header');
+		$this->load->view('include/header-teamc', $this->tablenames);
+		$this->displayUploadFileView(); 
+		$this->load->view('include/footer-teamc', $this->tablenames);
+		$this->load->view('include/footer');
 	}
 	
 	public function edit($tablename = null) {
@@ -65,8 +69,12 @@ class Update_Statistics extends CI_Controller {
 		$this->edit($tablename);
 	}
 	
-	// Called when an excel file is uploaded
 	public function upload() {
+		$this->displayUploadFileView();
+	}
+	
+	// Called when an excel file is uploaded
+	public function performUpload() {
 		$data = array('success' => false);
 		// maintain a table to store uploaded gradessheets?
 		try {
@@ -169,9 +177,8 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayUploadFileView($data = null)  {
-		
 		$data['message'] = 'Select the xls file with grades to be uploaded';
-		$data['dest'] = site_url('update_statistics/upload');
+		$data['dest'] = site_url('update_statistics/performUpload');
 		$this->displayview('upload_file', $data);
 	}
 	
@@ -249,11 +256,7 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayView($viewname, $data = null) {
-		$this->load->view('include/header');
-		$this->load->view('include/header-teamc', $this->tablenames);
-		$this->load->view($viewname, $data); 
-		$this->load->view('include/footer-teamc', $this->tablenames);
-		$this->load->view('include/footer');
+		$this->load->view($viewname, $data);
 	}
 }
 

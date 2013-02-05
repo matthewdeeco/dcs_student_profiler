@@ -134,7 +134,7 @@ INSERT INTO courses VALUES (19, 'cs 133', 3, 'MAJ', NULL);
 INSERT INTO courses VALUES (20, 'cs 198', 3, 'MAJ', NULL);
 INSERT INTO courses VALUES (21, 'cs 196', 1, 'MAJ', NULL);
 INSERT INTO courses VALUES (22, 'cs 199', 3, 'MAJ', NULL);
-INSERT INTO courses VALUES (23, 'cs 197', 3, 'CS197', NULL);
+INSERT INTO courses VALUES (23, 'cs 197', 3, 'C197', NULL);
 INSERT INTO courses VALUES (24, 'cs 120', 3, 'CSE', NULL);
 INSERT INTO courses VALUES (27, 'cs 173', 3, 'CSE', NULL);
 INSERT INTO courses VALUES (28, 'cs 174', 3, 'CSE', NULL);

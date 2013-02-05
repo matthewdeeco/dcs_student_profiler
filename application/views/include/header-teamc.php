@@ -1,8 +1,18 @@
+<script>
+$(document).ready(function(){
+	$('a').click(function(e) {
+	  // prevent the default action when a nav button link is clicked
+	  e.preventDefault();
+	  // ajax query to retrieve the HTML view without refreshing the page.
+	  $('#container').load($(this).attr('href'));
+	});
+});
+</script>
 <div id="sidebar" style ="
 	width:13%;
 	padding-left: 5px;
 	">
-<a href="<?= site_url("update_statistics/index") ?>">Upload</a><br>
+<a href="<?= site_url("update_statistics/upload") ?>">Upload</a><br>
 Edit
 <ul>
 <?php
@@ -23,5 +33,5 @@ foreach ($table_names as $table_name) {
 	padding-top:10px;
 	padding-bottom:20px;
 	padding-right:10px;
-	overflow-x:scroll;
+	overflow-x:auto;
 	">
