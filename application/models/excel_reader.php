@@ -587,7 +587,7 @@ class Spreadsheet_Excel_Reader {
 	// DUMP AN HTML TABLE OF THE ENTIRE XLS DATA
 	// =========================================
 	function dump($row_numbers=false,$col_letters=false,$sheet=0,$table_class='excel') {
-		$out = "<table class=\"$table_class\" cellspacing=0>";
+	/*	$out = "<table class=\"$table_class\" cellspacing=0>";
 		if ($col_letters) {
 			$out .= "<thead>\n\t<tr>";
 			if ($row_numbers) {
@@ -648,14 +648,14 @@ class Spreadsheet_Excel_Reader {
 			$out .= "</tr>\n";
 		}
 		$out .= "</tbody></table>";
-		return $out;
+		return $out;*/
 	}
 	
 	// --------------
 	// END PUBLIC API
 	
 	//SUBOK LAAANG! :D 
-	function dumpRow($row, $first=false, $last=false) {
+	function dumpRow($row, $first=false, $last=false, $e) {
 		
 		$width = array();
 		$row_numbers=true; 
@@ -729,23 +729,49 @@ class Spreadsheet_Excel_Reader {
 					$out .= "\n\t\t<td style=\"$style\"" . ($colspan > 1?" colspan=$colspan":"") . ($rowspan > 1?" rowspan=$rowspan":"") . ">";
 					//$out .= "\n\t\t<td style=\"$style\">";
 					$val = $this->val($row,$col,$sheet);
-					if ($val=='') { $val="&nbsp;"; }
+					
+					//if a cell is empty
+					if ($val=='') { $val="&nbsp;";
+						//if(($e->getMessage() == "Acad Year is empty" && $col == 1) || ($e->getMessage() == "Semester is blank" && $col == 2)){
+						if((preg_match("/Acad Year/", $e->getMessage()) && $col == 1) || (preg_match("/Semester/", $e->getMessage()) && $col == 2) ||
+							(preg_match("/Student #/", $e->getMessage()) && $col == 3) || (preg_match("/Last name/", $e->getMessage()) && $col == 4)  ||
+							(preg_match("/First name/", $e->getMessage()) && $col == 5) || (preg_match("/Middle name/", $e->getMessage()) && $col == 6)  ||
+							(preg_match("/Class code/", $e->getMessage()) && $col == 8) || ($e->getMessage() == "Class is empty" && $col == 9) ||
+							($e->getMessage() == "Grade is empty" && $col == 10) || ($e->getMessage() == "Expected input in completion(g)" && $col == 11) ||
+							($e->getMessage() == "Invalid input in secondcompletion" && $col == 12) || ($e->getMessage() == "Grade and secondcompletion should have the same values" && ($col == 10 || $col == 12))){
+						$val = "<input type=\"text\" name=\"firstname\" STYLE=\"background-color: #99FF33;\" value=\"$val\">";
+						}
+					}
 					else { 
 						//$val = htmlentities($val); 
                         $val = htmlentities($val,ENT_COMPAT,$this->_defaultEncoding);
+						
+						if((preg_match("/Acad Year/", $e->getMessage()) && $col == 1) || (preg_match("/Semester/", $e->getMessage()) && $col == 2) ||
+							(preg_match("/Student #/", $e->getMessage()) && $col == 3) || (preg_match("/Last name/", $e->getMessage()) && $col == 4)  ||
+							(preg_match("/First name/", $e->getMessage()) && $col == 5) || (preg_match("/Middle name/", $e->getMessage()) && $col == 6)  ||
+							(preg_match("/Class code/", $e->getMessage()) && $col == 8) || (($e->getMessage() == "Course name and section cannot be distinguished" || $e->getMessage() == "Section is too long" || $e->getMessage() == "Course name is not in the list of courses") && $col == 9) ||
+							(($e->getMessage() == "Invalid input in grade") && $col == 10) || ($e->getMessage() == "Expected input in completion(g): '4.00', 'INC', 'DRP'" && $col == 11) ||
+							($e->getMessage() == "Invalid input in secondcompletion" && $col == 12) || ($e->getMessage() == "Grade and secondcompletion should have the same values" && ($col == 10 || $col == 12)) ){
+							$val = "<input type=\"text\" name=\"firstname\" STYLE=\"background-color: #99FF33;\" value=\"$val\">";
+						}
+						
 						$link = $this->hyperlink($row,$col,$sheet);
 						if ($link!='') {
 							$val = "<a href=\"$link\">$val</a>";
+							
 						}
 					}
 					$out .= "<nobr>".nl2br($val)."</nobr>";
 					$out .= "</td>";
+					
 				}
 			}
+			$out .= "<td><font size=\"1\">".$e->getMessage()."</font></td>";
 			$out .= "</tr>\n";
 		//}
 		if($last)
 			$out .= "</tbody></table>";
+			
 		return $out;
 	}
 	
