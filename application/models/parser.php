@@ -118,13 +118,6 @@ abstract class Parser extends CI_Model {
 		if (strlen($section) > 7)
 			throw new Exception("Section is too long");
 		
-		$lowercoursename = strtolower($coursename);
-		$query = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
-		$result = $this->db->query($query);
-		$row = $result->result_array();
-		if(empty($row))
-			throw new Exception("Course name is not in the list of courses");
-		
 		$this->querydata->coursename = $coursename;
 		$this->querydata->section = $section;
 	}
