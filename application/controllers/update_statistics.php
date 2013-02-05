@@ -30,18 +30,36 @@ class Update_Statistics extends CI_Controller {
 		
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
+		$error = $this->db->_error_message();
+		
+		if (empty($error))
+			echo "true";
+		else
+			echo "false";
 		
 		/*	This is not functional yet. I need help with the queries/checks on the input values edited.
 		try {
 			$this->load->model('edit_database_model', 'editor');
-			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
-			$this->displayView('update_database_view', $data);	//this view does not exist yet
-			//$data must hold changed values from the intial editable view with errors highlighted
-			
+			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);			
 		}catch (Exception $e) {
 		}
 		*/
 	}
+	
+	public function delete() {
+		$tablename = $_POST['tablename'];
+		$primarykeyname = $_POST['primarykeyname'];
+		$primarykeyvalue = $_POST['primarykeyvalue'];
+		
+		$query = "DELETE * FROM $tablename WHERE WHERE $primarykeyname='$primarykeyvalue'";
+		$this->db->query($query);
+		$error = $this->db->_error_message();
+		
+		if (empty($error))
+			echo "true";
+		else
+			echo "false";
+	}	
 	
 	public function view($tablename = null) {
 		$this->edit($tablename);
@@ -96,6 +114,7 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayUploadFileView($data = null)  {
+		
 		$data['message'] = 'Select the xls file with grades to be uploaded';
 		$data['dest'] = site_url('update_statistics/upload');
 		$this->displayview('upload_file', $data);
@@ -121,8 +140,8 @@ class Update_Statistics extends CI_Controller {
 		
 		// dump the input excel file
 		$printer = new Spreadsheet_Excel_Reader($file);
-		$excel_dump = @$printer->dump(true,true);
-		return $excel_dump;
+		//$excel_dump = @$printer->dump(true,true);
+		//return $excel_dump;
 	}
 	
 	private function parse($file, &$data) {
