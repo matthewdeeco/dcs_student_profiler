@@ -314,6 +314,8 @@ class Spreadsheet_Excel_Reader {
 	// MK: Added to make data retrieval easier
 	var $colnames = array();
 	var $colindexes = array();
+	var $excelColNames = array('acadyear', 'semester', 'studentno', 'lastname', 'firstname', 'middlename', 'pedigree', 'classcode', 'class', 'grade', 'completion(g)', 'secondcompletion');
+	
 	var $standardColWidth = 0;
 	var $defaultColWidth = 0;
 
@@ -651,6 +653,102 @@ class Spreadsheet_Excel_Reader {
 	
 	// --------------
 	// END PUBLIC API
+	
+	//SUBOK LAAANG! :D 
+	function dumpRow($row, $first=false, $last=false) {
+		
+		$width = array();
+		$row_numbers=true; 
+		$col_letters=true; 
+		$sheet=0;
+		$table_class='excel';
+		if($first)
+			$out = "<table class=\"$table_class\" cellspacing=0>";
+		if ($first) {
+			if($first)
+				$out .= "<thead>\n\t<tr>";
+			//if ($row_numbers) {
+			if ($first) {
+				$out .= "\n\t\t<th>&nbsp</th>";
+			}
+			
+			for($i=0;$i<=$this->colcount($sheet);$i++) {
+				$style = "width:" . ($this->colwidth($i,$sheet)*1) . "px;";
+				$width[$i+1] = $this->colwidth($i,$sheet)*1;
+				//echo $width[$i+1];
+				if ($this->colhidden($i,$sheet)) {
+					$style .= "display:none;";
+				}
+				if($first)
+					$out .= "\n\t\t<th style=\"$style\">" . $this->excelColNames[$i] . "</th>";
+				//else
+					//$out .= "\n\t\t<th style=\"$style\"></th>";
+			}
+			$out .= "</tr></thead>\n";
+				
+		}
+		
+		$out .= "<tbody>\n";
+		//echo 'DONE';
+		//for($row=1;$row<=$this->rowcount($sheet);$row++) {
+			$rowheight = $this->rowheight($row,$sheet);
+			$style .= "height:" . ($rowheight*(4/3)) . "px;";
+			if ($this->rowhidden($row,$sheet)) {
+				$style .= "display:none;";
+			}
+			
+			
+			$out .= "\n\t<tr style=\"$style\">";
+			if ($row_numbers) {
+				$out .= "\n\t\t<th>$row</th>";
+			}
+			for($col=1;$col<=$this->colcount($sheet);$col++) {
+				//$style .= "width:" . $width[$i] . "px;";
+				//echo $width[$i];
+				$style .= "width:" . ($this->colwidth($i,$sheet)*1) . "px;";
+				if ($this->colhidden($i,$sheet)) {
+					$style .= "display:none;";
+				}
+			
+				// Account for Rowspans/Colspans
+				$rowspan = $this->rowspan($row,$col,$sheet);
+				$colspan = $this->colspan($row,$col,$sheet);
+				for($i=0;$i<$rowspan;$i++) {
+					for($j=0;$j<$colspan;$j++) {
+						if ($i>0 || $j>0) {
+							$this->sheets[$sheet]['cellsInfo'][$row+$i][$col+$j]['dontprint']=1;
+						}
+					}
+				}
+				if(!$this->sheets[$sheet]['cellsInfo'][$row][$col]['dontprint']) {
+					$style = $this->style(0,$col,$sheet);
+					
+					if ($this->colhidden($col,$sheet)) {
+						$style .= "display:none;";
+					}
+					$out .= "\n\t\t<td style=\"$style\"" . ($colspan > 1?" colspan=$colspan":"") . ($rowspan > 1?" rowspan=$rowspan":"") . ">";
+					//$out .= "\n\t\t<td style=\"$style\">";
+					$val = $this->val($row,$col,$sheet);
+					if ($val=='') { $val="&nbsp;"; }
+					else { 
+						//$val = htmlentities($val); 
+                        $val = htmlentities($val,ENT_COMPAT,$this->_defaultEncoding);
+						$link = $this->hyperlink($row,$col,$sheet);
+						if ($link!='') {
+							$val = "<a href=\"$link\">$val</a>";
+						}
+					}
+					$out .= "<nobr>".nl2br($val)."</nobr>";
+					$out .= "</td>";
+				}
+			}
+			$out .= "</tr>\n";
+		//}
+		if($last)
+			$out .= "</tbody></table>";
+		return $out;
+	}
+	
 
 
 	var $boundsheets = array();
