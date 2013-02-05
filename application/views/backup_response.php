@@ -5,7 +5,7 @@ if ($status == 0) {
 }
 else {
 	echo "<span class='error'>Failed to backup the database</span>.<br>
-	Check if pg_dump is in the assets/postgres folder and if you have write permissions on the dumps folder.";
+	Check if you have the correct pg_dump and if you have write permissions on the dumps folder.";
 }
 foreach ($output as $output_line)
 	echo $output_line."<br>";
