@@ -48,13 +48,13 @@ class Excel_Parser extends Parser {
 				//$output .= "<td colspan = 7 align='center' class='error'>Error: ".$e->getMessage()."</td>";
 				//echo $this->spreadsheet->dumpRow($i);
 				if($first){
-					$output .=  $this->spreadsheet->dumpRow($i, $first);
+					$output .=  $this->spreadsheet->dumpRow($i, $first, false, $e);
 					$first = false;
 				}
 				else if($i == $rows)
-					$output .=  $this->spreadsheet->dumpRow($i, false, true);
+					$output .=  $this->spreadsheet->dumpRow($i, false, true, $e);
 				else{
-					$output .=  $this->spreadsheet->dumpRow($i);
+					$output .=  $this->spreadsheet->dumpRow($i, false, false, $e);
 				}
 				$this->errorcount++;
 			}
@@ -62,6 +62,7 @@ class Excel_Parser extends Parser {
 			$output .= "</tr>";
 		}
 		$output .= "</table>";
+		
 		return $output;
 	}
 	
