@@ -1,6 +1,7 @@
 <?php
 
-	include 'parser.php';
+	include 'checkr.php';
+	include 'checker.php'
 	
 	class Edit_Database_Model extends CI_Model {
 	
@@ -11,104 +12,105 @@
 		
 	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
 		if($tablename == 'persons'){
-			$this->updatePersons($changedkeyname, $changedkeyvalue);
+			$this->checkPersonsField($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'curricula'){
-			$this->updateCurricula($changedkeyname, $changedkeyvalue);
+			$this->checkCurricula($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'courses'){
-			$this->updateCourses($changedkeyname, $changedkeyvalue);
+			$this->checkCourses($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'students'){
-			$this->updateStudents($changedkeyname, $changedkeyvalue);
-		}else if($tablename == terms){
-			$this->updateTerms($changedkeyname, $changedkeyvalue);
-		}else if($tablename == studentterms){
-			$this->updateStudentTerms($changedkeyname, $changedkeyvalue);
-		}else if($tablename == classes){
-			$this->updateClasses($changedkeyname, $changedkeyvalue);
-		}else if($tablename == studentclasses){		//Pati ba 'to pwedeng mabago?
-			$this->updateStudentClasses($changedkeyname, $changedkeyvalue);
+			$this->checkStudents($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'terms'){
+			$this->checkTerms($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'studentterms'){
+			$this->checkStudentTerms($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'classes'){
+			$this->checkClasses($changedkeyname, $changedkeyvalue);
+		}else if($tablename == 'studentclasses'){		//Pati ba 'to pwedeng mabago?
+			$this->checkStudentClasses($changedkeyname, $changedkeyvalue);
 		}
 		
-		this->updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
+		updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
 	}
 	
 	public function updateRow($tablename, $primarykeyname, $primarykeyvalue $changedkeyname, $changedkeyvalue)(
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
+		$this->db->_error_message();
 	}
-	
-	public function updatePersons($changedkeyname, $changedkeyvalue){
+
+	public function checkPersonsField($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'lastname'){
-			$this->parseLastName($changedkeyvalue);
+			$this->checkLastName($changedkeyvalue);
 		}else if($changedkeyname == 'firstname'){
-			$this->parseFirstName($changedkeyvalue);
+			$this->checkFirstName($changedkeyvalue);
 		}else if($changedkeyname == 'middlename'){
-			$this->parseMiddleName($changedkeyvalue);
+			$this->checkMiddleName($changedkeyvalue);
 		}else if($changedkeyname == 'pedigree'){
-			$this->parsePedigree($changedkeyvalue);
+			$this->checkPedigree($changedkeyvalue);
 		}
 	}	
 	
-	public function updateCurricula($changedkeyname, $changedkeyvalue){
-		//$this->parseCurriculumName($changedkeyvalue)	THIS FUNCTION DOES NOT EXIST YET
+	public function checkCurricula($changedkeyname, $changedkeyvalue){
+		$this->checkCurriculumName($changedkeyvalue)
 	}
 	
-	public function updateStudents($changedkeyname, $changedkeyvalue){
+	public function checkCourses($changedkeyname, $changedkeyvalue){
+		if($changedkeyname == 'coursename'){	
+			$this->checkCourseName($changedkeyvalue);		
+		}else if($changedkeyname == 'credits'){
+			$this->checkCredits($changedkeyvalue);			
+		}else if($changedkeyname == 'domain'){
+			$this->checkDomain($changedkeyvalue);			
+		}else if($changedkeyname == 'commtype'){
+			$this->checkCommType($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+		}
+	}
+	
+	public function checkStudents($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'studentno'){			
-			$this->parseStudentNo($changedkeyvalue)			//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkStudentNo($changedkeyvalue)			
 		}else if($changedkeyname == 'curriculumid'){
-			$this->parseCurriculumId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET	
+			$this->checkCurriculumId($changedkeyvalue);		
 		}else if($changedkeyname == 'personid'){
-			$this->parsePersonId(($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET, Can we really change this?
+			$this->checkPersonId($changedkeyvalue);		
 		}	
 	}	
 	
-	public function updateCourses($changedkeyname, $changedkeyvalue){
-		if($changedkeyname == 'coursename'){	
-			$this->parseCourseName($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
-		}else if($changedkeyname == 'credits'){
-			$this->parseCredits($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
-		}else if($changedkeyname == 'domain'){
-			$this->parseDomain($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
-		}else if($changedkeyname == 'commtype'){
-			$this->parseCommType($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
-		}
-	}
-	
-	public function updateTerms($changedkeyname, $changedkeyvalue){
+	public function checkTerms($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'name'){
-			$this->checkTermName($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the parseTermName in parser
+			$this->checkTermName($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the checkTermName in checkr
 		}else if($changedkeyname == 'year'){
-			$this->checkAcadYear($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the parseAcadYear in parser
+			$this->checkAcadYear($changedkeyvalue);			
 		}else if($changedkeyname == 'sem'){
-			$this->checkSemester($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkSemester($changedkeyvalue);			
 		}
 	}
 	
-	public function updateStudentTerms($changedkeyname, $changedkeyvalue){
+	public function checkStudentTerms($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'termid'){
-			$this->checkTermId($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkTermId($changedkeyvalue);			
 		}else if($changedkeyname == 'ineligibilities'){
 			$this->checkIneligibilities($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
 		}else if($changedkeyname == 'issettled'){
-			$this->checkIssettled($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkIssettled($changedkeyvalue);		
 		}
 	}
 	
-	public function updateClasses($changedkeyname, $changedkeyvalue){
+	public function checkClasses($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'termid'){
-			$this->checkTermId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkTermId($changedkeyvalue);		
 		}else if($changedkeyname == 'courseid'){
-			$this->checkCourseId($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkCourseId($changedkeyvalue);		
 		}else if($changedkeyname == 'section'){
-			$this->checkSection($changedkeyvalue);		//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkSection($changedkeyvalue);		
 		}else if(($changedkeyname == 'classcode'){
-			$this->checkClassCode($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
+			$this->checkClassCode($changedkeyvalue);	
 		}
 	}
 	
 	
 	/*
-	function updateCourses(){
+	function checkCourses(){
 		$coursename = $_POST['coursename'];
 		$credits = $_POST['credits'];
 		$domain = $_POST['domain'];
@@ -158,7 +160,7 @@
 		$studentno = $_POST['studentno'];
 		$curriculumid = $_POST['curriculumid'];
 		
-		//check for error in fields - Use parser class
+		//check for error in fields - Use checkr class
 	
 		//check if student already exists
 		$query = "SELECT * FROM students WHERE personid == $personid";
@@ -193,7 +195,7 @@
 		$middlename = $_POST['middlename'];
 		$pedigree = $_POST['pedigree'];
 		
-		//check for error in fields - Use parser class
+		//check for error in fields - Use checkr class
 	
 		//check if instructor already exists
 		$query = "SELECT * FROM instructors WHERE personid == $personid";
