@@ -19,7 +19,7 @@ class Excel_Parser extends Parser {
 	/** Start parsing $this->spreadsheet. */
 	public function parse() {
 		$rows = $this->spreadsheet->rowcount();
-		$output = 
+		/*$output = 
 		"<table class='excel'>
 		<thead><tr><th>Row</th>
 		<th>Term</th>
@@ -30,21 +30,35 @@ class Excel_Parser extends Parser {
 		<th>Section</th>
 		<th>Grade</th>
 		</tr></thead>";
+		*/
+		
 		$this->successcount = 0;
 		$this->errorcount = 0;
+		$first = true;
 		// If 1st row is not a header, change to $i = 1
 		for ($i = 2; $i <= $rows; $i++) {
-			$output .= "<tr><th>$i</th>";
+			//$output .= "<tr><th>$i</th>";
 			try { // if parsing the row failed, will immediately skip to catch
 				$this->parseRow($i);
-				$output .= $this->querydata->tostring();
+				//$output .= $this->querydata->tostring();
 				$this->querydata->execute();
 				$this->successcount++;
 			} catch (Exception $e) {
 				// print error message
-				$output .= "<td colspan = 7 align='center' class='error'>Error: ".$e->getMessage()."</td>";
+				//$output .= "<td colspan = 7 align='center' class='error'>Error: ".$e->getMessage()."</td>";
+				//echo $this->spreadsheet->dumpRow($i);
+				if($first){
+					$output .=  $this->spreadsheet->dumpRow($i, $first);
+					$first = false;
+				}
+				else if($i == $rows)
+					$output .=  $this->spreadsheet->dumpRow($i, false, true);
+				else{
+					$output .=  $this->spreadsheet->dumpRow($i);
+				}
 				$this->errorcount++;
 			}
+			
 			$output .= "</tr>";
 		}
 		$output .= "</table>";
