@@ -85,14 +85,14 @@
 		}
 		
 		protected function checkDomain($domain) {
-			$query = "SELECT * FROM courses WHERE domain = '$domain'";
-			$this->db->query($query);
-			$row = $result->result_array();
+			// $query = "SELECT courseid FROM courses WHERE domain = '$domain'";
+			// $this->db->query($query);
+			// $row = $result->result_array();
 			
 			if (empty($domain))
 				throw new Exception("Domain field cannot be empty!");
-			else if(empty($row))
-				throw new Exception("$domain is not a valid domain!");
+			// else if(empty($row))
+				// throw new Exception("$domain is not a valid domain!");
 			else
 				return true;
 		}

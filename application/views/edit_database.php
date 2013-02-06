@@ -50,7 +50,6 @@ $(document).ready(function(){
 					$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
 					setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
 				} else {
-					alert(retVal);
 					$(changed_cell).css("background-color","#CF0220").css("color","white");
 				}
 			},
