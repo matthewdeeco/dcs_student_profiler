@@ -45,11 +45,15 @@ class Update_Statistics extends CI_Controller {
 		$primarykeyname = $_POST['primarykeyname'];
 		$primarykeyvalue = $_POST['primarykeyvalue'];
 		
-		$query = "DELETE * FROM $tablename WHERE $primarykeyname='$primarykeyvalue'";
+		$query = "DELETE FROM $tablename WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 		$error = $this->db->_error_message();
-		if (!empty($error))
-			throw new Exception("Error deleting from the database");
+		if (!empty($error)){
+			#throw new Exception("Error deleting from the database");
+			echo 'false';
+		}
+		else
+			echo 'true';
 	}	
 	
 	public function view($tablename = null) {
