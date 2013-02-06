@@ -58,7 +58,7 @@
 									<li id="sr"><a href="<?= site_url('studentrankings')?>" style="height:23px;">Student Rankings</a></li>
 									<li id="cs"><a href="<?= site_url('coursestatistics')?>" style="height:23px;">Course Statistics</a></li>
 									<li id="et"><a href="<?= site_url('eligibilitytesting')?>" style="height:23px;">Eligibility Checking</a></li>
-									<li id="us"><a href="<?= site_url('update_statistics/upload')?>" style="height:23px;">Update Statistics</a></li>
+									<li id="us"><a href="<?= site_url('update_statistics')?>" style="height:23px;">Update Statistics</a></li>
 									<li id="ab"><a href="<?= site_url('about')?>" style="height:23px;">About</a></li>
 								</ul>
 							</div><!-- /.nav-collapse -->

@@ -11,7 +11,7 @@ class Update_Statistics extends CI_Controller {
 	public function index() {
 		$this->load->view('include/header');
 		$this->load->view('include/header-teamc', $this->tablenames);
-		$this->displayUploadFileView(); 
+		$this->displayUploadFileView();
 		$this->load->view('include/footer-teamc', $this->tablenames);
 		$this->load->view('include/footer');
 	}
@@ -22,7 +22,7 @@ class Update_Statistics extends CI_Controller {
 		$errormessage = $this->db->_error_message();
 		if (!empty($errormessage))
 			$data['errormessage'] = "Table ".$tablename." does not exist!";
-		$this->displayview('edit_database', $data);
+		$this->load->view('edit_database', $data);
 	}
 	
 	public function update() {
@@ -32,19 +32,16 @@ class Update_Statistics extends CI_Controller {
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
 		
-		/*$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
-		$error = $this->db->_error_message();*/
-		
-		if (empty($error))
-			echo "$changedkeyvalue";
-		else
-			echo "false";
+		$error = $this->db->_error_message();
+		if (!empty($error))
+			throw new Exception("Error updating the database");
 		try {
 			$this->load->model('edit_database_model', 'editor');
 			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);	
 			echo "true";
-		}catch (Exception $e) {
+		} catch (Exception $e) {
 			$error_msg = $e->getMessage();
 			echo "error_msg";
 		}
@@ -59,11 +56,8 @@ class Update_Statistics extends CI_Controller {
 		$query = "DELETE * FROM $tablename WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 		$error = $this->db->_error_message();
-		
-		if (empty($error))
-			echo "true";
-		else
-			echo "false";
+		if (!empty($error))
+			throw new Exception("Error deleting from the database");
 	}	
 	
 	public function view($tablename = null) {
@@ -86,45 +80,93 @@ class Update_Statistics extends CI_Controller {
 		} catch (Exception $e) {
 			$data['errormessage'] = $e->getMessage();
 		}
-		$this->displayUploadFileView($data);
+		$this->displayViewWithHeaders('upload_response', $data);
 	}
 	
 	public function backup() {
-		$pg_dump_location = $this->input->cookie('pg_dump_location', TRUE);
-		if (!empty($pg_dump_location))
-			$this->performBackup($pg_dump_location);
-		else if (substr(php_uname(), 0, 7) == "Windows")
-			$this->displayview('backup_view');
+		$cookie = $this->input->cookie('pg_bin_dir', TRUE);
+		if (isset($_POST['pg_bin_dir'])) {
+			$pg_bin_dir = $_POST['pg_bin_dir'];
+			if (!preg_match("/bin$/", $pg_bin_dir))
+				$pg_bin_dir .= "/bin";
+			$this->performBackup($pg_bin_dir);
+		}
+		else if (!empty($cookie))
+			$this->performBackup($cookie);
+		else if (substr(php_uname(), 0, 7) == "Windows") {
+			$data['dest'] = 'update_statistics/backup';
+			$this->load->view('postgres_bin', $data);
+		}
 		else
-			$this->performBackup('/usr/bin/pg_dump');
+			$this->performBackup('/usr/bin');
 	}
 	
-	public function performBackup($pg_dump_location = null) {
-		if (is_null($pg_dump_location)) {
-			$pg_dump_location = $_POST['pg_dump_location'];
-			if (!preg_match("/pg_dump.exe$/", $pg_dump_location))
-				$pg_dump_location .= "/pg_dump.exe";
-		}
+	private function performBackup($pg_bin_dir) {
+		$pg_dump = $pg_bin_dir."/pg_dump";
+		if (substr(php_uname(), 0, 7) == "Windows")
+			$pg_dump .= ".exe";
 		$backup_dir = $this->getAbsoluteBasePath().'dumps/';
 		if (!file_exists($backup_dir))
 			mkdir($backup_dir, 0755);
 		$backup_name = $backup_dir.$this->db->database.date("m-d-Y").".sql";
-		$cmd = escapeshellarg($pg_dump_location)." -U postgres ".$this->db->database." > $backup_name 2>&1";
+		$cmd = escapeshellarg($pg_dump)." -U postgres ".$this->db->database." > $backup_name 2>&1";
 		exec($cmd, $output, $status);
-		if ($status == 0) { // save cookie
-			$cookie = array('name'=>'pg_dump_location', 'value'=>$pg_dump_location, 'expire'=>'5000000');
-			$this->input->set_cookie($cookie);
-		}
+		$success = ($status == 0);
+		// if ($success) { // save cookie
+			// $cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
+			// $this->input->set_cookie($cookie);
+		// }
 		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
+		$data['success'] = $success;
+		$this->load->view('backup_response', $data);
+	}
+	
+	public function restore() {
+		$data['message'] = 'Select the database backup to restore';
+		$data['dest'] = site_url('update_statistics/performRestore');
+		$this->load->view('upload_file', $data);
+	}
+	
+	private function getPostgresBinLocation() {
+		$cookie = $this->input->cookie('pg_bin_dir', TRUE);
+		if (isset($_POST['pg_bin_dir'])) {
+			$pg_bin_dir = $_POST['pg_bin_dir'];
+			if (!preg_match("/bin$/", $pg_bin_dir))
+				$pg_bin_dir .= "/bin";
+		}
+		else if (!empty($cookie))
+			$pg_bin_dir = $cookie;
+		else if (substr(php_uname(), 0, 7) == "Windows") {
+			$data['dest'] = 'update_statistics/restore';
+			$this->load->view('postgres_bin', $data);
+		}
+		else
+			$pg_bin_dir = '/usr/bin';
+		return $pg_bin_dir;
+	}
+	
+	public function performRestore() {
+		$pg_bin_dir = $this->getPostgresBinLocation();
+		$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
+		if (substr(php_uname(), 0, 7) == "Windows"){
+			$abs_basepath = $this->getAbsoluteBasePath();
+			$psql_location = $pg_bin_dir."/psql.exe";
+		} 
+		else { 
+			$psql_location = $pg_bin_dir."/psql";
+		}
+		$cmd = escapeshellarg($psql_location)." -U postgres ".$this->db->database." < $backup_filename 2>&1";
+		exec($cmd, $output, $status);
+		$data['output'] = $output;
 		$data['status'] = $status;
-		$this->displayView('backup_response', $data);
+		$this->displayViewWithHeaders('restore_response', $data);
 	}
 	
 	public function sql() {
 		$data['message'] = 'Select the sql file to run';
 		$data['dest'] = site_url('update_statistics/performSqlQuery');
-		$this->displayview('upload_file', $data);
+		$this->load->view('upload_file', $data);
 	}
 	
 	public function performSqlQuery() {
@@ -132,30 +174,7 @@ class Update_Statistics extends CI_Controller {
 		$sql_text = $this->load->file($sql_file, true);
 		$this->db->query($sql_text);
 		$data['success'] = true;
-		$this->displayView('sql_response', $data);
-	}
-	
-	public function restore() {
-		$data['message'] = 'Select the database backup to restore';
-		$data['dest'] = site_url('update_statistics/performRestore');
-		$this->displayview('upload_file', $data);
-	}
-	
-	public function performRestore() {
-		$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
-		if (substr(php_uname(), 0, 7) == "Windows"){
-			// append path to our files
-			$abs_basepath = $this->getAbsoluteBasePath();
-			$psql_location = $abs_basepath."assets/postgres/psql.exe";
-		} 
-		else { 
-			$psql_location = "/usr/bin/psql";
-		}
-		$cmd = $psql_location." -U postgres ".$this->db->database." < $backup_filename 2>&1";
-		exec($cmd, $output, $status);
-		$data['output'] = $output;
-		$data['status'] = $status;
-		$this->displayView('restore_response', $data);
+		$this->displayViewWithHeaders('sql_response', $data);
 	}
 	
 	private function getUploadsFolder() {
@@ -180,7 +199,7 @@ class Update_Statistics extends CI_Controller {
 	private function displayUploadFileView($data = null)  {
 		$data['message'] = 'Select the xls file with grades to be uploaded';
 		$data['dest'] = site_url('update_statistics/performUpload');
-		$this->displayview('upload_file', $data);
+		$this->load->view('upload_file', $data);
 	}
 	
 	private function getUploadedFile() {
@@ -256,8 +275,12 @@ class Update_Statistics extends CI_Controller {
 		return $tables;
 	}
 	
-	private function displayView($viewname, $data = null) {
+	private function displayViewWithHeaders($viewname, $data = null) {
+		$this->load->view('include/header');
+		$this->load->view('include/header-teamc', $this->tablenames);
 		$this->load->view($viewname, $data);
+		$this->load->view('include/footer-teamc', $this->tablenames);
+		$this->load->view('include/footer');
 	}
 }
 

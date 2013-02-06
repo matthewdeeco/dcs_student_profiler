@@ -1,4 +1,3 @@
-<div id="uploadgrades">
 <?php
 if (!isset($success));
 else if ($success) {
@@ -7,8 +6,8 @@ else if ($success) {
 	echo "<span class='error'>$errormessage</span><br><br>";
 }
 ?>
-<table width="50%" class="noborder">
-	<form enctype="multipart/form-data" action="<?=$dest?>" method="POST">
+<form id="upload_form" enctype="multipart/form-data" action="<?=$dest?>" method="POST">
+	<table width="50%" class="noborder">
 		<tr><strong><?=$message?></strong></tr>
 		<tr>
 			<td>&nbsp;Upload File:</td>
@@ -17,12 +16,12 @@ else if ($success) {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" name="uploadfile" value="Submit" />
+				<input type="submit" name="submit" value="Submit" />
 				<input type="reset" name="cancel" value="Cancel"/>
 			</td>
 		</tr>
-	</form>
-</table>
+	</table>
+</form>
 <?php
 if (isset($success) && $success) {
 	echo "<br><b><span class='success'>$success_rows</span></b> rows added, ";
@@ -40,4 +39,3 @@ if (isset($success) && $success) {
 	
 }
 ?>
-</div>
