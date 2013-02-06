@@ -1,7 +1,7 @@
 <?php
 	include 'checker.php';
 	
-	class Edit_Database_Model extends CI_Model {
+	class Edit_Database_Model extends Checker {
 	
 	public function __construct() {
 	  parent::__construct();
@@ -9,7 +9,6 @@
 
 		
 	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
-		/*
 		if($tablename == 'persons'){
 			$this->checkPersonsField($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'curricula'){
@@ -24,7 +23,7 @@
 			$this->checkStudentTerms($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'classes'){
 			$this->checkClasses($changedkeyname, $changedkeyvalue);
-		}else if($tablename == 'studentclasses'){		//Pati ba 'to pwedeng mabago?
+		}/*else if($tablename == 'studentclasses'){		//Pati ba 'to pwedeng mabago?
 			$this->checkStudentClasses($changedkeyname, $changedkeyvalue);
 		}
 		*/

@@ -46,9 +46,12 @@ $(document).ready(function(){
 			},
 			dataType: 'html',
 			success: function (retVal) {
-				//show check mark beside the row
-				$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
-				setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
+				if (retVal == 'true') {
+					$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
+					setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
+				} else {
+					$(changed_cell).css("background-color","#CF0220").css("color","white");
+				}
 			},
 			error: function(){
 				// $(changed_cell).addClass("edit_failure");
