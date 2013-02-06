@@ -8,7 +8,6 @@ $(document).ready(function(){
 	$('#ab').removeClass('active');	
 
 	$(".remove_button").click(function(){
-			alert("Remove?");//check 
 		var callback = "<?=site_url('update_statistics/delete')?>";
 		var changed_cell = $(this);
 		
@@ -18,7 +17,7 @@ $(document).ready(function(){
 			data: {
 				tablename: $(this).attr("data-tablename"),
 				primarykeyname: $(this).attr("data-primarykeyname"),
-				primarykeyvalue: $(this).attr("data-primarykeyvalue"),
+				primarykeyvalue: $(this).attr("data-primarykeyvalue")
 			},
 			dataType: 'html',
 			success: function (retVal) {
@@ -28,7 +27,7 @@ $(document).ready(function(){
 					alert("Error in connecting to the database.");
 			}
 		  });//endajax	
-	})//endonclick
+	});//endonclick	
 	
 	$(".inputcell").change(function() {
 		var callback = "<?=site_url('update_statistics/update')?>";
@@ -107,6 +106,8 @@ function printTable($rows, $tablename) {
 function printRow($row, $tablename) {
 	echo "<tr>";
 	$column = 0;
+	$primarykeyvalue = 0;
+	
 	foreach ($row as $key => $value) {
 		$length = strlen($value) + 1;
 		if ($column == 0) {
@@ -120,9 +121,9 @@ function printRow($row, $tablename) {
 		$column++;
 	}
 	
-	//GIVE CELL DETAILS TO THIS BUTTON
-	echo "<td><input type=\"button\" class=\"remove_button\" name=\"remove\" value=\"x\"></td>";	//for the delete icon
-	echo "</tr>";
+	echo "<td><input type=\"button\" class=\"remove_button\" name=\"remove\" value=\"x\" data-primarykeyname=\"$primarykeyname\"
+	data-primarykeyvalue=\"$primarykeyvalue\" data-tablename=\"$tablename\"></td>";	//for the delete icon
+	echo "</tr>"
 }
 
 function printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value = '') {
