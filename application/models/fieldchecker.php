@@ -1,6 +1,6 @@
 <?php
 
-  class Checker extends CI_Model {
+  class FieldChecker extends CI_Model {
 			
 		function __construct() {
 			parent::__construct();
@@ -13,8 +13,8 @@
 				throw new Exception("Last name field contains numeric characters!");
 			else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $lastname))
 				throw new Exception("Last name field contains non-alphabetic characters!");
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkFirstName($firstname) {
@@ -24,8 +24,8 @@
 				throw new Exception("First name field contains numeric characters!");
 			else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $firstname))
 				throw new Exception("First name field contains non-alphabetic characters!");
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkMiddleName($middlename) {
@@ -33,20 +33,20 @@
 				throw new Exception("Middle name field contains numeric characters!");
 			else if (preg_match('/[^a-zA-Z\. \x{00D1}\x{00F1}]/u', $middlename))
 				throw new Exception("Middle name field contains non-alphabetic characters!");
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkPedigree($pedigree) {
 			/*how to check this?*/
-			return true;
+			
 		}
 	
 		protected function checkCurriculumName($curriculumname) {
 			/*no particular restrictions*/
 			if (empty($curriculumname))
 				throw new Exception("Curriculum name field cannot be empty!");
-			return true;
+			
 		}
 		
 		protected function checkCourseName($coursename) {
@@ -59,8 +59,8 @@
 				throw new Exception("Course Name field cannot be empty!");
 			else if(empty($row))
 				throw new Exception("$coursename is not in the list of courses!");			
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkCredits($credits) {
@@ -69,8 +69,8 @@
 			else if (!is_numeric($credits))
 				throw new Exception("$credits must be numeric!");
 				//check if integer?
-			else
-				return true;
+			
+				
 		}
 			
 		protected function checkClassCode($classcode) {
@@ -80,8 +80,8 @@
 				throw new Exception("Class code field contains non-numeric characters!");
 			/* else if (strlen($classcode) != 5)
 				throw new Exception("Class code must be exactly 5 digits long"); */
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkDomain($domain) {
@@ -93,13 +93,13 @@
 				throw new Exception("Domain field cannot be empty!");
 			else if(empty($row))
 				throw new Exception("$domain is not a valid domain!");
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkCommType($domain) {
 			/*What kind of checks?*/
-			return true;
+			
 		}
 		
 		protected function checkStudentNo($studentno) {
@@ -109,8 +109,8 @@
 					throw new Exception("Student # field contains non-numeric characters!");
 				else if (strlen($studentno) != 9)
 					throw new Exception("Student # must be exactly 9 digits long!");
-				else 
-					return true;
+				 
+					
 		}
 		
 		protected function checkCurriculumId($curriculumid){
@@ -121,8 +121,7 @@
 			if (empty($row)) {
 				throw new Exception("Curriculum id: $curriculumid does not exist!");
 			}
-			else
-				return true;
+						
 		}
 		
 		protected function checkPersonId($personid){
@@ -148,8 +147,8 @@
 				else if (empty($instructor_row)) {
 					throw new Exception("personid: $personid already references an instructor!");
 				}			
-				else
-					return true;
+				
+					
 			}
 		}
 		
@@ -171,7 +170,7 @@
 					throw new Exception("Start and end of Acad Year is not 1 year apart!");
 				$acadyear = $start."-".$end;
 			}
-			return true;
+			
 		}
 		
 		protected function checkSemester($semester){
@@ -180,8 +179,8 @@
 			if (!in_array($semester, $valid_semesters)){
 				throw new Exception("$semester is not a valid semester!");
 			}
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkIssettled($issettled){
@@ -191,8 +190,6 @@
 			else if(!is_bool($issettled)){
 				throw new Exception("$issettled is not boolean!");
 			}
-			else
-				return true;
 		}
 		
 		protected function checkTermId($termid){
@@ -203,8 +200,7 @@
 			if (empty($row)) {
 				throw new Exception("Term with termid: $termid does not exist!");
 			}
-			else
-				return true;
+				
 		}
 		
 		protected function checkCourseId($courseid){
@@ -215,15 +211,15 @@
 			if (empty($row)) {
 				throw new Exception("Course with courseid: $courseid does not exist!");
 			}
-			else
-				return true;
+			
+				
 		}
 		
 		protected function checkSection($section){
 			if (strlen($section) > 7)
 				throw new Exception("Section is too long");
-			else
-				return true;
+			
+				
 		}
 		
 	}//end Checker class

@@ -1,5 +1,7 @@
 <?php
-	include 'checker.php';
+	require_once 'fieldchecker.php';
+	
+	  $checker = new FieldChecker();
 	
 	class Edit_Database_Model extends Checker {
 	
@@ -9,6 +11,10 @@
 
 		
 	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 9d575be603dddc25c6087cf06547c16041eb7498
 		if($tablename == 'persons'){
 			$this->checkPersonsField($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'curricula'){
@@ -26,7 +32,7 @@
 		}/*else if($tablename == 'studentclasses'){		//Pati ba 'to pwedeng mabago?
 			$this->checkStudentClasses($changedkeyname, $changedkeyvalue);
 		}
-		*/
+		
 		$this->updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
 	}
 	
@@ -38,71 +44,71 @@
 
 	public function checkPersonsField($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'lastname'){
-			$this->checkLastName($changedkeyvalue);
+			$checker->checkLastName($changedkeyvalue);
 		}else if($changedkeyname == 'firstname'){
-			$this->checkFirstName($changedkeyvalue);
+			$checker->checkFirstName($changedkeyvalue);
 		}else if($changedkeyname == 'middlename'){
-			$this->checkMiddleName($changedkeyvalue);
+			$checker->checkMiddleName($changedkeyvalue);
 		}else if($changedkeyname == 'pedigree'){
-			$this->checkPedigree($changedkeyvalue);
+			$checker->checkPedigree($changedkeyvalue);
 		}
 	}	
 	
 	public function checkCurricula($changedkeyname, $changedkeyvalue){
-		$this->checkCurriculumName($changedkeyvalue);
+		$checker->checkCurriculumName($changedkeyvalue);
 	}
 	
 	public function checkCourses($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'coursename'){	
-			$this->checkCourseName($changedkeyvalue);		
+			$checker->checkCourseName($changedkeyvalue);		
 		}else if($changedkeyname == 'credits'){
-			$this->checkCredits($changedkeyvalue);			
+			$checker->checkCredits($changedkeyvalue);			
 		}else if($changedkeyname == 'domain'){
-			$this->checkDomain($changedkeyvalue);			
+			$checker->checkDomain($changedkeyvalue);			
 		}else if($changedkeyname == 'commtype'){
-			$this->checkCommType($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
+			$checker->checkCommType($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET
 		}
 	}
 	
 	public function checkStudents($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'studentno'){			
-			$this->checkStudentNo($changedkeyvalue);	
+			$checker->checkStudentNo($changedkeyvalue);	
 		}else if($changedkeyname == 'curriculumid'){
-			$this->checkCurriculumId($changedkeyvalue);		
+			$checker->checkCurriculumId($changedkeyvalue);		
 		}else if($changedkeyname == 'personid'){
-			$this->checkPersonId($changedkeyvalue);		
+			$checker->checkPersonId($changedkeyvalue);		
 		}	
 	}	
 	
 	public function checkTerms($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'name'){
-			$this->checkTermName($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the checkTermName in checkr
+			$checker->checkTermName($changedkeyvalue);			//THIS FUNCTION DOES NOT EXIST YET, different from the checkTermName in checkr
 		}else if($changedkeyname == 'year'){
-			$this->checkAcadYear($changedkeyvalue);			
+			$checker->checkAcadYear($changedkeyvalue);			
 		}else if($changedkeyname == 'sem'){
-			$this->checkSemester($changedkeyvalue);			
+			$checker->checkSemester($changedkeyvalue);			
 		}
 	}
 	
 	public function checkStudentTerms($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'termid'){
-			$this->checkTermId($changedkeyvalue);			
+			$checker->checkTermId($changedkeyvalue);			
 		}else if($changedkeyname == 'ineligibilities'){
-			$this->checkIneligibilities($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
+			$checker->checkIneligibilities($changedkeyvalue);	//THIS FUNCTION DOES NOT EXIST YET
 		}else if($changedkeyname == 'issettled'){
-			$this->checkIssettled($changedkeyvalue);		
+			$checker->checkIssettled($changedkeyvalue);		
 		}
 	}
 	
 	public function checkClasses($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'termid'){
-			$this->checkTermId($changedkeyvalue);		
+			$checker->checkTermId($changedkeyvalue);		
 		}else if($changedkeyname == 'courseid'){
-			$this->checkCourseId($changedkeyvalue);		
+			$checker->checkCourseId($changedkeyvalue);		
 		}else if($changedkeyname == 'section'){
-			$this->checkSection($changedkeyvalue);		
+			$checker->checkSection($changedkeyvalue);		
 		}else if($changedkeyname == 'classcode'){
-			$this->checkClassCode($changedkeyvalue);	
+			$checker->checkClassCode($changedkeyvalue);	
 		}
 	}
 	
