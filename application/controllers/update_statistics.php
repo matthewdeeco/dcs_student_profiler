@@ -37,15 +37,8 @@ class Update_Statistics extends CI_Controller {
 		$error = $this->db->_error_message();
 		if (!empty($error))
 			throw new Exception("Error updating the database");
-		try {
-			$this->load->model('edit_database_model', 'editor');
-			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);	
-			echo "true";
-		} catch (Exception $e) {
-			$error_msg = $e->getMessage();
-			echo "error_msg";
-		}
-		
+		$this->load->model('edit_database_model', 'editor');
+		$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);	
 	}
 	
 	public function delete() {
@@ -112,10 +105,10 @@ class Update_Statistics extends CI_Controller {
 		$cmd = escapeshellarg($pg_dump)." -U postgres ".$this->db->database." > $backup_name 2>&1";
 		exec($cmd, $output, $status);
 		$success = ($status == 0);
-		// if ($success) { // save cookie
-			// $cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
-			// $this->input->set_cookie($cookie);
-		// }
+		if ($success) { // save cookie
+			$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
+			$this->input->set_cookie($cookie);
+		}
 		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
 		$data['success'] = $success;
