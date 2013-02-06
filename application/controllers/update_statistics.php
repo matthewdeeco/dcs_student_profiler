@@ -32,22 +32,23 @@ class Update_Statistics extends CI_Controller {
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
 		
-		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+		/*$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
-		$error = $this->db->_error_message();
+		$error = $this->db->_error_message();*/
 		
 		if (empty($error))
-			echo "true";
+			echo "$changedkeyvalue";
 		else
 			echo "false";
-		
-		/*	This is not functional yet. I need help with the queries/checks on the input values edited.
 		try {
 			$this->load->model('edit_database_model', 'editor');
-			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);			
+			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);	
+			echo "true";
 		}catch (Exception $e) {
+			$error_msg = $e->getMessage();
+			echo "error_msg";
 		}
-		*/
+		
 	}
 	
 	public function delete() {

@@ -1,6 +1,6 @@
 <?php
 
-  public class Checker extends CI_Model {
+  class Checker extends CI_Model {
 			
 		function __construct() {
 			parent::__construct();
@@ -175,9 +175,9 @@
 		}
 		
 		protected function checkSemester($semester){
-			$valid_semesters = {'1st', '2nd', 'Sum'};
+			$valid_semesters = array('1st','2nd', 'Sum');
 		
-			if (!in_array($semester, $valid_semesters)) {
+			if (!in_array($semester, $valid_semesters)){
 				throw new Exception("$semester is not a valid semester!");
 			}
 			else

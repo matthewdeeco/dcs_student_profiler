@@ -22,7 +22,7 @@ $(document).ready(function(){
 			},
 			dataType: 'html',
 			success: function (retVal) {
-			
+				alert(retVal);
 			},
 			error: function(){
 					alert("Error in connecting to the database.");
@@ -47,6 +47,7 @@ $(document).ready(function(){
 			dataType: 'html',
 			success: function (retVal) {
 				//show check mark beside the row
+				alert("Success?? : "+ retVal);
 				$(changed_cell).css("background-color","white").css("color","#555555");
 			},
 			error: function(){

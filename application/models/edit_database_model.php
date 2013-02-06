@@ -1,7 +1,5 @@
 <?php
-
-	include 'checkr.php';
-	include 'checker.php'
+	include 'checker.php';
 	
 	class Edit_Database_Model extends CI_Model {
 	
@@ -11,6 +9,7 @@
 
 		
 	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
+		/*
 		if($tablename == 'persons'){
 			$this->checkPersonsField($changedkeyname, $changedkeyvalue);
 		}else if($tablename == 'curricula'){
@@ -28,11 +27,11 @@
 		}else if($tablename == 'studentclasses'){		//Pati ba 'to pwedeng mabago?
 			$this->checkStudentClasses($changedkeyname, $changedkeyvalue);
 		}
-		
-		updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
+		*/
+		$this->updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
 	}
 	
-	public function updateRow($tablename, $primarykeyname, $primarykeyvalue $changedkeyname, $changedkeyvalue)(
+	public function updateRow($tablename, $primarykeyname, $primarykeyvalue,$changedkeyname, $changedkeyvalue){
 		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 		$this->db->query($query);
 		$this->db->_error_message();
@@ -51,7 +50,7 @@
 	}	
 	
 	public function checkCurricula($changedkeyname, $changedkeyvalue){
-		$this->checkCurriculumName($changedkeyvalue)
+		$this->checkCurriculumName($changedkeyvalue);
 	}
 	
 	public function checkCourses($changedkeyname, $changedkeyvalue){
@@ -68,7 +67,7 @@
 	
 	public function checkStudents($changedkeyname, $changedkeyvalue){
 		if($changedkeyname == 'studentno'){			
-			$this->checkStudentNo($changedkeyvalue)			
+			$this->checkStudentNo($changedkeyvalue);	
 		}else if($changedkeyname == 'curriculumid'){
 			$this->checkCurriculumId($changedkeyvalue);		
 		}else if($changedkeyname == 'personid'){
@@ -103,7 +102,7 @@
 			$this->checkCourseId($changedkeyvalue);		
 		}else if($changedkeyname == 'section'){
 			$this->checkSection($changedkeyvalue);		
-		}else if(($changedkeyname == 'classcode'){
+		}else if($changedkeyname == 'classcode'){
 			$this->checkClassCode($changedkeyvalue);	
 		}
 	}
@@ -264,4 +263,5 @@
 		}
 	}
 	*/
+	}
 ?>
