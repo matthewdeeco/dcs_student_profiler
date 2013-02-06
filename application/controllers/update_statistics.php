@@ -100,7 +100,7 @@ class Update_Statistics extends CI_Controller {
 		$backup_dir = $this->getAbsoluteBasePath().'dumps/';
 		if (!file_exists($backup_dir))
 			mkdir($backup_dir, 0755);
-		$backup_name = $backup_dir.$this->db->database.date("m-d-Y").".sql";
+		$backup_name = $backup_dir.$this->db->database.date("m-d-Y_h-i-s").".sql";
 		$cmd = escapeshellarg($pg_dump)." -U postgres ".$this->db->database." > $backup_name 2>&1";
 		exec($cmd, $output, $status);
 		$success = ($status == 0);
@@ -108,6 +108,7 @@ class Update_Statistics extends CI_Controller {
 			$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
 			$this->input->set_cookie($cookie);
 		}
+		echo $cmd;
 		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
 		$data['success'] = $success;
