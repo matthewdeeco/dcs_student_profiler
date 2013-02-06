@@ -739,7 +739,8 @@ class Spreadsheet_Excel_Reader {
 							(preg_match("/Class code/", $e->getMessage()) && $col == 8) || ($e->getMessage() == "Class is empty" && $col == 9) ||
 							($e->getMessage() == "Grade is empty" && $col == 10) || ($e->getMessage() == "Expected input in completion(g)" && $col == 11) ||
 							($e->getMessage() == "Invalid input in secondcompletion" && $col == 12) || ($e->getMessage() == "Grade and secondcompletion should have the same values" && ($col == 10 || $col == 12))){
-						$val = "<input type=\"text\" name=\"firstname\" STYLE=\"background-color: #99FF33;\" value=\"$val\">";
+						$val = "<input type=\"text\" name=\"cell_r" .$row. "c" .$col. "\" STYLE=\"background-color: #99FF33;\" value=\"$val\" readonly>";
+
 						}
 					}
 					else { 
@@ -752,7 +753,7 @@ class Spreadsheet_Excel_Reader {
 							(preg_match("/Class code/", $e->getMessage()) && $col == 8) || (($e->getMessage() == "Course name and section cannot be distinguished" || $e->getMessage() == "Section is too long" || $e->getMessage() == "Course name is not in the list of courses") && $col == 9) ||
 							(($e->getMessage() == "Invalid input in grade") && $col == 10) || ($e->getMessage() == "Expected input in completion(g): '4.00', 'INC', 'DRP'" && $col == 11) ||
 							($e->getMessage() == "Invalid input in secondcompletion" && $col == 12) || ($e->getMessage() == "Grade and secondcompletion should have the same values" && ($col == 10 || $col == 12)) ){
-							$val = "<input type=\"text\" name=\"firstname\" STYLE=\"background-color: #99FF33;\" value=\"$val\">";
+							$val = "<input type=\"text\"  name=\"cell_r" . $row . "c" . $col . "\" STYLE=\"background-color: #99FF33;\" value=\"$val\" readonly>";
 						}
 						
 						$link = $this->hyperlink($row,$col,$sheet);
@@ -769,9 +770,11 @@ class Spreadsheet_Excel_Reader {
 			$out .= "<td><font size=\"1\">".$e->getMessage()."</font></td>";
 			$out .= "</tr>\n";
 		//}
-		if($last)
+		if($last){
 			$out .= "</tbody></table>";
 			
+		}
+		
 		return $out;
 	}
 	
@@ -1864,6 +1867,10 @@ class Spreadsheet_Excel_Reader {
 			$value=-2;
 		}
 		return $value;
+	}
+	
+	function edit_excel(){
+		echo "Success!";
 	}
 
 }

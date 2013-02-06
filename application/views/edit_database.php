@@ -22,7 +22,7 @@ $(document).ready(function(){
 			},
 			dataType: 'html',
 			success: function (retVal) {
-			
+				alert(retVal);
 			},
 			error: function(){
 					alert("Error in connecting to the database.");
@@ -47,7 +47,14 @@ $(document).ready(function(){
 			dataType: 'html',
 			success: function (retVal) {
 				//show check mark beside the row
+<<<<<<< HEAD
+				$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
+				setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
+				//$(changed_cell).show('highlight',{color: '#C8FB5E'},'fast').css("background-color","white").css("color","#555555");
+=======
+				alert("Success?? : "+ retVal);
 				$(changed_cell).css("background-color","white").css("color","#555555");
+>>>>>>> 18cfa69c440f75a1f681f309785ba952321d0e5f
 			},
 			error: function(){
 				// $(changed_cell).addClass("edit_failure");

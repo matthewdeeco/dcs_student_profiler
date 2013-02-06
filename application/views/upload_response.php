@@ -2,7 +2,7 @@
 if (!isset($success));
 else if ($success) {
 	echo "<span class='success'>File successfully uploaded<br></span><br>";
-	echo "<br><b><span class='success'>$success_rows</span></b> rows added, ";
+	echo "<b><span class='success'>$success_rows</span></b> rows added, ";
 	echo "<b><span class='error'>$error_rows</span></b> rows with errors. ";
 	echo $excel_dump;
 	if($error_rows > 0){

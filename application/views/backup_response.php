@@ -1,5 +1,5 @@
 <?php
-if ($status == 0) {
+if ($success) {
 	echo "<h4><span class='success'>Backup Success!<br></span></h4>";
 	echo "Backup was saved to <span class='backup-location'>$backup_location</span>.<br>";
 }
