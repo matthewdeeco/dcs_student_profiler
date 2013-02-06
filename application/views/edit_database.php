@@ -106,6 +106,8 @@ function printTable($rows, $tablename) {
 function printRow($row, $tablename) {
 	echo "<tr>";
 	$column = 0;
+	$primarykeyvalue = 0;
+	
 	foreach ($row as $key => $value) {
 		$length = strlen($value) + 1;
 		if ($column == 0) {
