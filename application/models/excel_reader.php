@@ -654,7 +654,6 @@ class Spreadsheet_Excel_Reader {
 	// --------------
 	// END PUBLIC API
 	
-	//SUBOK LAAANG! :D 
 	function dumpRow($row, $first=false, $last=false, $e) {
 		
 		$width = array();

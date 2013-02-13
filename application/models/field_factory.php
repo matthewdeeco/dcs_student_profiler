@@ -1,0 +1,36 @@
+<?php
+require_once 'fields/field.php';
+require_once 'fields/acadyear.php';
+require_once 'fields/semester.php';
+require_once 'fields/studentno.php';
+require_once 'fields/lastname.php';
+require_once 'fields/firstname.php';
+require_once 'fields/middlename.php';
+require_once 'fields/pedigree.php';
+require_once 'fields/classcode.php';
+require_once 'fields/classname.php';
+require_once 'fields/grade.php';
+
+class Field_factory extends CI_Model {
+	private $fields = array('', 'Acadyear', 'Semester', 'Studentno', 'Lastname', 
+		'Firstname', 'Middlename', 'Pedigree', 'Classcode', 'Classname', 'Grade');
+	
+	public function createField($field, $values) {
+		if (is_numeric($field))
+			return $this->createFieldByNum($field, $values);
+		else
+			return $this->createFieldByName($field, $values);
+	}
+	
+	public function createFieldByNum($fieldnum, $values) {
+		$fieldname = $this->fields[$fieldnum];
+		return $this->createFieldByName($fieldname, $values);
+	}
+	
+	public function createFieldByName($fieldname, $values) {
+		$field = new $fieldname;
+		$field->initialize($values);
+		return $field;
+	}
+}
+?>

@@ -2,6 +2,8 @@
 
 /** Defines a family of parser classes (excel parser, csv parser in the future) */
 abstract class Parser extends CI_Model {
+	protected $successcount = 0;
+	protected $errorcount = 0;
 		
 	/** Implementation depends on the type of parser. */
 	public abstract function parse();

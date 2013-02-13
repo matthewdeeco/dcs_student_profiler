@@ -33,8 +33,9 @@
 }
 /*end delete button definition*/
 
-.edit_failure{
-	background-color: red;
+.edit_failure .inputcell{
+	background-color:#CF0220;
+	color: white;
 	/*border-color: #df382c;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -58,14 +59,6 @@
 	border:10px;
 }
 
-.excel table {
-	padding-right: 20px;
-}
-
-.excel table, .excel th, .excel td{
-	padding:3px;
-}
-
 .databasetablename {
 	font-size:20px;
 	font-weight:bold;
@@ -79,6 +72,7 @@
 	border-collapse:collapse;
 	border:1px solid green;
 	padding:0px;
+	white-space:nowrap;
 }
 
 .databasetable th {

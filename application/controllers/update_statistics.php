@@ -32,11 +32,33 @@ class Update_Statistics extends CI_Controller {
 		$changedkeyname = $_POST['changedkeyname'];
 		$changedkeyvalue = $_POST['changedkeyvalue'];
 		try {
-			$this->load->model('edit_database_model', 'editor');
-			$this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createField($changedkeyname, array($changedkeyvalue));
+			$field->parse();
+			$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+			$this->db->query($query);
+			$db_error = $this->db->_error_message();
+			if (!empty($db_error))
+				throw new Exception($db_error);
+			// $this->load->model('edit_database_model', 'editor', true);
+			// $this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
 			echo "true";
 		} catch (Exception $e) {
 			echo $e->getMessage();
+		}
+	}
+	
+	public function test() {
+		$this->load->model("Field_factory", "field_factory");
+		for ($col = 1; $col <= 10; $col++) { // last 3 columns (grades) are parsed at the same time
+			$cell = $col;
+			try { // if parsing the row failed, will immediately skip to catch
+				// echo $this->field_factory->fields[$col - 1];
+				$field = $this->field_factory->createField($col - 1, array($cell));
+				echo $field->parse();
+			} catch (Exception $e) {
+				echo $e->getMessage();
+			}
 		}
 	}
 	
@@ -112,7 +134,6 @@ class Update_Statistics extends CI_Controller {
 			$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
 			$this->input->set_cookie($cookie);
 		}
-		echo $cmd;
 		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
 		$data['success'] = $success;

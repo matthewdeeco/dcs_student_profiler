@@ -196,7 +196,7 @@
 		}
 		
 		protected function checkTermId($termid){
-			$query = "SELECT * FROM terms WHERE termid = '$termid'";
+			$query = "SELECT termid FROM terms WHERE termid = '$termid'";
 			$this->db->query($query);
 			$row = $result->result_array();
 		

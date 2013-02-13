@@ -1,10 +1,12 @@
 <?php
 
 /** Holds a row of data to be added to the database. */
-class Query_Data extends CI_Model {
+class Query_data extends CI_Model {
+	private $shouldExecute;
 	
 	public function __construct() {
-	  parent::__construct();
+		parent::__construct();
+		$this->shouldExecute = true;
 	}
 
 	/** Holds the query data (acad year, last name, grade, etc. */
@@ -13,18 +15,11 @@ class Query_Data extends CI_Model {
 		acadyear	semester	termname	studentno
 		firstname	middlename	lastname	pedigree
 		classcode	coursename	section		grade
+		termid		batch
 	*/
 	
-	/** Prints the query data in readable form. */
-	public function tostring() {
-		return "
-		<td>$this->termname</td>
-		<td>$this->studentno</td>
-		<td>$this->firstname $this->middlename $this->lastname $this->pedigree</td>
-		<td>$this->classcode</td>
-		<td>$this->coursename</td>
-		<td>$this->section</td>
-		<td>$this->grade</td>";
+	public function doNotExecute() {
+		$this->shouldExecute = false;
 	}
 	
 	private function distinctInsert($search_query, $insert_query, $primary_key) {
@@ -134,6 +129,8 @@ class Query_Data extends CI_Model {
 	}
 	
 	public function execute() {
+		if (!$this->shouldExecute)
+			return;
 		$personid = $this->get_personid();
 		$curriculumid = $this->get_curriculumid();
 		$studentid = $this->get_studentid($personid, $curriculumid);

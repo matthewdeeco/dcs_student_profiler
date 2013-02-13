@@ -47,7 +47,7 @@ foreach ($table_names as $table_name) {
 </div>
 
 <div id = "container" style="
-	width:78%;
+	width:75%;
 	padding-left:30px;
 	padding-top:10px;
 	padding-bottom:20px;
