@@ -33,15 +33,6 @@
 }
 /*end delete button definition*/
 
-.edit_failure .inputcell{
-	background-color:#CF0220;
-	color: white;
-	/*border-color: #df382c;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
-}
-
 .error {
 	color:red;
 }
@@ -80,6 +71,15 @@
 	background-color:green;
 	color:white;
 	padding:0px 5px 0px 5px;
+}
+
+.databasetable td .upload_error {
+	background-color:#CF0220;
+	color: white;
+	/*border-color: #df382c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
 }
 
 .primarykey {

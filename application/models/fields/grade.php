@@ -2,24 +2,27 @@
 require_once 'field.php';
 
 class Grade extends Field {
-	public function parse() {
-		$grade = $this->values[0];
-		$compgrade = $this->values[1];
-		$secondcompgrade = $this->values[2];
+	public function parse($grade, $compgrade, $secondcompgrade) {
+		$grade = trim($grade);
+		$compgrade = trim($compgrade);
+		$secondcompgrade = trim($secondcompgrade);
 		if (empty($grade))
-			return "NG";
-		else if (preg_match('/^([1-2](\.([27]5|[05]0))?)|([3-5](\.00)?)$/', trim($grade)))
-			return number_format($grade, 2); // 2 decimal places					
-		else if (preg_match('/^DRP$|^NG$/', trim($grade)))
-			return $grade;
-		else if (preg_match('/^(4(\.00)?)$|^INC$/', trim($grade))) {
+			$grade = "NG";
+		else if (is_numeric($grade))
+			$grade = number_format($grade, 2); // make into 2 decimal places
+		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', trim($grade)))
+			; // leave grade as is
+		else if (preg_match('/^DRP$|^NG|^P|^IP|^F$/', trim($grade)))
+			; // leave grade as is
+		else if (preg_match('/^(4(\.00))$|^INC$/', trim($grade))) {
 			if (empty($compgrade))
-				return $grade;
-			else if (preg_match('/^([1-2](\.([27]5|[05]0))?)|([3-5](\.00)?)$/', trim($compgrade)))
-				return number_format($compgrade, 2); // 2 decimal places
+				; // leave grade as is
+			else if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', trim($compgrade)))
+				; // leave grade as is
 		}
 		else
 			throw new Exception("Invalid input in grade");
+		$this->values['grade'] = $grade;
 	}
 }
 ?>

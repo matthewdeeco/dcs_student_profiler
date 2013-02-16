@@ -5,6 +5,8 @@ require_once 'query_data.php';
 
 class Excel_Parser extends Parser {
 	private $query_data;
+	private $parsers;
+	private $spreadsheet, $rows, $cols;
 	
 	/** 
 		$excelfile - the filename of the input excel file to be parsed
@@ -12,56 +14,57 @@ class Excel_Parser extends Parser {
 	public function initialize($excelfile) {
 		$this->spreadsheet = new Spreadsheet_Excel_Reader($excelfile);
 		$this->load->model('query_data', 'querydata');
+		$this->rows = $this->spreadsheet->rowcount();
+		$this->cols = $this->spreadsheet->colcount();
+		
+		$this->load->model("Field_factory", "field_factory");
+		$this->parsers = array();
+		for ($col = 1; $col <= $this->cols - 2; $col++) // last 3 columns (grades) are parsed at the same time
+			$this->parsers[$col] = $this->field_factory->createFieldByNum($col);
 	}
 	
 	/** Start parsing $this->spreadsheet. */
 	public function parse() {
-		$rows = $this->spreadsheet->rowcount();
-		$cols = $this->spreadsheet->colcount();
 		$output = "<table class='databasetable'>";
-		$this->load->model("Field_factory", "field_factory");
 		// If 1st row is not a header, change to $i = 1
-		$output .= "<tr>";
-		for ($col = 1; $col <= $cols - 2; $col++) {
+		$output .= "<tr><th>row</th>";
+		for ($col = 1; $col <= $this->cols - 2; $col++) {
 			$header = $this->spreadsheet->val(1, $col);
 			$output .= "<th>$header</th>";
 		}
 		$output .= "<tr>";
-		for ($row = 2; $row <= $rows; $row++) {
+		for ($row = 2; $row <= $this->rows; $row++) {
 			$this->querydata = new Query_data;
-			$output .= $this->parseRow($row, $cols);
+			$output .= $this->parseRow($row);
 			$this->querydata->execute();
 		}
 		$output .= "</table>";
 		return $output;
 	}
 	
-	private function parseRow($row, $cols) {
+	private function parseRow($row) {
 		$success = true; // no errors encountered
-		$output = "<tr>";
-		for ($col = 1; $col <= $cols - 2; $col++) { // last 3 columns (grades) are parsed at the same time
-			$values = array($this->spreadsheet->val($row, $col));
-			if ($col == $cols - 2) { // grades, include comp and secondcomp
-				$values[] = $this->spreadsheet->val($row, $col+1);
-				$values[] = $this->spreadsheet->val($row, $col+2);
-			}
+		$output = "<tr><th>".$row."</th>";
+		for ($col = 1; $col <= $this->cols - 2; $col++) { // last 3 columns (grades) are parsed at the same time
+			$value = $this->spreadsheet->val($row, $col);
 			try {
-				$field = $this->field_factory->createFieldByNum($col, $values);
-				$fieldname = strtolower(get_class($field));
-				$field->parse();
-				$value = $field->getValue();
+				$field = $this->parsers[$col];
+				if ($col == $this->cols - 2) { // grades, include comp and secondcomp
+					$compgrade = $this->spreadsheet->val($row, $col + 1);
+					$secondcompgrade = $this->spreadsheet->val($row, $col + 2);
+					$field->parse($value, $compgrade, $secondcompgrade);
+				}
+				else
+					$field->parse($value);
+				$field->insertToQueryData($this->querydata);
 				$output .= "<td class='databasecell'>$value</td>";
-				$this->querydata->$fieldname = $value;
 			} catch (Exception $e) {
 				$this->querydata->doNotExecute();
 				$message = $e->getMessage(); // store for tooltip message
-				$output .= "<td title='$message'><div class='databasecell'><input type='text' class='edit_failure' value='$values[0]'></div></td>";
+				$output .= "<td title='$message'><div class='databasecell upload_error'>$value</div></td>";
 				$success = false;
 			}
 		}
-		$this->querydata->batch = 2009;
-		$this->querydata->termid = 201012;
-		$this->querydata->termname = "1st Semester 2010-2011";
 		$output .= "</tr>";
 		if ($success) {
 			$this->successcount++;

@@ -6,42 +6,26 @@ class Semester extends Field{
 	const SECOND = "2nd";
 	const SUMMER = "Sum";
 	
-	public function parse() {
-		$semester = $this->values[0];
+	public function parse($semester, $a = null, $b = null) {
 		if (empty($semester))
 			throw new Exception("Semester is blank");
-		else if (is_numeric($semester)) {
-			switch($semester) {
-				case 1: case 2: case 3:
-					return $semester;
-			}
+		else if (!is_numeric($semester))
+			throw new Exception("Semester must be numeric");
+		else if ($semester < 1 || $semester > 3)
+			throw new Exception("Semester must be between 1 and 3");
+		$this->values['semid'] = $semester;
+		if ($semester == 1) {
+			$this->values['semname'] = "1st Semester";
+			$this->values['semester'] = "1st";
 		}
-		throw new Exception("Semester is invalid");
-	}
-	
-	public function getName() {
-		return "Semester";
-	}
-	
-	public function toString() {
-		$semester = $this->values[0];
-		switch ($semester) {
-			case 1:
-				return "1st Semester";
-			case 2:
-				return "2nd Semester";
-			case 3:
-				return "Summer";
-			default:
-				throw new Exception("Invalid semester");
+		else if ($semester == 2) {
+			$this->values['semname'] = "2nd Semester";
+			$this->values['semester'] = "2nd";
 		}
-	}
-	
-	/** Returns the termid representation of $semester.
-		$semester - the semester code
-	*/
-	public static function semtermid($semester) {
-		return $this->values[0];
+		else {
+			$this->values['semname'] = "Summer";
+			$this->values['semester'] = "Sum";
+		}
 	}
 }
 ?>

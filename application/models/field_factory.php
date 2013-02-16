@@ -22,15 +22,13 @@ class Field_factory extends CI_Model {
 			return $this->createFieldByName($field, $values);
 	}
 	
-	public function createFieldByNum($fieldnum, $values) {
+	public function createFieldByNum($fieldnum) {
 		$fieldname = $this->fields[$fieldnum];
-		return $this->createFieldByName($fieldname, $values);
+		return $this->createFieldByName($fieldname);
 	}
 	
-	public function createFieldByName($fieldname, $values) {
-		$field = new $fieldname;
-		$field->initialize($values);
-		return $field;
+	public function createFieldByName($fieldname) {
+		return new $fieldname;
 	}
 }
 ?>

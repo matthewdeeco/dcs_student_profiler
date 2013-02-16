@@ -2,8 +2,7 @@
 require_once 'field.php';
 
 class Acadyear extends Field {
-	public function parse() {
-		$acadyear = $this->values[0];
+	public function parse($acadyear, $a = null, $b = null) {
 		$acadyear = preg_replace('/ /', '', $acadyear); // remove spaces
 		if (empty($acadyear)) // nothing was left
 			throw new Exception("Acad Year is empty");
@@ -21,11 +20,8 @@ class Acadyear extends Field {
 				throw new Exception("Start and end of Acad Year is not 1 year apart");
 			$acadyear = $start."-".$end;
 		}
-		return $acadyear;
-	}
-	
-	public function getName() {
-		return "Acad year";
+		$this->values['acadyear'] = $acadyear;
+		$this->values['acadid'] = $start;
 	}
 }
 ?>

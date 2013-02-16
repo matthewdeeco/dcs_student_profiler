@@ -6,20 +6,11 @@ abstract class Field extends CI_Model {
 		parent::__construct();
 	}
 	
-	public abstract function parse();
-	public function getName() {
-	}
+	public abstract function parse($value1, $value2, $value3);
 	
-	public function initialize($values) {
-		$this->values = $values;
-	}
-	
-	public function getValue($i = 0) {
-		return $this->values[$i];
-	}
-	
-	public function toString() {
-		return $this->values[0];
+	public final function insertToQueryData(&$queryData) {
+		foreach ($this->values as $key => $value)
+			$queryData->$key = $value;
 	}
 }
 ?>
