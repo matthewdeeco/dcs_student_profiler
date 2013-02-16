@@ -7,7 +7,10 @@ class Grade extends Field {
 		$compgrade = trim($compgrade);
 		$secondcompgrade = trim($secondcompgrade);
 		if (empty($grade))
-			$grade = "NG";
+			if (empty($compgrade))
+				$grade = "NG";
+			else
+				throw new Exception("Unexpected input in compgrade");
 		else if (is_numeric($grade))
 			$grade = number_format($grade, 2); // make into 2 decimal places
 		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', trim($grade)))

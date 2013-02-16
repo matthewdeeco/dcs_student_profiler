@@ -10,7 +10,7 @@ class Classname extends Field {
 		$coursename = substr($classname, 0, $lastspace);
 		$section = substr($classname, $lastspace + 1);
 		if (strlen($section) > 12)
-			throw new Exception("Section is too long");
+			throw new Exception("Section is longer than 12 characters");
 		$this->values['coursename'] = $coursename;
 		$this->values['section'] = $section;
 	}
