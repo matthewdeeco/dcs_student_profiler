@@ -49,13 +49,13 @@ $(document).ready(function(){
 					$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
 					setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
 				} else {
-					// alert(retVal);
+					alert(retVal);
 					$(changed_cell).css("background-color","#CF0220").css("color","white");
 				}
 			},
 			error: function(){
 				// $(changed_cell).addClass("edit_failure");
-				// alert(retVal);
+				alert(retVal);
 				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}
 		  });//endajax
@@ -97,8 +97,6 @@ function printTable($rows, $tablename) {
 		if($key != 'personid')
 			echo "<th>$key</th>";
 	
-	//echo "<th></th>"; //for the delete icon
-	
 	echo "</tr>";
 	foreach($rows as $row) {
 		printRow($row, $tablename);
@@ -116,21 +114,17 @@ function printRow($row, $tablename) {
 		if ($column == 0) {
 			$primarykeyname = $key;
 			$primarykeyvalue = $value;
-			
-			//echo "<td class='primarykey'>$primarykeyvalue</td>";
-			//printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value);
+		//	echo "<td class='primarykey'>$primarykeyvalue</td>";
 		}
 		else {
-		
 			printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value);
 		}
 		$column++;
 	}
 	
-	/*echo "<td><input type=\"button\" class=\"remove_button\" name=\"remove\" value=\"x\" data-primarykeyname=\"$primarykeyname\"
-	data-primarykeyvalue=\"$primarykeyvalue\" data-tablename=\"$tablename\"></td>";	//for the delete icon
-	
-	echo "</tr>";*/
+	// echo "<td><input type=\"button\" class=\"remove_button\" name=\"remove\" value=\"x\" data-primarykeyname=\"$primarykeyname\"
+	// data-primarykeyvalue=\"$primarykeyvalue\" data-tablename=\"$tablename\"></td>";	//for the delete icon
+	// echo "</tr>"
 }
 
 function printCell($tablename, $primarykeyname, $primarykeyvalue, $key, $value = '') {
