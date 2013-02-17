@@ -274,10 +274,10 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayView($viewname, $data = null) {
-		if ($this->headers_included)
+		// if ($this->headers_included)
 			$this->load->view($viewname, $data);
-		else
-			$this->displayViewWithHeaders($viewname, $data);
+		// else
+			// $this->displayViewWithHeaders($viewname, $data);
 	}
 }
 
