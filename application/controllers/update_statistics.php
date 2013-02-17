@@ -226,17 +226,24 @@ class Update_Statistics extends CI_Controller {
 	private function getTableRows($tablename) {
 		$table = array();
 		$table['table_name'] = $tablename;
-		$result = $this->db->query("SELECT * FROM $tablename;");
+		//$result = $this->db->query("SELECT * FROM $tablename;");
+		if($tablename == 'students')
+			$result = $this->db->query("SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;");
 		$rows = $result->result_array();
 		$table['rows'] = $rows;
 		return $table;
 	}
 
 	private function initializeTableNames() {
-		$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
-		$this->tablenames['table_names'] = $result->result_array();
-		foreach ($this->tablenames['table_names'] as &$tablename)
-			$tablename = $tablename['table_name'];
+		//$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
+		//$result = $this->db->query("SELECT * FROM students;");
+		$result = array('students');
+		
+		//$this->tablenames['table_names'] = $result->result_array();
+		$this->tablenames['table_names'] = $result;
+		//foreach ($this->tablenames['table_names'] as &$tablename)
+			//$tablename = $tablename['table_name'];
+			
 	}
 	
 	private function getAllTables() {
