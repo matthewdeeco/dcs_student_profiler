@@ -46,6 +46,7 @@ $(document).ready(function(){
 			dataType: 'html',
 			success: function (retVal) {
 				if (retVal == 'true') {
+					alert(retVal);
 					$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
 					setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
 				} else {
@@ -55,7 +56,7 @@ $(document).ready(function(){
 			},
 			error: function(){
 				// $(changed_cell).addClass("edit_failure");
-				alert(retVal);
+				alert("Call to database failed.");
 				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}
 		  });//endajax

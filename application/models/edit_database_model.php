@@ -1,12 +1,38 @@
 <?php
 	require_once 'checker.php';
 	
-	class Edit_Database_Model extends Checker {
-	
+class Edit_Database_Model extends Checker {
+	private $table_fields;
+		
 	public function __construct() {
 	  parent::__construct();
+	  $this->getTableFields();
 	}	
-
+	
+	public function getTableFields(){
+		$this->table_fields['student'] = $this->db->list_fields('students');
+		$this->table_fields['persons'] = $this->db->list_fields('persons');
+		$this->table_fields['grades'] = $this->db->list_fields('grades');	
+	}
+	
+	public function getTableForUpdate($changedkeyvalue){		
+		if(in_array($changedkeyvalue, $this->table_fields['students'])){
+			return 'students';
+		}
+		else if(in_array($changedkeyvalue, $this->table_fields['persons'])){
+			return 'persons';
+		}
+		else if(in_array($changedkeyvalue, $this->table_fields['grades'])){
+			return 'grades';
+		}
+	}
+	
+	public function updateRow($primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
+		$tablename = $this->getTableForUpdate($changedkeyvalue);	
+		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+		$this->db->query($query);
+		$this->db->_error_message();
+	}
 		
 	public function validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue){
 		if($tablename == 'persons'){
@@ -28,12 +54,6 @@
 		}*/
 		
 		$this->updateRow($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);		
-	}
-	
-	public function updateRow($tablename, $primarykeyname, $primarykeyvalue,$changedkeyname, $changedkeyvalue){
-		$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
-		$this->db->query($query);
-		$this->db->_error_message();
 	}
 
 	public function checkPersonsField($changedkeyname, $changedkeyvalue){
