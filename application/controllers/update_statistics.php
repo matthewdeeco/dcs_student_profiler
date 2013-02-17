@@ -1,7 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Update_Statistics extends CI_Controller {
-	var $tablenames;
+	private $tablenames;
+	private $headers_included = false;
 	
 	public function __construct() {
 		parent::__construct();
@@ -9,6 +10,7 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function index() {
+		$this->headers_included = true;
 		$this->load->view('include/header');
 		$this->load->view('include/header-teamc', $this->tablenames);
 		$this->displayUploadFileView();
@@ -22,7 +24,7 @@ class Update_Statistics extends CI_Controller {
 		$errormessage = $this->db->_error_message();
 		if (!empty($errormessage))
 			$data['errormessage'] = "Table ".$tablename." does not exist!";
-		$this->load->view('edit_database', $data);
+		$this->displayView('edit_database', $data);
 	}
 	
 	public function update() {
@@ -47,36 +49,6 @@ class Update_Statistics extends CI_Controller {
 			echo $e->getMessage();
 		}
 	}
-	
-	public function test() {
-		$this->load->model("Field_factory", "field_factory");
-		for ($col = 1; $col <= 10; $col++) { // last 3 columns (grades) are parsed at the same time
-			$cell = $col;
-			try { // if parsing the row failed, will immediately skip to catch
-				// echo $this->field_factory->fields[$col - 1];
-				$field = $this->field_factory->createField($col - 1, array($cell));
-				echo $field->parse();
-			} catch (Exception $e) {
-				echo $e->getMessage();
-			}
-		}
-	}
-	
-	public function delete() {
-		$tablename = $_POST['tablename'];
-		$primarykeyname = $_POST['primarykeyname'];
-		$primarykeyvalue = $_POST['primarykeyvalue'];
-		
-		$query = "DELETE FROM $tablename WHERE $primarykeyname='$primarykeyvalue'";
-		$this->db->query($query);
-		$error = $this->db->_error_message();
-		if (!empty($error)){
-			#throw new Exception("Error deleting from the database");
-			echo 'false';
-		}
-		else
-			echo 'true';
-	}	
 	
 	public function view($tablename = null) {
 		$this->edit($tablename);
@@ -113,7 +85,7 @@ class Update_Statistics extends CI_Controller {
 			$this->performBackup($cookie);
 		else if (substr(php_uname(), 0, 7) == "Windows") {
 			$data['dest'] = 'update_statistics/backup';
-			$this->load->view('postgres_bin', $data);
+			$this->displayView('postgres_bin', $data);
 		}
 		else
 			$this->performBackup('/usr/bin');
@@ -137,13 +109,13 @@ class Update_Statistics extends CI_Controller {
 		$data['backup_location'] = $backup_name;
 		$data['output'] = $output;
 		$data['success'] = $success;
-		$this->load->view('backup_response', $data);
+		$this->displayView('backup_response', $data);
 	}
 	
 	public function restore() {
 		$data['message'] = 'Select the database backup to restore';
 		$data['dest'] = site_url('update_statistics/performRestore');
-		$this->load->view('upload_file', $data);
+		$this->displayView('upload_file', $data);
 	}
 	
 	private function getPostgresBinLocation() {
@@ -157,7 +129,7 @@ class Update_Statistics extends CI_Controller {
 			$pg_bin_dir = $cookie;
 		else if (substr(php_uname(), 0, 7) == "Windows") {
 			$data['dest'] = 'update_statistics/restore';
-			$this->load->view('postgres_bin', $data);
+			$this->displayView('postgres_bin', $data);
 		}
 		else
 			$pg_bin_dir = '/usr/bin';
@@ -184,7 +156,7 @@ class Update_Statistics extends CI_Controller {
 	public function sql() {
 		$data['message'] = 'Select the sql file to run';
 		$data['dest'] = site_url('update_statistics/performSqlQuery');
-		$this->load->view('upload_file', $data);
+		$this->displayView('upload_file', $data);
 	}
 	
 	public function performSqlQuery() {
@@ -245,7 +217,6 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function parse($file, &$data) {
-		// start parsing
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);
 		$data['parse_output'] = $this->parser->parse();
@@ -294,11 +265,19 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	private function displayViewWithHeaders($viewname, $data = null) {
+		$this->headers_included = true;
 		$this->load->view('include/header');
 		$this->load->view('include/header-teamc', $this->tablenames);
 		$this->load->view($viewname, $data);
 		$this->load->view('include/footer-teamc', $this->tablenames);
 		$this->load->view('include/footer');
+	}
+	
+	private function displayView($viewname, $data = null) {
+		if ($this->headers_included)
+			$this->load->view($viewname, $data);
+		else
+			$this->displayViewWithHeaders($viewname, $data);
 	}
 }
 

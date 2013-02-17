@@ -32,7 +32,7 @@ class Excel_Parser extends Parser {
 			$header = $this->spreadsheet->val(1, $col);
 			$output .= "<th>$header</th>";
 		}
-		$output .= "<tr>";
+		$output .= "</tr>";
 		for ($row = 2; $row <= $this->rows; $row++) {
 			$this->querydata = new Query_data;
 			$output .= $this->parseRow($row);
@@ -75,41 +75,5 @@ class Excel_Parser extends Parser {
 			return $output; // add row for printing;
 		}
 	}
-	
-	/** Parse a row in the excel file.
-		$row - the row number
-	*/
-	private function parseRowOld($row) {
-		$acadyear = $this->spreadsheet->val($row, InputFields::AcadYear);
-		$semester = $this->spreadsheet->val($row, InputFields::Semester);
-		$this->parseTermName($acadyear, $semester);
-		
-		$studentno = $this->spreadsheet->val($row, InputFields::StudentNo);
-		$this->parseStudentNo($studentno);
-		
-		$lastname = $this->spreadsheet->val($row, InputFields::LastName);
-		$this->parseLastName($lastname);
-		
-		$firstname = $this->spreadsheet->val($row, InputFields::FirstName);
-		$this->parseFirstName($firstname);
-		
-		$middlename = $this->spreadsheet->val($row, InputFields::MiddleName);
-		$this->parseMiddleName($middlename);
-		
-		$pedigree = $this->spreadsheet->val($row, InputFields::Pedigree);
-		$this->parsePedigree($pedigree);
-		
-		$classcode = $this->spreadsheet->val($row, InputFields::ClassCode);
-		$this->parseClassCode($classcode);
-		
-		$classname = $this->spreadsheet->val($row, InputFields::ClassName);
-		$this->parseClassName($classname);
-		
-		$grade = $this->spreadsheet->val($row, InputFields::Grade);
-		$compgrade = $this->spreadsheet->val($row, InputFields::CompGrade);
-		$secondcompgrade = $this->spreadsheet->val($row, InputFields::SecondCompGrade);
-		$this->parseGrade($grade, $compgrade, $secondcompgrade);
-	}
-	
 }
 ?>
