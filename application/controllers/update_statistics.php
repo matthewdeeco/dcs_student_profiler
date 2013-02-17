@@ -35,13 +35,10 @@ class Update_Statistics extends CI_Controller {
 		$changedkeyvalue = $_POST['changedkeyvalue'];
 		try {
 			$this->load->model('Field_factory', 'field_factory');
-			$field = $this->field_factory->createField($changedkeyname, array($changedkeyvalue));
-			$field->parse();
+			$field = $this->field_factory->createFieldByName($changedkeyname);
+			$field->parse($changedkeyvalue);
 			$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
 			$this->db->query($query);
-			$db_error = $this->db->_error_message();
-			if (!empty($db_error))
-				throw new Exception($db_error);
 			// $this->load->model('edit_database_model', 'editor', true);
 			// $this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
 			echo "true";

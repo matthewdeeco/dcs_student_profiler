@@ -15,11 +15,11 @@ class Field_factory extends CI_Model {
 	private $fields = array('', 'Acadyear', 'Semester', 'Studentno', 'Lastname', 
 		'Firstname', 'Middlename', 'Pedigree', 'Classcode', 'Classname', 'Grade');
 	
-	public function createField($field, $values) {
+	public function createField($field) {
 		if (is_numeric($field))
-			return $this->createFieldByNum($field, $values);
+			return $this->createFieldByNum($field);
 		else
-			return $this->createFieldByName($field, $values);
+			return $this->createFieldByName($field);
 	}
 	
 	public function createFieldByNum($fieldnum) {
