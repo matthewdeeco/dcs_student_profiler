@@ -1,3 +1,8 @@
+<script type = "text/javascript" src = "assets/js/jquery-1.8.3.js"></script>
+<script language = "JavaScript" type = "text/JavaScript">
+function loading() {
+	$(#container).html("image/loading.gif").show();
+}
 <?php
 if (!isset($success));
 else if ($success) {
