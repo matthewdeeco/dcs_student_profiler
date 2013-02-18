@@ -1,5 +1,5 @@
 <script type = "text/javascript" src = "assets/js/jquery-1.8.3.js"></script>
-<script language = "JavaScript" type = "text/JavaScript">
+<script language = "JavaScript" type = "text/javascript">
 function loading() {
 	$("#container").html("image/loading.gif").show();
 }
@@ -21,7 +21,7 @@ else if ($success) {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" name="submit" value="Submit" />
+				<input type="submit" onclick="loading()" name="submit" value="Submit" />
 				<input type="reset" name="cancel" value="Cancel"/>
 			</td>
 		</tr>
