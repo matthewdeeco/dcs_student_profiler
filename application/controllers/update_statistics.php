@@ -235,6 +235,10 @@ class Update_Statistics extends CI_Controller {
 		//$result = $this->db->query("SELECT * FROM $tablename;");
 		if($tablename == 'students')
 			$result = $this->db->query("SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;");
+		else if($tablename == 'studentgrades')
+			$result = $this->db->query("SELECT persons.personid, studentno, lastname, firstname, middlename, pedigree, coursename, section, gradevalue FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid;
+");
+		
 		$rows = $result->result_array();
 		$table['rows'] = $rows;
 		return $table;
@@ -243,8 +247,7 @@ class Update_Statistics extends CI_Controller {
 	private function initializeTableNames() {
 		//$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
 		//$result = $this->db->query("SELECT * FROM students;");
-		$result = array('students');
-		
+		$result = array('students', 'studentgrades');
 		//$this->tablenames['table_names'] = $result->result_array();
 		$this->tablenames['table_names'] = $result;
 		//foreach ($this->tablenames['table_names'] as &$tablename)
