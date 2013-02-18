@@ -3,6 +3,7 @@
 function loading() {
 	$("#container").html("image/loading.gif").show();
 }
+</script>
 <?php
 if (!isset($success));
 else if ($success) {
