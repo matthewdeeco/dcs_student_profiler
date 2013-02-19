@@ -53,6 +53,41 @@ class Update_Statistics extends CI_Controller {
 		}
 	}
 	
+	public function updateGrade() {
+		$studentclassid = $_POST['studentclassid'];
+		$grade = $_POST['grade'];
+		
+		try {
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createFieldByName('Grade');
+			$field->parse($grade); //will throw an exception if grade format is wrong
+			
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->changeGrade($grade, $studentclassid);
+			echo "true";
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}//end update grade
+	
+	public function updateStudentInfo(){
+		$changedfield_name = $_POST['changedfield_name'];
+		$changedfield_value = $_POST['changedfield_value'];
+		$personid = $_POST['personid'];
+		
+		try {
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createFieldByName($changedfield_name);
+			$field->parse($changedfield_value); //will throw an exception if grade format is wrong
+			
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->changeStudentInfo($changedfield_name, $changedfield_value, $personid);
+			echo "true";
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}//end update student info
+	
 	public function view($tablename = null) {
 		$this->edit($tablename);
 	}
