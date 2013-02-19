@@ -1,7 +1,12 @@
 <script type = "text/javascript" src = "assets/js/jquery-1.8.3.js"></script>
 <script language = "JavaScript" type = "text/javascript">
 function loading() {
-	$("#container").html("image/loading.gif").show();
+	var loading_gif = "<?= base_url('images/loading.gif') ?>";
+	
+	// alert("<img src='" + loading_gif + "' alt='Loading...'>");
+	// document.getElementById('container').innerHTML = "<img src='" + loading_gif + "' alt='Loading...'>";
+	// $("#container").html("<img src=" + loading_gif + " alt='Loading...'>").show();
+	// alert(document.getElementById('container').innerHTML);
 }
 </script>
 <?php

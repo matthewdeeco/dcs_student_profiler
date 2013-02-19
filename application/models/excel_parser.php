@@ -1,13 +1,25 @@
 <?php
-require_once 'parser.php';
 require_once 'excel_reader.php';
 require_once 'query_data.php';
 
-class Excel_Parser extends Parser {
+class Excel_Parser extends CI_Model {
 	private $query_data;
 	private $parsers;
 	private $spreadsheet, $rows, $cols;
+	private $successcount = 0;
+	private $errorcount = 0;
+		
+	function __construct() {
+        parent::__construct();
+    }
 	
+	public function getErrorCount() {
+		return $this->errorcount;
+	}
+	
+	public function getSuccessCount() {
+		return $this->successcount;
+	}
 	/** 
 		$excelfile - the filename of the input excel file to be parsed
 	*/

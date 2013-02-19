@@ -76,23 +76,13 @@ class Query_data extends CI_Model {
 	}
 
 	private function get_courseid() {
-		$mscourses = '/^app physics |^bio |^chem |^env sci |^geol |^math |^mbb |^ms |^physics |^che |^ce |^coe |^ee |^eee |^ece |^ge |^ie |^mate |^me |^mete |^em /';
-
-		$lowercoursename = strtolower($this->coursename);
-		$search = "SELECT courseid FROM courses WHERE coursename = '$lowercoursename';";
 		$query = "SELECT MAX(courseid) FROM courses;";
 		$result = $this->db->query($query);
 		$row = $result->result_array();
 		$courseid = $row[0]['max'] + 1;
 
-		if(preg_match('/^cs /', $lowercoursename))
-			$domain = "CSE";
-		else if(preg_match($mscourses, $lowercoursename))
-			$domain = "MSEE";
-		else
-			$domain = "FE";
-
-		$insert = "INSERT INTO courses VALUES ($courseid, '$lowercoursename', 3, '$domain');";
+		$search = "SELECT courseid FROM courses WHERE coursename ILIKE '$this->coursename';";
+		$insert = "INSERT INTO courses VALUES ($courseid, '$this->coursename', 3, '$this->domain');";
 		$courseid = $this->distinctInsert($search, $insert, 'courseid');
 		return $courseid;
 	}
