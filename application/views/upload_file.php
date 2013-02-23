@@ -3,10 +3,10 @@
 function loading() {
 	var loading_gif = "<?= base_url('images/loading.gif') ?>";
 	
-	// alert("<img src='" + loading_gif + "' alt='Loading...'>");
-	// document.getElementById('container').innerHTML = "<img src='" + loading_gif + "' alt='Loading...'>";
-	// $("#container").html("<img src=" + loading_gif + " alt='Loading...'>").show();
-	// alert(document.getElementById('container').innerHTML);
+	 //alert("<img src='" + loading_gif + "' alt='Loading...'>");
+	 //document.getElementById('container').innerHTML = "<img src='" + loading_gif + "' alt='Loading...'>";
+	 //$("#container").html("<img src=" + loading_gif + " alt='Loading...'>").show();
+	 //alert(document.getElementById('container').innerHTML);
 }
 </script>
 <?php
@@ -18,6 +18,7 @@ else if ($success) {
 }
 ?>
 <form id="upload_form" enctype="multipart/form-data" action="<?=$dest?>" method="POST">
+	
 	<table width="50%" class="noborder">
 		<tr><strong><?=$message?></strong></tr>
 		<tr>
@@ -27,8 +28,11 @@ else if ($success) {
 		<tr>
 			<td></td>
 			<td>
-				<input type="submit" onclick="loading()" name="submit" value="Submit" />
-				<input type="reset" name="cancel" value="Cancel"/>
+				<input type="submit" onclick="loading()" name="submit" value="Submit" "/>
+				<input type="reset" name="cancel" value="Cancel""/>
+				<br> Reset Database? <input type="radio" name="reset" value="Yes" "/> Yes
+				<input type="radio" name="reset" value="No" "/> No
+				
 			</td>
 		</tr>
 	</table>
