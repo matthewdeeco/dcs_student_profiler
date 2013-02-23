@@ -99,6 +99,19 @@ class Update_Statistics extends CI_Controller {
 	// Called when an excel file is uploaded
 	public function performUpload() {
 		$data = array('success' => false);
+		if(!isset($_POST['reset']))
+			$data['reset'] = "No";
+		else
+			$data['reset'] = $_POST['reset'];
+			
+		if($data['reset'] == "Yes"){
+			$reset_success = $this->resetDatabase();
+			if($reset_success)
+				$data['reset_success'] = true;
+		}
+		else
+			$data['reset_success'] = false;
+		
 		// maintain a table to store uploaded gradessheets?
 		try {
 			$file = $this->getUploadedFile();
@@ -109,6 +122,22 @@ class Update_Statistics extends CI_Controller {
 			$data['errormessage'] = $e->getMessage();
 		}
 		$this->displayViewWithHeaders('upload_response', $data);
+	}
+	
+	public function resetDatabase(){
+		return $this->performResetDatabase();
+	}
+	
+	public function performResetDatabase(){
+		$reset_sql = $this->getResetSql();
+		if(file_exists($reset_sql)){
+			$query = $this->load->file($reset_sql, true);
+			$this->db->query($query);
+			$response = true;
+			return $response;
+		}
+		else
+			throw new Exception("Base file not found. Database cannot be reset.");
 	}
 	
 	public function backup() {
@@ -234,7 +263,7 @@ class Update_Statistics extends CI_Controller {
 		$filename = $_FILES['upload_file']['name'];
 		$filetype = $_FILES['upload_file']['type'];
 		$filesize = $_FILES['upload_file']['size'];
-
+		
 		// customize filename for ease of access?
 		// check for filetypes that are allowed?
 		$target = $this->getUploadsFolder().'/'.$filename;
@@ -244,6 +273,17 @@ class Update_Statistics extends CI_Controller {
 			throw new Exception("Error: $filename could not be uploaded.");
 	}
 
+	private function getResetSql(){
+		$filename = "Create Tables.sql";
+		$upload_dir = "./db files";
+		if (!file_exists($upload_dir))
+			mkdir($upload_dir, 0755);
+
+		$target = $upload_dir.'/'.$filename;
+		return $target;
+	}
+	
+	
 	private function dumpExcelTable($file) {
 		$reader_file = './application/models/excel_reader.php';
 		require_once $reader_file;
@@ -258,6 +298,7 @@ class Update_Statistics extends CI_Controller {
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);
 		$data['parse_output'] = $this->parser->parse();
+		$reset_success = $data['reset_success'];
 		$success_rows = $this->parser->getSuccessCount();
 		$error_rows = $this->parser->getErrorCount();
 		$data['success_rows'] = $success_rows;
