@@ -350,9 +350,9 @@ class Update_Statistics extends CI_Controller {
 		return $tables;
 	}
 	
-	private function getTable($tablename) {
+	private function getTable($tablename, $personid = null) {
 		$tables = array();
-		$table = $this->getTableRows($tablename);
+		$table = $this->getTableRows($tablename, $personid);
 		$tables[] = $table;
 		return $tables;
 	}
