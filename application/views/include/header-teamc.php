@@ -30,6 +30,7 @@ $(document).ready(function(){
 <div id="sidebar" style ="
 	width:13%;
 	padding-left: 5px;
+	margin-left: -25px;
 	">
 <a class="teamcnav" href="<?= site_url("update_statistics/upload") ?>">Upload</a><br>
 Edit
@@ -47,7 +48,7 @@ foreach ($table_names as $table_name) {
 </div>
 
 <div id = "container" style="
-	width:75%;
+	width:80%;
 	padding-left:30px;
 	padding-top:10px;
 	padding-bottom:20px;

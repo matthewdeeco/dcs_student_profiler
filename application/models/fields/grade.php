@@ -13,15 +13,15 @@ class Grade extends Field {
 				throw new Exception("Unexpected input in compgrade");
 		else if (is_numeric($grade))
 			$grade = number_format($grade, 2); // make into 2 decimal places
-		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', trim($grade)))
+		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $grade))
 			; // leave grade as is
-		else if (preg_match('/^DRP$|^NG|^P|^IP|^F$/', trim($grade)))
+		else if (preg_match('/^DRP$|^NG|^P|^IP|^F$/', $grade))
 			; // leave grade as is
-		else if (preg_match('/^(4(\.00))$|^INC$/', trim($grade))) {
+		else if (preg_match('/^(4(\.00))$|^INC$/', $grade)) {
 			if (empty($compgrade))
 				; // leave grade as is
-			else if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', trim($compgrade)))
-				; // leave grade as is
+			else if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $compgrade))
+				$grade = $compgrade;
 		}
 		else
 			throw new Exception("Invalid input in grade");
