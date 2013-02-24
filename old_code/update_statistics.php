@@ -1,25 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Update_Statistics extends CI_Controller {
+	private $tablenames;
 	private $headers_included = false;
 	
 	public function __construct() {
 		parent::__construct();
-		
-		//load model
-		$this->load->model('student_model', 'student_model', true);
+		$this->initializeTableNames();
 	}
 	
 	public function index() {
 		$this->headers_included = true;
 		$this->load->view('include/header');
-		$this->load->view('include/header-teamc');
+		$this->load->view('include/header-teamc', $this->tablenames);
 		$this->displayUploadFileView();
-		$this->load->view('include/footer-teamc');
+		$this->load->view('include/footer-teamc', $this->tablenames);
 		$this->load->view('include/footer');
 	}
-	
-	/*-----------------------------------------------------start edit functions-----------------------------------------------------*/
 	
 	public function edit($tablename = null) {
 		$db['default']['db_debug'] = FALSE;
@@ -30,17 +27,37 @@ class Update_Statistics extends CI_Controller {
 		$this->displayView('edit_database', $data);
 	}
 	
-	public function edit_students(){
-		$db['default']['db_debug'] = FALSE;
-		$data['students'] = $this->student_model->getStudents();
-		$this->displayView('edit_students', $data);
-	}
-	
 	public function viewGrades($personid = null) {
 		$db['default']['db_debug'] = FALSE;
 		$data['tables'] = $this->getTable('studentgrades', $personid);
 
 		$this->displayViewWithHeaders('edit_database', $data);	
+	}
+	
+	public function update() {
+		$tablename = $_POST['tablename'];
+		$primarykeyname = $_POST['primarykeyname'];
+		$primarykeyvalue = $_POST['primarykeyvalue'];
+		$changedkeyname = $_POST['changedkeyname'];
+		$changedkeyvalue = $_POST['changedkeyvalue'];
+		try {
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createFieldByName($changedkeyname);
+			$field->parse($changedkeyvalue);
+			
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->UpdateRow($primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
+			
+			//commented out to test the new code
+			//$query = "UPDATE $tablename SET $changedkeyname='$changedkeyvalue' WHERE $primarykeyname='$primarykeyvalue'";
+			//$this->db->query($query);
+			
+			
+			// $this->editor->validateRowUpdate($tablename, $primarykeyname, $primarykeyvalue, $changedkeyname, $changedkeyvalue);
+			echo "true";
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
 	}
 	
 	public function updateGrade() {
@@ -66,78 +83,26 @@ class Update_Statistics extends CI_Controller {
 		$personid = $_POST['personid'];
 		
 		try {
-		
 			$this->load->model('Field_factory', 'field_factory');
 			$field = $this->field_factory->createFieldByName($changedfield_name);
 			$field->parse($changedfield_value); //will throw an exception if grade format is wrong
 			
-			$this->student_model->changeStudentInfo($changedfield_name, $changedfield_value, $personid);
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->changeStudentInfo($changedfield_name, $changedfield_value, $personid);
 			echo "true";
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
 	}//end update student info
 	
-	/*-----------------------------------------------------end edit functions-----------------------------------------------------*/
-	
-	/*-----------------------------------------------------start upload functions-----------------------------------------------------*/
+	public function view($tablename = null) {
+		$this->edit($tablename);
+	}
 	
 	public function upload() {
 		$this->displayUploadFileView();
 	}
 	
-	private function getUploadsFolder() {
-		$upload_dir = "./assets/uploads";
-		if (!file_exists($upload_dir))
-			mkdir($upload_dir, 0755);
-		return $upload_dir;
-	}
-	
-	private function getAbsoluteBasePath() {
-		return $_SERVER['DOCUMENT_ROOT'].'/'.explode('/', base_url(), 4)[3];
-	}
-	
-	private function dumpExcelTable($file) {
-		$reader_file = './application/models/excel_reader.php';
-		require_once $reader_file;
-		
-		// dump the input excel file
-		$printer = new Spreadsheet_Excel_Reader($file);
-		//$excel_dump = @$printer->dump(true,true);
-		//return $excel_dump;
-	}
-	
-	private function parse($file, &$data) {
-		$this->load->model('excel_parser', 'parser');
-		$this->parser->initialize($file);
-		$data['parse_output'] = $this->parser->parse();
-		$reset_success = $data['reset_success'];
-		$success_rows = $this->parser->getSuccessCount();
-		$error_rows = $this->parser->getErrorCount();
-		$data['success_rows'] = $success_rows;
-		$data['error_rows'] = $error_rows;
-	}
-	
-	private function displayUploadFileView($data = null)  {
-		$data['message'] = 'Select the xls file with grades to be uploaded';
-		$data['dest'] = site_url('update_statistics/performUpload');
-		$this->load->view('upload_file', $data);
-	}
-	
-	private function getUploadedFile() {
-		$filename = $_FILES['upload_file']['name'];
-		$filetype = $_FILES['upload_file']['type'];
-		$filesize = $_FILES['upload_file']['size'];
-		
-		// customize filename for ease of access?
-		// check for filetypes that are allowed?
-		$target = $this->getUploadsFolder().'/'.$filename;
-		if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $target)) {
-			return $target;
-		} else
-			throw new Exception("Error: $filename could not be uploaded.");
-	}
-
 	// Called when an excel file is uploaded
 	public function performUpload() {
 		$data = array('success' => false);
@@ -166,10 +131,6 @@ class Update_Statistics extends CI_Controller {
 		$this->displayViewWithHeaders('upload_response', $data);
 	}
 	
-	/*-----------------------------------------------------end upload functions-----------------------------------------------------*/
-	
-	/*-----------------------------------------------------start reset functions-----------------------------------------------------*/
-	
 	public function resetDatabase(){
 		return $this->performResetDatabase();
 	}
@@ -185,10 +146,6 @@ class Update_Statistics extends CI_Controller {
 		else
 			throw new Exception("Base file not found. Database cannot be reset.");
 	}
-	
-	/*-----------------------------------------------------end reset functions-----------------------------------------------------*/
-	
-	/*-----------------------------------------------------start backup functions-----------------------------------------------------*/
 	
 	public function backup() {
 		$cookie = $this->input->cookie('pg_bin_dir', TRUE);
@@ -228,10 +185,6 @@ class Update_Statistics extends CI_Controller {
 		$data['success'] = $success;
 		$this->displayView('backup_response', $data);
 	}
-	
-	/*-----------------------------------------------------end backup functions-----------------------------------------------------*/
-	
-	/*-----------------------------------------------------start restore functions-----------------------------------------------------*/
 	
 	public function restore() {
 		$data['message'] = 'Select the database backup to restore';
@@ -274,10 +227,6 @@ class Update_Statistics extends CI_Controller {
 		$this->displayViewWithHeaders('restore_response', $data);
 	}
 	
-	/*-----------------------------------------------------end restore functions-----------------------------------------------------*/
-	
-	/*-----------------------------------------------------start sql functions-----------------------------------------------------*/
-	
 	public function sql() {
 		$data['message'] = 'Select the sql file to run';
 		$data['dest'] = site_url('update_statistics/performSqlQuery');
@@ -292,7 +241,16 @@ class Update_Statistics extends CI_Controller {
 		$this->displayViewWithHeaders('sql_response', $data);
 	}
 	
-	/*-----------------------------------------------------end sql functions-----------------------------------------------------*/
+	private function getUploadsFolder() {
+		$upload_dir = "./assets/uploads";
+		if (!file_exists($upload_dir))
+			mkdir($upload_dir, 0755);
+		return $upload_dir;
+	}
+	
+	private function getAbsoluteBasePath() {
+		return $_SERVER['DOCUMENT_ROOT'].'/'.explode('/', base_url(), 4)[3];
+	}
 	
 	private function saveAsDialog($saveas_filename) {
 		header ("Content-Type: application/download");
@@ -302,6 +260,26 @@ class Update_Statistics extends CI_Controller {
 		fpassthru($fp);
 	}
 	
+	private function displayUploadFileView($data = null)  {
+		$data['message'] = 'Select the xls file with grades to be uploaded';
+		$data['dest'] = site_url('update_statistics/performUpload');
+		$this->load->view('upload_file', $data);
+	}
+	
+	private function getUploadedFile() {
+		$filename = $_FILES['upload_file']['name'];
+		$filetype = $_FILES['upload_file']['type'];
+		$filesize = $_FILES['upload_file']['size'];
+		
+		// customize filename for ease of access?
+		// check for filetypes that are allowed?
+		$target = $this->getUploadsFolder().'/'.$filename;
+		if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $target)) {
+			return $target;
+		} else
+			throw new Exception("Error: $filename could not be uploaded.");
+	}
+
 	private function getResetSql(){
 		$filename = "Create Tables.sql";
 		$upload_dir = "./db files";
@@ -312,7 +290,80 @@ class Update_Statistics extends CI_Controller {
 		return $target;
 	}
 	
-	/*-----------------------------------------------------start display functions-----------------------------------------------------*/
+	
+	private function dumpExcelTable($file) {
+		$reader_file = './application/models/excel_reader.php';
+		require_once $reader_file;
+		
+		// dump the input excel file
+		$printer = new Spreadsheet_Excel_Reader($file);
+		//$excel_dump = @$printer->dump(true,true);
+		//return $excel_dump;
+	}
+	
+	private function parse($file, &$data) {
+		$this->load->model('excel_parser', 'parser');
+		$this->parser->initialize($file);
+		$data['parse_output'] = $this->parser->parse();
+		$reset_success = $data['reset_success'];
+		$success_rows = $this->parser->getSuccessCount();
+		$error_rows = $this->parser->getErrorCount();
+		$data['success_rows'] = $success_rows;
+		$data['error_rows'] = $error_rows;
+	}
+	
+	private function getTableRows($tablename, $personid = null) {
+		$table = array();
+		$table['table_name'] = $tablename;
+		//$result = $this->db->query("SELECT * FROM $tablename;");
+		if($tablename == 'students')
+			$result = $this->db->query("SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;");
+		else if($tablename == 'studentgrades'){
+			$name = $this->db->query("SELECT persons.personid as personid, studentno as studentno, lastname as lastname, firstname as firstname, middlename as middlename, pedigree as pedigree FROM persons JOIN students ON students.personid = persons.personid WHERE persons.personid = '$personid'");
+			$name_arr = $name->result_array();
+			$tablename = $name_arr[0]['lastname'] . ", " . $name_arr[0]['firstname'] . " " . $name_arr[0]['middlename'] . " " . $name_arr[0]['pedigree'] . "<br>" . $name_arr[0]['studentno'] . "<br>";
+			
+			$result = $this->db->query("SELECT persons.personid, coursename, section, gradename FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid WHERE persons.personid = '$personid'");
+		}
+		
+		$rows = $result->result_array();
+		$table['rows'] = $rows;
+		$table['table_name'] = $tablename;
+		return $table;
+	}
+
+	private function initializeTableNames() {
+		//$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
+		//$result = $this->db->query("SELECT * FROM students;");
+		$result = array('students');
+		//$this->tablenames['table_names'] = $result->result_array();
+		$this->tablenames['table_names'] = $result;
+		//foreach ($this->tablenames['table_names'] as &$tablename)
+			//$tablename = $tablename['table_name'];
+			
+	}
+	
+	private function getAllTables() {
+		$tables = array();
+		foreach ($this->tablenames['table_names'] as $tablename)
+			$tables[] = $this->getTableRows($tablename);
+		return $tables;
+	}
+	
+	private function getTable($tablename, $personid = null) {
+		$tables = array();
+		$table = $this->getTableRows($tablename, $personid);
+		$tables[] = $table;
+		return $tables;
+	}
+	
+	private function getTablesForDisplay($tablename = null) {
+		if (is_null($tablename))
+			$tables = $this->getAllTables();
+		else
+			$tables = $this->getTable($tablename);
+		return $tables;
+	}
 	
 	private function displayViewWithHeaders($viewname, $data = null) {
 		$this->headers_included = true;
@@ -329,8 +380,6 @@ class Update_Statistics extends CI_Controller {
 		// else
 			// $this->displayViewWithHeaders($viewname, $data);
 	}
-	
-	/*-----------------------------------------------------end display functions-------------------------------------------------*/
 }
 
 /* Location: ./application/controllers/update_statistics.php */
