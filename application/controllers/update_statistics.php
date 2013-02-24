@@ -27,6 +27,13 @@ class Update_Statistics extends CI_Controller {
 		$this->displayView('edit_database', $data);
 	}
 	
+	public function viewGrades($personid = null) {
+		$db['default']['db_debug'] = FALSE;
+		$data['tables'] = $this->getTable('studentgrades', $personid);
+
+		$this->displayViewWithHeaders('edit_database', $data);	
+	}
+	
 	public function update() {
 		$tablename = $_POST['tablename'];
 		$primarykeyname = $_POST['primarykeyname'];
@@ -305,25 +312,30 @@ class Update_Statistics extends CI_Controller {
 		$data['error_rows'] = $error_rows;
 	}
 	
-	private function getTableRows($tablename) {
+	private function getTableRows($tablename, $personid = null) {
 		$table = array();
 		$table['table_name'] = $tablename;
 		//$result = $this->db->query("SELECT * FROM $tablename;");
 		if($tablename == 'students')
 			$result = $this->db->query("SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;");
-		else if($tablename == 'studentgrades')
-			$result = $this->db->query("SELECT persons.personid, studentno, lastname, firstname, middlename, pedigree, coursename, section, gradevalue FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid;
-");
+		else if($tablename == 'studentgrades'){
+			$name = $this->db->query("SELECT persons.personid as personid, studentno as studentno, lastname as lastname, firstname as firstname, middlename as middlename, pedigree as pedigree FROM persons JOIN students ON students.personid = persons.personid WHERE persons.personid = '$personid'");
+			$name_arr = $name->result_array();
+			$tablename = $name_arr[0]['lastname'] . ", " . $name_arr[0]['firstname'] . " " . $name_arr[0]['middlename'] . " " . $name_arr[0]['pedigree'] . "<br>" . $name_arr[0]['studentno'] . "<br>";
+			
+			$result = $this->db->query("SELECT persons.personid, coursename, section, gradename FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid WHERE persons.personid = '$personid'");
+		}
 		
 		$rows = $result->result_array();
 		$table['rows'] = $rows;
+		$table['table_name'] = $tablename;
 		return $table;
 	}
 
 	private function initializeTableNames() {
 		//$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
 		//$result = $this->db->query("SELECT * FROM students;");
-		$result = array('students', 'studentgrades');
+		$result = array('students');
 		//$this->tablenames['table_names'] = $result->result_array();
 		$this->tablenames['table_names'] = $result;
 		//foreach ($this->tablenames['table_names'] as &$tablename)
