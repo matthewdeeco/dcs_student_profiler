@@ -30,14 +30,15 @@ $(document).ready(function(){
 <div id="sidebar" style ="
 	width:13%;
 	padding-left: 5px;
-	margin-left: -25px;
 	">
 <a class="teamcnav" href="<?= site_url("update_statistics/upload") ?>">Upload</a><br>
 Edit
 <ul>
 <?php
-$url = site_url("update_statistics/edit_students");
-	echo "<li><a class='teamcnav' href='$url'>Student Info</a></li>";
+$url = site_url("update_statistics/edit");
+foreach ($table_names as $table_name) {
+	echo "<li><a class='teamcnav' href='$url/$table_name'>$table_name</a></li>";
+}
 ?>
 </ul>
 <a class="teamcnav" href="<?= site_url("update_statistics/backup") ?>">Backup</a><br>
@@ -46,7 +47,7 @@ $url = site_url("update_statistics/edit_students");
 </div>
 
 <div id = "container" style="
-	width:80%;
+	width:75%;
 	padding-left:30px;
 	padding-top:10px;
 	padding-bottom:20px;
