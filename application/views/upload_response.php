@@ -1,7 +1,9 @@
 <?php
 if (!isset($success));
 else if ($success) {
-	echo "<span class='success'>File successfully uploaded<br></span><br>";
+	if($reset_success)
+		echo "<span class='success'>Database successfully reset.<br></span>";
+	echo "<span class='success'>File successfully uploaded.<br></span><br>";
 	echo "<b><span class='success'>$success_rows</span></b> rows added, ";
 	echo "<b><span class='error'>$error_rows</span></b> rows with errors. ";
 	echo $excel_dump;

@@ -6,8 +6,37 @@ class Edit_Database_Model extends Checker {
 		
 	public function __construct() {
 	  parent::__construct();
-	  $this->getTableFields();
+	  //$this->getTableFields();
 	}	
+	
+	public function changeGrade($grade, $studentclassid){
+		$query = "SELECT * FROM grades WHERE gradename = '$grade'";
+		$result = $this->db->query($query);	
+		$row = $result->row();
+		$gradeid = $row->gradeid;
+	
+		$query = "UPDATE studentclasses SET gradeid = '$gradeid' WHERE studentclassid = '$studentclassid'";
+		$this->db->query($query);	
+		
+		if ($this->db->affected_rows() > 0){
+			return true;
+		}
+		else{			
+			throw new Exception("Error in update of grade.");
+		}
+	}//end change grade
+	
+	public function changeStudentInfo($changedfield_name, $changedfield_value, $personid){
+		$query = "UPDATE persons SET $changedfield_name = '$changedfield_value' WHERE personid = '$personid'";
+		$this->db->query($query);	
+		
+		if ($this->db->affected_rows() > 0){
+			return true;
+		}
+		else{
+			throw new Exception("Error in update of student information.");
+		}
+	}//end change student info	
 	
 	public function getTableFields(){
 		$this->table_fields['student'] = $this->db->list_fields('students');

@@ -61,6 +61,7 @@ $(document).ready(function(){
 			}
 		  });//endajax
 	});//endchange
+
 	
 });//end ready ()
 
@@ -123,6 +124,10 @@ function printRow($row, $tablename) {
 		$column++;
 	}
 	
+	if($tablename == 'students'){
+		$dest = site_url('update_statistics/viewGrades/') . "/" . $primarykeyvalue;
+		echo "<td><a href='$dest'><input type='button' class='editrow_button' name='editrow_button' value='View Grades'></a></td>";
+	}
 	// echo "<td><input type=\"button\" class=\"remove_button\" name=\"remove\" value=\"x\" data-primarykeyname=\"$primarykeyname\"
 	// data-primarykeyvalue=\"$primarykeyvalue\" data-tablename=\"$tablename\"></td>";	//for the delete icon
 	// echo "</tr>"

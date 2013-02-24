@@ -27,6 +27,13 @@ class Update_Statistics extends CI_Controller {
 		$this->displayView('edit_database', $data);
 	}
 	
+	public function viewGrades($personid = null) {
+		$db['default']['db_debug'] = FALSE;
+		$data['tables'] = $this->getTable('studentgrades', $personid);
+
+		$this->displayViewWithHeaders('edit_database', $data);	
+	}
+	
 	public function update() {
 		$tablename = $_POST['tablename'];
 		$primarykeyname = $_POST['primarykeyname'];
@@ -53,6 +60,41 @@ class Update_Statistics extends CI_Controller {
 		}
 	}
 	
+	public function updateGrade() {
+		$studentclassid = $_POST['studentclassid'];
+		$grade = $_POST['grade'];
+		
+		try {
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createFieldByName('Grade');
+			$field->parse($grade); //will throw an exception if grade format is wrong
+			
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->changeGrade($grade, $studentclassid);
+			echo "true";
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}//end update grade
+	
+	public function updateStudentInfo(){
+		$changedfield_name = $_POST['changedfield_name'];
+		$changedfield_value = $_POST['changedfield_value'];
+		$personid = $_POST['personid'];
+		
+		try {
+			$this->load->model('Field_factory', 'field_factory');
+			$field = $this->field_factory->createFieldByName($changedfield_name);
+			$field->parse($changedfield_value); //will throw an exception if grade format is wrong
+			
+			$this->load->model('edit_database_model', 'editor', true);
+			$this->editor->changeStudentInfo($changedfield_name, $changedfield_value, $personid);
+			echo "true";
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}//end update student info
+	
 	public function view($tablename = null) {
 		$this->edit($tablename);
 	}
@@ -64,6 +106,19 @@ class Update_Statistics extends CI_Controller {
 	// Called when an excel file is uploaded
 	public function performUpload() {
 		$data = array('success' => false);
+		if(!isset($_POST['reset']))
+			$data['reset'] = "No";
+		else
+			$data['reset'] = $_POST['reset'];
+			
+		if($data['reset'] == "Yes"){
+			$reset_success = $this->resetDatabase();
+			if($reset_success)
+				$data['reset_success'] = true;
+		}
+		else
+			$data['reset_success'] = false;
+		
 		// maintain a table to store uploaded gradessheets?
 		try {
 			$file = $this->getUploadedFile();
@@ -74,6 +129,22 @@ class Update_Statistics extends CI_Controller {
 			$data['errormessage'] = $e->getMessage();
 		}
 		$this->displayViewWithHeaders('upload_response', $data);
+	}
+	
+	public function resetDatabase(){
+		return $this->performResetDatabase();
+	}
+	
+	public function performResetDatabase(){
+		$reset_sql = $this->getResetSql();
+		if(file_exists($reset_sql)){
+			$query = $this->load->file($reset_sql, true);
+			$this->db->query($query);
+			$response = true;
+			return $response;
+		}
+		else
+			throw new Exception("Base file not found. Database cannot be reset.");
 	}
 	
 	public function backup() {
@@ -199,7 +270,7 @@ class Update_Statistics extends CI_Controller {
 		$filename = $_FILES['upload_file']['name'];
 		$filetype = $_FILES['upload_file']['type'];
 		$filesize = $_FILES['upload_file']['size'];
-
+		
 		// customize filename for ease of access?
 		// check for filetypes that are allowed?
 		$target = $this->getUploadsFolder().'/'.$filename;
@@ -209,6 +280,17 @@ class Update_Statistics extends CI_Controller {
 			throw new Exception("Error: $filename could not be uploaded.");
 	}
 
+	private function getResetSql(){
+		$filename = "Create Tables.sql";
+		$upload_dir = "./db files";
+		if (!file_exists($upload_dir))
+			mkdir($upload_dir, 0755);
+
+		$target = $upload_dir.'/'.$filename;
+		return $target;
+	}
+	
+	
 	private function dumpExcelTable($file) {
 		$reader_file = './application/models/excel_reader.php';
 		require_once $reader_file;
@@ -223,31 +305,37 @@ class Update_Statistics extends CI_Controller {
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);
 		$data['parse_output'] = $this->parser->parse();
+		$reset_success = $data['reset_success'];
 		$success_rows = $this->parser->getSuccessCount();
 		$error_rows = $this->parser->getErrorCount();
 		$data['success_rows'] = $success_rows;
 		$data['error_rows'] = $error_rows;
 	}
 	
-	private function getTableRows($tablename) {
+	private function getTableRows($tablename, $personid = null) {
 		$table = array();
 		$table['table_name'] = $tablename;
 		//$result = $this->db->query("SELECT * FROM $tablename;");
 		if($tablename == 'students')
 			$result = $this->db->query("SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;");
-		else if($tablename == 'studentgrades')
-			$result = $this->db->query("SELECT persons.personid, studentno, lastname, firstname, middlename, pedigree, coursename, section, gradevalue FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid;
-");
+		else if($tablename == 'studentgrades'){
+			$name = $this->db->query("SELECT persons.personid as personid, studentno as studentno, lastname as lastname, firstname as firstname, middlename as middlename, pedigree as pedigree FROM persons JOIN students ON students.personid = persons.personid WHERE persons.personid = '$personid'");
+			$name_arr = $name->result_array();
+			$tablename = $name_arr[0]['lastname'] . ", " . $name_arr[0]['firstname'] . " " . $name_arr[0]['middlename'] . " " . $name_arr[0]['pedigree'] . "<br>" . $name_arr[0]['studentno'] . "<br>";
+			
+			$result = $this->db->query("SELECT persons.personid, coursename, section, gradename FROM students JOIN persons ON students.personid = persons.personid JOIN studentterms ON students.studentid = studentterms.studentid JOIN studentclasses ON studentterms.studenttermid = studentclasses.studenttermid JOIN classes ON studentclasses.classid = classes.classid JOIN courses ON classes.courseid = courses.courseid JOIN grades ON studentclasses.gradeid = grades.gradeid WHERE persons.personid = '$personid'");
+		}
 		
 		$rows = $result->result_array();
 		$table['rows'] = $rows;
+		$table['table_name'] = $tablename;
 		return $table;
 	}
 
 	private function initializeTableNames() {
 		//$result = $this->db->query("SELECT table_name FROM information_schema.tables WHERE table_schema='public';");
 		//$result = $this->db->query("SELECT * FROM students;");
-		$result = array('students', 'studentgrades');
+		$result = array('students');
 		//$this->tablenames['table_names'] = $result->result_array();
 		$this->tablenames['table_names'] = $result;
 		//foreach ($this->tablenames['table_names'] as &$tablename)
@@ -262,9 +350,9 @@ class Update_Statistics extends CI_Controller {
 		return $tables;
 	}
 	
-	private function getTable($tablename) {
+	private function getTable($tablename, $personid = null) {
 		$tables = array();
-		$table = $this->getTableRows($tablename);
+		$table = $this->getTableRows($tablename, $personid);
 		$tables[] = $table;
 		return $tables;
 	}
