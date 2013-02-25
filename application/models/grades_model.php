@@ -34,13 +34,13 @@
 			   $studentid = $row->studentid;
 			}
 			
-			$query = "SELECT distinct termid, year, sem FROM studentterms natural join terms WHERE studentid = '$studentid'";
+			$query = "SELECT distinct * FROM studentterms natural join terms WHERE studentid = '$studentid'";
 			$result = $this->db->query($query);
 			$rows = $result->result_array();
 			
 			foreach($rows as $row){
 				$term_grades = array();
-				$termname = $this->createTermName($row['year'], $row['sem']);
+				
 				$termid = $row['termid'];
 				$query = "SELECT studentclassid, classcode, coursename, section, credits, gradename 
 					 FROM students JOIN persons ON students.personid = persons.personid 
@@ -53,7 +53,7 @@
 				$result = $this->db->query($query);
 				$rows = $result->result_array();
 				
-				$term_grades['termname'] = $termname;
+				$term_grades['termname'] = $row['name'];
 				$term_grades['rows'] = $rows;
 				//$term_grades['query'] = $query;
 				
@@ -61,20 +61,6 @@
 			}
 		
 			return $grades_info;
-		}
-		
-		public function createTermName($year, $sem){
-			if($sem == "1st"){
-				$sem = "First Semester";
-			}
-			else if($sem == "2nd"){
-				$sem = "2nd Semester";
-			}
-			else if($sem == "Sum"){
-				$sem = "Summer Semester";
-			}
-			
-			return $sem." AY ".$year;		
 		}
 		
 		public function changeGrade($grade, $studentclassid){

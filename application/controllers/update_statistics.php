@@ -26,13 +26,11 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function editStudents(){
-		$db['default']['db_debug'] = FALSE;
 		$data['students'] = $this->student_model->getStudents();
 		$this->displayView('edit_students', $data);
 	}
 	
 	public function editGrades($personid = null) {
-		$db['default']['db_debug'] = FALSE;
 		$this->load->model('grades_model', 'grades_model', true);
 		
 		$data['student_info'] = $this->grades_model->getStudentInfo($personid);
