@@ -10,7 +10,7 @@ function loading() {
 }
 </script>
 <span class="page-header">
-	<h3>Grade Uploads</h3>
+	<h3><?=$upload_header?></h3>
 </span>
 <?php
 if (!isset($success));
@@ -26,13 +26,21 @@ else if ($success) {
 		<tr></tr>
 		<tr>
 			<td></td>
-			<td>&nbsp;Upload File:</td>
+			<td>&nbsp;<?=$upload_filetype?>:</td>
 			<td><input class="input-file" type="file" id="upload_file" name="upload_file" /></td>
 		</tr>
-		<tr>
-			<td></td>
-			<td>&nbsp;Reset Database?</td> <td><input type="checkbox" name="reset" value="Yes" /></td>
-		</tr>
+		
+		<?php
+		
+		if($upload_filetype == "Grade File"){
+			echo'
+			<tr>
+				<td></td>
+				<td>&nbsp;Reset Database?</td> <td><input type="checkbox" name="reset" value="Yes" /></td>
+			</tr>
+			';
+		}
+		?>
 		<tr><td colspan=2><br></td></tr>
 		<tr>
 			<td></td>

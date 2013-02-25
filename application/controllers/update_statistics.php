@@ -115,6 +115,8 @@ class Update_Statistics extends CI_Controller {
 	
 	private function displayUploadFileView($data = null)  {
 		$data['message'] = 'Select the xls file with grades to be uploaded';
+		$data['upload_filetype'] = "Grade File";
+		$data['upload_header'] = "Grade Uploads";
 		$data['dest'] = site_url('update_statistics/performUpload');
 		$this->load->view('upload_file', $data);
 	}
@@ -233,6 +235,8 @@ class Update_Statistics extends CI_Controller {
 			
 	private function showRestoreDialog($pg_bin_dir) {
 		$data['message'] = 'Select the database backup to restore';
+		$data['upload_header'] = "Database Restore";
+		$data['upload_filetype'] = "Back-Up File";
 		$data['dest'] = site_url('update_statistics/performRestore');
 		$data['pg_bin_dir'] = $pg_bin_dir;
 		$this->displayView('upload_file', $data);
@@ -269,6 +273,8 @@ class Update_Statistics extends CI_Controller {
 	
 	public function sql() {
 		$data['message'] = 'Select the sql file to run';
+		$data['upload_filetype'] = "SQL File";
+		$data['upload_header'] = "Execute SQL";
 		$data['dest'] = site_url('update_statistics/performSqlQuery');
 		$this->displayView('upload_file', $data);
 	}

@@ -74,7 +74,12 @@ tr:nth-child(even), tr:nth-child(even) input[type="text"] {
 tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 	background-color: #FFF;
 }
-
+a.btn-primary{
+	color:#FFFFFF;
+}
+a.btn-primary:hover, a.btn-primary:active, a.btn-primary.active, a.btn-primary.disabled, a.btn-primary[disabled] {
+	background-color:#006600;
+}
 </style>
 <style type="text/css">
     table thead tr .header {
@@ -136,7 +141,7 @@ tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 				printCell($personid, 'pedigree', $pedigree);
 				
 				$grade_url = site_url("update_statistics/editGrades/$personid");
-				echo "<td><a class='view_grades btn btn-primary small' href=$grade_url>Edit Grades</a></td>";
+				echo "<td><a class='view_grades btn btn-primary' href=$grade_url>Edit Grades</a></td>";
 				echo "</tr>";
 			}
 			
