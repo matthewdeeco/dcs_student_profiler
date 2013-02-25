@@ -6,6 +6,13 @@ $(document).ready(function(){
 	$('#us').addClass('active');
 	$('#ab').removeClass('active');	
 	
+	$('a.view_grades').click(function(e) {
+		// prevent the default action when a nav button link is clicked
+		e.preventDefault();
+		// ajax query to retrieve the HTML view without refreshing the page.
+		$('#container').load($(this).attr('href'));
+	});
+	
 	$(".inputcell").change(function() {
 	
 		var callback = "<?=site_url('update_statistics/updateStudentInfo')?>";
@@ -85,7 +92,7 @@ tr:nth-child(odd) {background: #FFF}
     }
 </style>
  <div class="page-header">
-    <h1>Edit Student Information</h1>
+    <h2>Edit Student Information</h2>
  </div>
 <form action="" method="post"> 
 <table id="students" class="table table-bordered table-striped table-hover">
@@ -116,7 +123,9 @@ tr:nth-child(odd) {background: #FFF}
 				printCell($personid, 'middlename', $middlename);
 				printCell($personid, 'lastname', $lastname);
 				printCell($personid, 'pedigree', $pedigree);
-				echo "<td></td>";
+				
+				$grade_url = site_url("update_statistics/viewGrades/$personid");
+				echo "<td><a class='view_grades btn btn-primary small' href=$grade_url>View Grades</a></td>";
 				echo "</tr>";
 			}
 			

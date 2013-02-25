@@ -21,15 +21,6 @@ class Update_Statistics extends CI_Controller {
 	
 	/*-----------------------------------------------------start edit functions-----------------------------------------------------*/
 	
-	public function edit($tablename = null) {
-		$db['default']['db_debug'] = FALSE;
-		$data['tables'] = $this->getTablesForDisplay($tablename);
-		$errormessage = $this->db->_error_message();
-		if (!empty($errormessage))
-			$data['errormessage'] = "Table ".$tablename." does not exist!";
-		$this->displayView('edit_database', $data);
-	}
-	
 	public function edit_students(){
 		$db['default']['db_debug'] = FALSE;
 		$data['students'] = $this->student_model->getStudents();
@@ -38,23 +29,26 @@ class Update_Statistics extends CI_Controller {
 	
 	public function viewGrades($personid = null) {
 		$db['default']['db_debug'] = FALSE;
-		$data['tables'] = $this->getTable('studentgrades', $personid);
-
-		$this->displayViewWithHeaders('edit_database', $data);	
+		$this->load->model('grades_model', 'grades_model', true);
+		
+		$data['student_info'] = $this->grades_model->getStudentInfo($personid);
+		$data['term_grades'] = $this->grades_model->getGrades($personid);
+		$this->displayView('view_grades', $data);
 	}
 	
 	public function updateGrade() {
-		$studentclassid = $_POST['studentclassid'];
-		$grade = $_POST['grade'];
+		/*$studentclassid = $_POST['studentclassid'];
+		$grade = $_POST['grade'];*/
 		
 		try {
-			$this->load->model('Field_factory', 'field_factory');
+			/*$this->load->model('Field_factory', 'field_factory');
 			$field = $this->field_factory->createFieldByName('Grade');
 			$field->parse($grade); //will throw an exception if grade format is wrong
 			
-			$this->load->model('edit_database_model', 'editor', true);
-			$this->editor->changeGrade($grade, $studentclassid);
-			echo "true";
+			$this->load->model('grades_model', 'grades_model', true);
+			$this->grades_model->changeGrade($grade, $studentclassid);
+			echo "true";*/
+			echo "hello";
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
@@ -317,9 +311,9 @@ class Update_Statistics extends CI_Controller {
 	private function displayViewWithHeaders($viewname, $data = null) {
 		$this->headers_included = true;
 		$this->load->view('include/header');
-		$this->load->view('include/header-teamc', $this->tablenames);
+		$this->load->view('include/header-teamc');
 		$this->load->view($viewname, $data);
-		$this->load->view('include/footer-teamc', $this->tablenames);
+		$this->load->view('include/footer-teamc');
 		$this->load->view('include/footer');
 	}
 	
