@@ -144,7 +144,7 @@ tr:nth-child(odd) {background: #FFF}
 	//make grade editable	
 	$length = strlen($grade) + 1;
 	$data = array('name'=>'gradecell', 'id'=>$id, 'class'=>'gradecell', 'size'=>$length, 'value'=>$grade);
-	echo "<td><div class='databasecell'>".form_input($data)."</div></td>";
+	echo "<td><div class='controls'>".form_input($data)."</div></td>";
 	
 	echo "</tr>"; 
  }
