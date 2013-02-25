@@ -6,7 +6,7 @@
 		}
 		
 		function getStudents(){
-			$query = "SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students natural join persons;";
+			$query = "SELECT personid, studentno, lastname, firstname, middlename, pedigree FROM students NATURAL JOIN persons ORDER BY studentno;";
 			$result = $this->db->query($query);
 			$rows = $result->result_array();
 

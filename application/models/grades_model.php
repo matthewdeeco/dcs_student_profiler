@@ -34,7 +34,7 @@
 			   $studentid = $row->studentid;
 			}
 			
-			$query = "SELECT distinct * FROM studentterms natural join terms WHERE studentid = '$studentid'";
+			$query = "SELECT distinct * FROM studentterms NATURAL JOIN terms WHERE studentid = '$studentid' ORDER BY termid";
 			$result = $this->db->query($query);
 			$rows = $result->result_array();
 			
