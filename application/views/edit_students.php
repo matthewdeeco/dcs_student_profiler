@@ -44,19 +44,23 @@ $(document).ready(function(){
 <script src="http://localhost/cs192dcs/assets/js/jquery.tablesorter.js"></script>
 
 <style>
-#students {
+#studentheader
+{
+border-bottom:1px solid #FFFFFF;
+}
+.students {
 	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
 	width:500;
 	border-collapse:collapse;
 	color:#FFFFFF;
 }
-#students td, #students th {
+.students td{
 	font-size:1.2em;
 	border:1px solid #006600;
 	padding:3px 7px 2px 7px;
 	padding-bottom: 3px;
 }
-#students th {
+.students th {
 	font-size:1.4em;
 	color:#FFFFFF;
 	text-align:left;
@@ -92,8 +96,11 @@ tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 	<h3>Edit Student Information</h3>
 </span>
 <form action="" method="post"> 
-<table id="students" class="table table-bordered table-striped table-hover">
+<table class="students table table-bordered table-striped table-hover">
 	<thead>
+		<tr>
+			<th colspan="6" id="studentheader"><center>Students</center></th>
+		</tr>
 		<tr>
 			<?php
 				if (empty($students)) {
@@ -101,11 +108,11 @@ tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 				}
 				else {
 					echo '<th width="10%"><center>Student Number</center></th>
-					<th width="20%"><center>Last Name</center></th>
-					<th width="20%"><center>First Name</center></th>
-					<th width="20%" ><center>Middle Name</center></th>
+					<th><center>Last Name</center></th>
+					<th><center>First Name</center></th>
+					<th><center>Middle Name</center></th>
 					<th width="10%"><center>Pedigree</center></th>
-					<th width="20%"><center></center></th>';
+					<th width="10%"><center></center></th>';
 				}
 			?>
 		</tr>
@@ -135,9 +142,9 @@ tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 			
 			function printCell($personid, $fieldname, $fieldvalue) {
 				$length = strlen($fieldvalue) + 1;
-				$data = array('name'=>'databasecell', 'id'=>$personid, 'class'=>'inputcell',
-				'data-changedfieldname'=>$fieldname, 'size'=>$length, 'value'=>$fieldvalue);
-				echo "<td><div class='databasecell'>".form_input($data)."</div></td>";
+				$data = array('name'=>'studentinfocell', 'id'=>$personid, 'class'=>'inputcell',
+				'data-changedfieldname'=>$fieldname, 'size'=>$length, 'value'=>$fieldvalue, 'style' => 'width:80%',);
+				echo "<td><div class='controls'>".form_input($data)."</div></td>";
 			}
 		?>
 	
