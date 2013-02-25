@@ -17,6 +17,7 @@ $(document).ready(function(){
 			success: function (retVal) {
 				if (retVal == 'true') {
 					$(changed_cell).css('background-color','#AAFFCC').css("color","#555555");
+					$(changed_cell).prop("title", null);
 					setTimeout(function() { $(changed_cell).css("background-color","white"); }, 250);
 				} else {
 					$(changed_cell).prop("title", retVal);
