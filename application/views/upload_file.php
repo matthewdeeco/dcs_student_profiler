@@ -39,7 +39,7 @@ else if ($success) {
 			<td></td>
 			<td>
 				<input type="submit" class="btn btn-primary" onclick="loading()" name="submit" value="Submit" />
-				<input type="reset" name="cancel" value="Cancel"/>
+				<input type="reset" class="btn" name="cancel" value="Cancel"/>
 			</td>
 		</tr>
 	</table>
