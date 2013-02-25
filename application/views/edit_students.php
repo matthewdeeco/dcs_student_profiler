@@ -1,10 +1,5 @@
 <script>
 $(document).ready(function(){
-	$('#sr').removeClass('active');
-	$('#cs').removeClass('active');
-	$('#et').removeClass('active');
-	$('#us').addClass('active');
-	$('#ab').removeClass('active');	
 	
 	$('a.view_grades').click(function(e) {
 		// prevent the default action when a nav button link is clicked

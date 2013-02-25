@@ -1,11 +1,5 @@
 <script>
-$(document).ready(function(){
-	$('#sr').removeClass('active');
-	$('#cs').removeClass('active');
-	$('#et').removeClass('active');
-	$('#us').addClass('active');
-	$('#ab').removeClass('active');	
-	
+$(document).ready(function(){	
 	$(".gradecell").change(function(e) {
 		e.preventDefault();
 		
