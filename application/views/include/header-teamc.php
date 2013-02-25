@@ -33,13 +33,7 @@ $(document).ready(function(){
 	margin-left: -25px;
 	">
 <a class="teamcnav" href="<?= site_url("update_statistics/upload") ?>">Upload</a><br>
-Edit
-<ul>
-<?php
-	$url = site_url("update_statistics/edit_students");
-	echo "<li><a class='teamcnav' href='$url'>Student Info</a></li>";
-?>
-</ul>
+<a class="teamcnav" href="<?= site_url("update_statistics/edit") ?>">Edit</a><br>
 <a class="teamcnav" href="<?= site_url("update_statistics/backup") ?>">Backup</a><br>
 <a class="teamcnav" href="<?= site_url("update_statistics/restore") ?>">Restore</a><br>
 <a class="teamcnav" href="<?= site_url("update_statistics/sql") ?>">Run SQL</a><br>

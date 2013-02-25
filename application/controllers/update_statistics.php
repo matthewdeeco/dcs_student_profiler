@@ -21,17 +21,23 @@ class Update_Statistics extends CI_Controller {
 	
 	/*-----------------------------------------------------start edit functions-----------------------------------------------------*/
 	
-	public function edit_students(){
+	public function edit() {
+		$this->editStudents();
+	}
+	
+	public function editStudents(){
 		$db['default']['db_debug'] = FALSE;
 		$data['students'] = $this->student_model->getStudents();
 		$this->displayView('edit_students', $data);
 	}
 	
-	public function viewGrades($personid = null) {
+	public function editGrades($personid = null) {
 		$db['default']['db_debug'] = FALSE;
-		$data['tables'] = $this->getTable('studentgrades', $personid);
-
-		$this->displayViewWithHeaders('edit_database', $data);	
+		$this->load->model('grades_model', 'grades_model', true);
+		
+		$data['student_info'] = $this->grades_model->getStudentInfo($personid);
+		$data['term_grades'] = $this->grades_model->getGrades($personid);
+		$this->displayView('edit_grades', $data);
 	}
 	
 	public function updateGrade() {
@@ -41,10 +47,10 @@ class Update_Statistics extends CI_Controller {
 		try {
 			$this->load->model('Field_factory', 'field_factory');
 			$field = $this->field_factory->createFieldByName('Grade');
-			$field->parse($grade); //will throw an exception if grade format is wrong
+			$field->parse($grade, '', ''); //will throw an exception if grade format is wrong
 			
-			$this->load->model('edit_database_model', 'editor', true);
-			$this->editor->changeGrade($grade, $studentclassid);
+			$this->load->model('grades_model', 'grades_model', true);
+			$this->grades_model->changeGrade($grade, $studentclassid);
 			echo "true";
 		} catch (Exception $e) {
 			echo $e->getMessage();

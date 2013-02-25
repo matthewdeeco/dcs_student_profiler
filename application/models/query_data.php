@@ -43,10 +43,10 @@ class Query_data extends CI_Model {
 	}
 	
 	private function get_termid() {
-		$this->termid = $this->acadid . $this->semid;
-		$this->termname = $this->semname . ' '. $this->acadyear;
-		$search = "SELECT termid FROM terms WHERE termid = '$this->termid' AND year = '$this->acadyear' AND sem = '$this->semester';";
-		$insert = "INSERT INTO terms VALUES ('$this->termid', '$this->termname', '$this->acadyear', '$this->semester');";
+		$this->termid = $this->acadyearid . $this->semid;
+		$this->termname = $this->semname . ' '. $this->acadyearname;
+		$search = "SELECT termid FROM terms WHERE termid = '$this->termid' AND year = '$this->acadyearname' AND sem = '$this->semester';";
+		$insert = "INSERT INTO terms VALUES ('$this->termid', '$this->termname', '$this->acadyearname', '$this->semester');";
 		$termid = $this->distinctInsert($search, $insert, 'termid');
 		return $this->termid;
 	}

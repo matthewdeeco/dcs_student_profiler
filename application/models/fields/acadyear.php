@@ -20,8 +20,8 @@ class Acadyear extends Field {
 				throw new Exception("Start and end of Acad Year is not 1 year apart");
 			$acadyear = $start."-".$end;
 		}
-		$this->values['acadyear'] = $acadyear;
-		$this->values['acadid'] = $start;
+		$this->values['acadyearid'] = $start;
+		$this->values['acadyearname'] = $acadyear;
 	}
 }
 ?>

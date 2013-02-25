@@ -6,6 +6,13 @@ $(document).ready(function(){
 	$('#us').addClass('active');
 	$('#ab').removeClass('active');	
 	
+	$('a.view_grades').click(function(e) {
+		// prevent the default action when a nav button link is clicked
+		e.preventDefault();
+		// ajax query to retrieve the HTML view without refreshing the page.
+		$('#container').load($(this).attr('href'));
+	});
+	
 	$(".inputcell").change(function() {
 	
 		var callback = "<?=site_url('update_statistics/updateStudentInfo')?>";
@@ -125,6 +132,9 @@ tr:nth-child(odd), tr:nth-child(even) input[type="text"] {
 				printCell($personid, 'firstname', $firstname);				
 				printCell($personid, 'middlename', $middlename);
 				printCell($personid, 'pedigree', $pedigree);
+				
+				$grade_url = site_url("update_statistics/editGrades/$personid");
+				echo "<td><a class='view_grades btn btn-primary small' href=$grade_url>Edit Grades</a></td>";
 				echo "</tr>";
 			}
 			

@@ -62,6 +62,7 @@ class Excel_Parser extends CI_Model {
 		$output = "<tr><th>".$row."</th>";
 		for ($col = 1; $col <= $this->cols - 2; $col++) { // last 3 columns (grades) are parsed at the same time
 			$value = $this->spreadsheet->val($row, $col);
+			$orig_value = $this->spreadsheet->val($row, $col);
 			try {
 				$field = $this->parsers[$col];
 				if ($col == $this->cols - 2) { // grades, include comp and secondcomp
@@ -85,7 +86,7 @@ class Excel_Parser extends CI_Model {
 			catch (Exception $e) {
 				$this->querydata->doNotExecute();
 				$message = $e->getMessage(); // store for tooltip message
-				$output .= "<td title='$message'><div class='databasecell upload_error'>$value</div></td>";
+				$output .= "<td title='$message'><div class='databasecell upload_error'>$orig_value</div></td>";
 				$success = false;
 			}
 		}

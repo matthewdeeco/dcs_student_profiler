@@ -13,6 +13,8 @@ class Grade extends Field {
 				throw new Exception("Unexpected input in compgrade");
 		else if (is_numeric($grade))
 			$grade = number_format($grade, 2); // make into 2 decimal places
+		else if (ctype_alpha($grade))
+			$grade = strtoupper($grade);
 		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $grade))
 			; // leave grade as is
 		else if (preg_match('/^DRP$|^NG$/', $grade))
