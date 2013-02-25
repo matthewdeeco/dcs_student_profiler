@@ -9,6 +9,9 @@ function loading() {
 	 //alert(document.getElementById('container').innerHTML);
 }
 </script>
+<span class="page-header">
+	<h3>Grade Uploads</h3>
+</span>
 <?php
 if (!isset($success));
 else if ($success) {
@@ -16,22 +19,26 @@ else if ($success) {
 } else if (!$success) {
 	echo "<span class='error'>$errormessage</span><br><br>";
 }
-?>
+?> 
 <form id="upload_form" enctype="multipart/form-data" action="<?=$dest?>" method="POST">
 	<table width="50%" class="noborder">
 		<tr><strong><?=$message?></strong></tr>
+		<tr></tr>
 		<tr>
+			<td></td>
 			<td>&nbsp;Upload File:</td>
-			<td><input type="file" id="upload_file" name="upload_file" /></td>
+			<td><input class="input-file" type="file" id="upload_file" name="upload_file" /></td>
 		</tr>
 		<tr>
-			<td colspan=2>Reset Database? <input type="checkbox" name="reset" value="Yes" /></td>
+			<td></td>
+			<td>&nbsp;Reset Database?</td> <td><input type="checkbox" name="reset" value="Yes" /></td>
 		</tr>
 		<tr><td colspan=2><br></td></tr>
 		<tr>
 			<td></td>
+			<td></td>
 			<td>
-				<input type="submit" onclick="loading()" name="submit" value="Submit" />
+				<input type="submit" class="btn btn-primary" onclick="loading()" name="submit" value="Submit" />
 				<input type="reset" name="cancel" value="Cancel"/>
 			</td>
 		</tr>
