@@ -32,14 +32,14 @@ else if ($success) {
 		
 		<?php
 		
-		if($upload_filetype == "Grade File"){
+		//if($upload_filetype == "Grade File"){
 			echo'
 			<tr>
 				<td></td>
 				<td>&nbsp;Reset Database?</td> <td><input type="checkbox" name="reset" value="Yes" /></td>
 			</tr>
 			';
-		}
+		//}
 		?>
 		<tr><td colspan=2><br></td></tr>
 		<tr>
