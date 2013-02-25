@@ -36,7 +36,7 @@ $(document).ready(function(){
 Edit
 <ul>
 <?php
-$url = site_url("update_statistics/edit_students");
+	$url = site_url("update_statistics/edit_students");
 	echo "<li><a class='teamcnav' href='$url'>Student Info</a></li>";
 ?>
 </ul>

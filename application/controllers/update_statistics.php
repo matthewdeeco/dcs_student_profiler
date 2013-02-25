@@ -21,15 +21,6 @@ class Update_Statistics extends CI_Controller {
 	
 	/*-----------------------------------------------------start edit functions-----------------------------------------------------*/
 	
-	public function edit($tablename = null) {
-		$db['default']['db_debug'] = FALSE;
-		$data['tables'] = $this->getTablesForDisplay($tablename);
-		$errormessage = $this->db->_error_message();
-		if (!empty($errormessage))
-			$data['errormessage'] = "Table ".$tablename." does not exist!";
-		$this->displayView('edit_database', $data);
-	}
-	
 	public function edit_students(){
 		$db['default']['db_debug'] = FALSE;
 		$data['students'] = $this->student_model->getStudents();
@@ -66,7 +57,6 @@ class Update_Statistics extends CI_Controller {
 		$personid = $_POST['personid'];
 		
 		try {
-		
 			$this->load->model('Field_factory', 'field_factory');
 			$field = $this->field_factory->createFieldByName($changedfield_name);
 			$field->parse($changedfield_value); //will throw an exception if grade format is wrong
@@ -111,7 +101,6 @@ class Update_Statistics extends CI_Controller {
 		$this->load->model('excel_parser', 'parser');
 		$this->parser->initialize($file);
 		$data['parse_output'] = $this->parser->parse();
-		$reset_success = $data['reset_success'];
 		$success_rows = $this->parser->getSuccessCount();
 		$error_rows = $this->parser->getErrorCount();
 		$data['success_rows'] = $success_rows;
@@ -140,28 +129,16 @@ class Update_Statistics extends CI_Controller {
 
 	// Called when an excel file is uploaded
 	public function performUpload() {
-		$data = array('success' => false);
-		if(!isset($_POST['reset']))
-			$data['reset'] = "No";
-		else
-			$data['reset'] = $_POST['reset'];
-			
-		if($data['reset'] == "Yes"){
-			$reset_success = $this->resetDatabase();
-			if($reset_success)
-				$data['reset_success'] = true;
-		}
-		else
-			$data['reset_success'] = false;
-		
+		$data = array('upload_success' => false);
+		$data['reset_success'] = $this->resetIfChecked();
 		// maintain a table to store uploaded gradessheets?
 		try {
 			$file = $this->getUploadedFile();
 			$data['excel_dump'] = $this->dumpExcelTable($file);
-			$data['success'] = true;
+			$data['upload_success'] = true;
 			$this->parse($file, $data);
 		} catch (Exception $e) {
-			$data['errormessage'] = $e->getMessage();
+			$data['error_message'] = $e->getMessage();
 		}
 		$this->displayViewWithHeaders('upload_response', $data);
 	}
@@ -170,20 +147,18 @@ class Update_Statistics extends CI_Controller {
 	
 	/*-----------------------------------------------------start reset functions-----------------------------------------------------*/
 	
-	public function resetDatabase(){
-		return $this->performResetDatabase();
+	private function resetDatabase(){
+		$query = "TRUNCATE studentclasses, studentterms, instructorclasses, instructors, classes, students, persons";
+		$this->db->query($query);
 	}
 	
-	public function performResetDatabase(){
-		$reset_sql = $this->getResetSql();
-		if(file_exists($reset_sql)){
-			$query = $this->load->file($reset_sql, true);
-			$this->db->query($query);
-			$response = true;
-			return $response;
+	private function resetIfChecked() {
+		if(isset($_POST['reset']) && $_POST['reset']) {
+			$this->resetDatabase();
+			return true;
 		}
 		else
-			throw new Exception("Base file not found. Database cannot be reset.");
+			return false;
 	}
 	
 	/*-----------------------------------------------------end reset functions-----------------------------------------------------*/
@@ -232,33 +207,35 @@ class Update_Statistics extends CI_Controller {
 	/*-----------------------------------------------------end backup functions-----------------------------------------------------*/
 	
 	/*-----------------------------------------------------start restore functions-----------------------------------------------------*/
-	
 	public function restore() {
-		$data['message'] = 'Select the database backup to restore';
-		$data['dest'] = site_url('update_statistics/performRestore');
-		$this->displayView('upload_file', $data);
-	}
-	
-	private function getPostgresBinLocation() {
 		$cookie = $this->input->cookie('pg_bin_dir', TRUE);
 		if (isset($_POST['pg_bin_dir'])) {
 			$pg_bin_dir = $_POST['pg_bin_dir'];
 			if (!preg_match("/bin$/", $pg_bin_dir))
 				$pg_bin_dir .= "/bin";
+			$this->showRestoreDialog($pg_bin_dir);
 		}
 		else if (!empty($cookie))
-			$pg_bin_dir = $cookie;
+			$this->showRestoreDialog($cookie);
 		else if (substr(php_uname(), 0, 7) == "Windows") {
 			$data['dest'] = 'update_statistics/restore';
 			$this->displayView('postgres_bin', $data);
 		}
 		else
-			$pg_bin_dir = '/usr/bin';
-		return $pg_bin_dir;
+			$this->showRestoreDialog('/usr/bin');
+	}
+			
+	private function showRestoreDialog($pg_bin_dir) {
+		$data['message'] = 'Select the database backup to restore';
+		$data['dest'] = site_url('update_statistics/performRestore');
+		$data['pg_bin_dir'] = $pg_bin_dir;
+		$this->displayView('upload_file', $data);
 	}
 	
 	public function performRestore() {
-		$pg_bin_dir = $this->getPostgresBinLocation();
+		$pg_bin_dir = $_POST['pg_bin_dir'];
+		
+		$data['reset_success'] = $this->resetIfChecked();
 		$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
 		if (substr(php_uname(), 0, 7) == "Windows"){
 			$abs_basepath = $this->getAbsoluteBasePath();
@@ -269,8 +246,14 @@ class Update_Statistics extends CI_Controller {
 		}
 		$cmd = escapeshellarg($psql_location)." -U postgres ".$this->db->database." < $backup_filename 2>&1";
 		exec($cmd, $output, $status);
+		$success = ($status == 0);
+		if ($success) { // save cookie
+			$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
+			$this->input->set_cookie($cookie);
+		}
+		
 		$data['output'] = $output;
-		$data['status'] = $status;
+		$data['restore_success'] = $success;
 		$this->displayViewWithHeaders('restore_response', $data);
 	}
 	
@@ -285,6 +268,7 @@ class Update_Statistics extends CI_Controller {
 	}
 	
 	public function performSqlQuery() {
+		$this->resetIfChecked();
 		$sql_file = $this->getUploadedFile();
 		$sql_text = $this->load->file($sql_file, true);
 		$this->db->query($sql_text);
@@ -317,9 +301,9 @@ class Update_Statistics extends CI_Controller {
 	private function displayViewWithHeaders($viewname, $data = null) {
 		$this->headers_included = true;
 		$this->load->view('include/header');
-		$this->load->view('include/header-teamc', $this->tablenames);
+		$this->load->view('include/header-teamc');
 		$this->load->view($viewname, $data);
-		$this->load->view('include/footer-teamc', $this->tablenames);
+		$this->load->view('include/footer-teamc');
 		$this->load->view('include/footer');
 	}
 	

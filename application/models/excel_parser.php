@@ -1,6 +1,8 @@
 <?php
 require_once 'excel_reader.php';
 require_once 'query_data.php';
+require_once 'fields/exceptions/nstp_exception.php';
+require_once 'fields/exceptions/pe_exception.php';
 
 class Excel_Parser extends CI_Model {
 	private $query_data;
@@ -55,7 +57,8 @@ class Excel_Parser extends CI_Model {
 	}
 	
 	private function parseRow($row) {
-		$success = true; // no errors encountered
+		$success = true;
+		$error = true;
 		$output = "<tr><th>".$row."</th>";
 		for ($col = 1; $col <= $this->cols - 2; $col++) { // last 3 columns (grades) are parsed at the same time
 			$value = $this->spreadsheet->val($row, $col);
@@ -70,7 +73,16 @@ class Excel_Parser extends CI_Model {
 					$field->parse($value);
 				$field->insertToQueryData($this->querydata);
 				$output .= "<td class='databasecell'>$value</td>";
-			} catch (Exception $e) {
+			} catch (NstpException $e) {
+				$this->querydata->doNotExecute();
+				$success = false;
+				$error = false;
+			} catch (PeException $e) {
+				$this->querydata->doNotExecute();
+				$success = false;
+				$error = false;
+			}
+			catch (Exception $e) {
 				$this->querydata->doNotExecute();
 				$message = $e->getMessage(); // store for tooltip message
 				$output .= "<td title='$message'><div class='databasecell upload_error'>$value</div></td>";
@@ -82,9 +94,12 @@ class Excel_Parser extends CI_Model {
 			$this->successcount++;
 			return ''; // don't print the row
 		}
-		else {
+		else if ($error) {
 			$this->errorcount++;
 			return $output; // add row for printing;
+		}
+		else { // neither success nor error (NSTP/PE)
+			return '';
 		}
 	}
 }

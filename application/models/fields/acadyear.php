@@ -2,7 +2,7 @@
 require_once 'field.php';
 
 class Acadyear extends Field {
-	public function parse($acadyear, $a = null, $b = null) {
+	public function parse(&$acadyear, $a = null, $b = null) {
 		$acadyear = preg_replace('/ /', '', $acadyear); // remove spaces
 		if (empty($acadyear)) // nothing was left
 			throw new Exception("Acad Year is empty");

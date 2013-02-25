@@ -14,7 +14,11 @@
 		}
 		
 		public function changeStudentInfo($changedfield_name, $changedfield_value, $personid){
-			$query = "UPDATE persons SET $changedfield_name = '$changedfield_value' WHERE personid = '$personid'";
+			if ($changedfield_name == "studentno")
+				$tablename = "students";
+			else
+				$tablename = "persons";
+			$query = "UPDATE $tablename SET $changedfield_name = '$changedfield_value' WHERE personid = '$personid'";
 			$this->db->query($query);	
 			
 			if ($this->db->affected_rows() > 0){

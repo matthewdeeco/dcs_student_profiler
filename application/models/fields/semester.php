@@ -6,7 +6,7 @@ class Semester extends Field{
 	const SECOND = "2nd";
 	const SUMMER = "Sum";
 	
-	public function parse($semester, $a = null, $b = null) {
+	public function parse(&$semester, $a = null, $b = null) {
 		if (empty($semester))
 			throw new Exception("Semester is blank");
 		else if (!is_numeric($semester))

@@ -2,7 +2,7 @@
 require_once 'field.php';
 
 class Grade extends Field {
-	public function parse($grade, $compgrade, $secondcompgrade) {
+	public function parse(&$grade, $compgrade, $secondcompgrade) {
 		$grade = trim($grade);
 		$compgrade = trim($compgrade);
 		$secondcompgrade = trim($secondcompgrade);
@@ -15,7 +15,7 @@ class Grade extends Field {
 			$grade = number_format($grade, 2); // make into 2 decimal places
 		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $grade))
 			; // leave grade as is
-		else if (preg_match('/^DRP$|^NG|^P|^IP|^F$/', $grade))
+		else if (preg_match('/^DRP$|^NG$/', $grade))
 			; // leave grade as is
 		else if (preg_match('/^(4(\.00))$|^INC$/', $grade)) {
 			if (empty($compgrade))

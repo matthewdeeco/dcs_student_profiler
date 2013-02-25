@@ -166,4 +166,4 @@ pip-log.txt
 logs
 dumps
 uploads
-*/config/database.php
+config

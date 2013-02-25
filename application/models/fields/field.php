@@ -6,7 +6,7 @@ abstract class Field extends CI_Model {
 		parent::__construct();
 	}
 	
-	public abstract function parse($value1, $value2, $value3);
+	public abstract function parse(&$value1, $value2, $value3);
 	
 	public final function insertToQueryData(&$queryData) {
 		foreach ($this->values as $key => $value)

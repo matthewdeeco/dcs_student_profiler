@@ -97,10 +97,7 @@ INSERT INTO grades (gradename, gradevalue) VALUES ('3.00', 3.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('4.00', 4.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('5.00', 5.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('INC', -1.00);
-INSERT INTO grades (gradename, gradevalue) VALUES ('NG', -1.10);
-INSERT INTO grades (gradename, gradevalue) VALUES ('P', -1.20);
-INSERT INTO grades (gradename, gradevalue) VALUES ('F', -1.30);
-INSERT INTO grades (gradename, gradevalue) VALUES ('IP', -1.40);
+INSERT INTO grades (gradename, gradevalue) VALUES ('NG', -2.00);
 INSERT INTO grades (gradename, gradevalue) VALUES ('DRP', 0.00);
 
 INSERT INTO terms VALUES (20091, '1st Semester 2009-2010', '2009-2010', '1st');

@@ -2,7 +2,7 @@
 require_once 'field.php';
 
 class Studentno extends Field {
-	public function parse($studentno, $a = null, $b = null) {
+	public function parse(&$studentno, $a = null, $b = null) {
 		$studentno = preg_replace('/[ \-]/', '', $studentno); // remove spaces and hyphens
 		if (empty($studentno))
 			throw new Exception("Student # is empty");

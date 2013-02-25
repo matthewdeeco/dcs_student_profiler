@@ -1,5 +1,7 @@
 <?php
 require_once 'field.php';
+require_once 'exceptions/nstp_exception.php';
+require_once 'exceptions/pe_exception.php';
 
 class Classname extends Field {
 	protected function toHinduArabic($romannum) {
@@ -19,7 +21,7 @@ class Classname extends Field {
 		else return false;
 	}
 
-	public function parse($classname, $a = null, $b = null) {
+	public function parse(&$classname, $a = null, $b = null) {
 		if (empty($classname))
 			throw new Exception("Class is empty");
 		if (($lastspace = strrpos($classname, " ")) === false)
@@ -40,13 +42,13 @@ class Classname extends Field {
 		}
 
 		$mscourses = '/^app physics |^bio |^chem |^env sci |^geol |^math |^mbb |^ms |^physics |^che |^ce |^coe |^ee |^eee |^ece |^ge |^ie |^mate |^me |^mete |^em /i';
-		if(preg_match('/^pe /i', $coursename))
-			$domain = "PE";
-		else if(preg_match('/^cwts |^rotc |^lts |mil\s?sci/i', $coursename))
-			$domain = "NSTP";
-		else if(preg_match('/^cs /i', $coursename))
+		if (preg_match('/^pe /i', $coursename))
+			throw new PeException();
+		else if (preg_match('/^cwts|^rotc|^lts|mil\s?sci/i', $coursename))
+			throw new NstpException();
+		else if (preg_match('/^cs /i', $coursename))
 			$domain = "CSE";
-		else if(preg_match($mscourses, $coursename))
+		else if (preg_match($mscourses, $coursename))
 			$domain = "MSEE";
 		else
 			$domain = "FE";
