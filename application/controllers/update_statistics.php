@@ -244,24 +244,28 @@ class Update_Statistics extends CI_Controller {
 		$pg_bin_dir = $_POST['pg_bin_dir'];
 		
 		$data['reset_success'] = $this->resetIfChecked();
-		$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
-		if (substr(php_uname(), 0, 7) == "Windows"){
-			$abs_basepath = $this->getAbsoluteBasePath();
-			$psql_location = $pg_bin_dir."/psql.exe";
-		} 
-		else { 
-			$psql_location = $pg_bin_dir."/psql";
+		try {
+			$backup_filename = $this->getAbsoluteBasePath().$this->getUploadedFile();
+			if (substr(php_uname(), 0, 7) == "Windows"){
+				$abs_basepath = $this->getAbsoluteBasePath();
+				$psql_location = $pg_bin_dir."/psql.exe";
+			} 
+			else { 
+				$psql_location = $pg_bin_dir."/psql";
+			}
+			$cmd = escapeshellarg($psql_location)." -U postgres ".$this->db->database." < $backup_filename 2>&1";
+			exec($cmd, $output, $status);
+			$success = ($status == 0);
+			if ($success) { // save cookie
+				$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
+				$this->input->set_cookie($cookie);
+			}
+			$data['output'] = $output;
+			$data['restore_success'] = $success;
+		} catch (Exception $e) {
+			$data['output'] = array();
+			$data['restore_success'] = false;
 		}
-		$cmd = escapeshellarg($psql_location)." -U postgres ".$this->db->database." < $backup_filename 2>&1";
-		exec($cmd, $output, $status);
-		$success = ($status == 0);
-		if ($success) { // save cookie
-			$cookie = array('name'=>'pg_bin_dir', 'value'=>$pg_bin_dir, 'expire'=>'1000000');
-			$this->input->set_cookie($cookie);
-		}
-		
-		$data['output'] = $output;
-		$data['restore_success'] = $success;
 		$this->displayViewWithHeaders('restore_response', $data);
 	}
 	

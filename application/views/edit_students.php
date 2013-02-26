@@ -103,30 +103,27 @@ a.btn-primary:hover, a.btn-primary:active, a.btn-primary.active, a.btn-primary.d
 </span>
 <form action="" method="post"> 
 <table class="students table table-bordered table-striped table-hover">
-	<thead>
-		<tr>
-			<th colspan="6" id="studentheader"><center>Students</center></th>
-		</tr>
-		<tr>
-			<?php
-				if (empty($students)) {
-					echo "Database is empty.";
-				}
-				else {
-					echo '<th width="10%"><center>Student Number</center></th>
+	<?php
+		if (empty($students))
+			echo "Database is empty.";
+		else
+			echo '<thead>
+				<tr>
+					<th colspan="6" id="studentheader"><center>Students</center></th>
+				</tr>
+				<tr>
+					<th width="10%"><center>Student Number</center></th>
 					<th><center>Last Name</center></th>
 					<th><center>First Name</center></th>
 					<th><center>Middle Name</center></th>
 					<th width="10%"><center>Pedigree</center></th>
-					<th width="10%"><center></center></th>';
-				}
-			?>
-		</tr>
-	</thead>
+					<th width="10%"><center></center></th>
+				</tr>
+			</thead>';
+	?>
 	<tbody>
 		<?php
 			foreach($students as $student){
-			
 				$personid = $student['personid'];
 				$studentno = $student['studentno'];
 				$lastname = $student['lastname'];
@@ -142,7 +139,7 @@ a.btn-primary:hover, a.btn-primary:active, a.btn-primary.active, a.btn-primary.d
 				printCell($personid, 'pedigree', $pedigree);
 				
 				$grade_url = site_url("update_statistics/editGrades/$personid");
-				echo "<td><a class='view_grades btn btn-primary' href=$grade_url>Edit Grades</a></td>";
+				echo "<td><a class='view_grades btn btn-primary' href='$grade_url'>Edit Grades</a></td>";
 				echo "</tr>";
 			}
 			

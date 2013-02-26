@@ -27,6 +27,19 @@ class Classname extends Field {
 		if (($lastspace = strrpos($classname, " ")) === false)
 			throw new Exception("Course name and section cannot be distinguished");
 		$coursename = substr($classname, 0, $lastspace);
+
+		$mscourses = '/^app physics |^bio |^chem |^env sci |^geol |^math |^mbb |^ms |^physics |^che |^ce |^coe |^ee |^eee |^ece |^ge |^ie |^mate |^me |^mete |^em /i';
+		if (preg_match('/^pe /i', $coursename))
+			throw new PeException();
+		else if (preg_match('/^cwts|^rotc|^lts|mil\s?sci/i', $coursename))
+			throw new NstpException();
+		else if (preg_match('/^cs /i', $coursename))
+			$domain = "CSE";
+		else if (preg_match($mscourses, $coursename))
+			$domain = "MSEE";
+		else
+			$domain = "FE";
+
 		$section = substr($classname, $lastspace + 1);
 		if (strlen($section) > 12)
 			throw new Exception("Section is longer than 12 characters");
@@ -40,18 +53,6 @@ class Classname extends Field {
 			if (($coursenumint = $this->toHinduArabic($coursenum)) !== false)	
 				$coursename = substr_replace($coursename, $coursenumint, $lastspace+1);
 		}
-
-		$mscourses = '/^app physics |^bio |^chem |^env sci |^geol |^math |^mbb |^ms |^physics |^che |^ce |^coe |^ee |^eee |^ece |^ge |^ie |^mate |^me |^mete |^em /i';
-		if (preg_match('/^pe /i', $coursename))
-			throw new PeException();
-		else if (preg_match('/^cwts|^rotc|^lts|mil\s?sci/i', $coursename))
-			throw new NstpException();
-		else if (preg_match('/^cs /i', $coursename))
-			$domain = "CSE";
-		else if (preg_match($mscourses, $coursename))
-			$domain = "MSEE";
-		else
-			$domain = "FE";
 
 		$this->values['coursename'] = $coursename;
 		$this->values['section'] = $section;

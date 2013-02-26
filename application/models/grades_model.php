@@ -14,7 +14,7 @@
 			if ($result->num_rows() > 0){
 			   $row = $result->row(); 
 			   //pedigree how?
-			   $student_info['student_name'] = $row->lastname.", ".$row->firstname." ".$row->middlename;
+			   $student_info['student_name'] = $row->lastname.", ".$row->firstname." ".$row->middlename." ".$row->pedigree;
 			   $student_info['studentno'] = $row->studentno;
 			}
 			

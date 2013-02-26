@@ -5,9 +5,9 @@ class Acadyear extends Field {
 	public function parse(&$acadyear, $a = null, $b = null) {
 		$acadyear = preg_replace('/ /', '', $acadyear); // remove spaces
 		if (empty($acadyear)) // nothing was left
-			throw new Exception("Acad Year is empty");
+			throw new Exception("Acad year is empty");
 		else if (preg_match('/[^\d\-]/', $acadyear))
-			throw new Exception("Acad Year contains non-numeric characters");
+			throw new Exception("Acad year contains non-numeric characters");
 		$acadyear = explode("-", $acadyear); // separate by hyphen (e.g. 2010-2011)
 		$acadyear = array_filter($acadyear); // remove empty elements
 		$acadyear = array_values($acadyear); // rearrange elements to remove gaps in index
@@ -17,7 +17,7 @@ class Acadyear extends Field {
 		else { // end year was specified
 			$end = $acadyear[1];
 			if ($end - $start !== 1)
-				throw new Exception("Start and end of Acad Year is not 1 year apart");
+				throw new Exception("Start and end of acad year are not 1 year apart");
 			$acadyear = $start."-".$end;
 		}
 		$this->values['acadyearid'] = $start;

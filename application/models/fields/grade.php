@@ -15,15 +15,18 @@ class Grade extends Field {
 			$grade = number_format($grade, 2); // make into 2 decimal places
 		else if (ctype_alpha($grade))
 			$grade = strtoupper($grade);
-		if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $grade))
+		if (preg_match('/^([12](\.([27]5|[05]0)))|([35](\.00))$/', $grade))
 			; // leave grade as is
-		else if (preg_match('/^DRP$|^NG$/', $grade))
+		else if (!strcmp('DRP', $grade) || !strcmp('NG', $grade))
 			; // leave grade as is
-		else if (preg_match('/^(4(\.00))$|^INC$/', $grade)) {
+		else if (!strcmp('4.00', $grade) || !strcmp('INC', $grade)) {
 			if (empty($compgrade))
 				; // leave grade as is
-			else if (preg_match('/^([1-2](\.([27]5|[05]0)))|([3-5](\.00))$/', $compgrade))
-				$grade = $compgrade;
+			else if (is_numeric($compgrade)) {
+				$compgrade = number_format($compgrade, 2); // make into 2 decimal places
+				if (preg_match('/^([12](\.([27]5|[05]0)))|([35](\.00))$/', $compgrade))
+					$grade = $compgrade;
+			}
 		}
 		else
 			throw new Exception("Invalid input in grade");
