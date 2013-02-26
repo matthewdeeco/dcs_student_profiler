@@ -1,5 +1,5 @@
 <script>
-$(document).ready(function(){	
+$(document).ready(function(){
 	$('#sr').removeClass('active');
 	$('#cs').removeClass('active');
 	$('#et').removeClass('active');
@@ -35,9 +35,12 @@ $(document).ready(function(){
 		}else if($actionid == "rs"){
 			$('#rs').addClass('active');
 		}
-		
+		$('#loading').show();
+		$('#content').hide();
 		// ajax query to retrieve the HTML view without refreshing the page.
-		$('#container').load($(this).attr('href'));
+		$('#content').load($(this).attr('href'));
+		$('#loading').hide();
+		$('#content').show();
 	});
 	// $('form').submit(function(e) {
 		// e.preventDefault();
@@ -83,3 +86,5 @@ $(document).ready(function(){
 	padding-right:10px;
 	overflow-x:auto;
 	">
+	<div id="loading" style="display:none;"><img src="<?=base_url('images/loading.gif')?>" alt="" /><br>Please wait...</div>
+	<div id="content">
