@@ -38,9 +38,10 @@ $(document).ready(function(){
 		$('#loading').show();
 		$('#content').hide();
 		// ajax query to retrieve the HTML view without refreshing the page.
-		$('#content').load($(this).attr('href'));
-		$('#loading').hide();
-		$('#content').show();
+		$('#content').load($(this).attr('href'), function () {
+			$('#loading').hide();
+			$('#content').show();
+		});
 	});
 	// $('form').submit(function(e) {
 		// e.preventDefault();
