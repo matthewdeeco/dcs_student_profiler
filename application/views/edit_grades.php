@@ -1,8 +1,6 @@
-<script>
-$(document).ready(function(){	
-	$(".gradecell").change(function(e) {
-		e.preventDefault();
-		
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".gradecell").change(function() {
 		var callback = "<?=site_url('update_statistics/updateGrade')?>";
 		var changed_cell = $(this);
 		
@@ -28,9 +26,7 @@ $(document).ready(function(){
 				alert("Call to database failed.");
 				$(changed_cell).css("background-color","#CF0220").css("color","white");
 			}
-		
 		});//endajax
-		return false;
 	});//endchange
 });//end ready ()
 </script>
@@ -97,11 +93,9 @@ tr:nth-child(odd) {background: #FFF}
  
  function printGrades($term_grades){
 	foreach($term_grades as $term_grade){
-		echo "<form action='' method='post'>";
 		$termname = $term_grade['termname'];
 		$rows = $term_grade['rows'];
-		printGradeTable($termname, $rows);		
-		echo "</form>";
+		printGradeTable($termname, $rows);
 		echo "</br>";
 	}
  }

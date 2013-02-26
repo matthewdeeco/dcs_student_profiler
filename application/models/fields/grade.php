@@ -15,7 +15,7 @@ class Grade extends Field {
 			$grade = number_format($grade, 2); // make into 2 decimal places
 		else if (ctype_alpha($grade))
 			$grade = strtoupper($grade);
-		if (preg_match('/^([12](\.([27]5|[05]0)))|([35](\.00))$/', $grade))
+		if (preg_match('/^([12](\.([27]5|[05]0)))$|^([35](\.00))$/', $grade))
 			; // leave grade as is
 		else if (!strcmp('DRP', $grade) || !strcmp('NG', $grade))
 			; // leave grade as is
@@ -24,7 +24,7 @@ class Grade extends Field {
 				; // leave grade as is
 			else if (is_numeric($compgrade)) {
 				$compgrade = number_format($compgrade, 2); // make into 2 decimal places
-				if (preg_match('/^([12](\.([27]5|[05]0)))|([35](\.00))$/', $compgrade))
+				if (preg_match('/^([12](\.([27]5|[05]0)))$|^([35](\.00))$/', $compgrade))
 					$grade = $compgrade;
 			}
 		}

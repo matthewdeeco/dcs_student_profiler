@@ -1,15 +1,18 @@
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
-	
 	$('a.view_grades').click(function(e) {
 		// prevent the default action when a nav button link is clicked
 		e.preventDefault();
+		$('#loading').show();
+		$('#content').hide();
 		// ajax query to retrieve the HTML view without refreshing the page.
-		$('#container').load($(this).attr('href'));
+		$('#content').load($(this).attr('href'), function () {
+			$('#loading').hide();
+			$('#content').show();
+		});
 	});
 	
 	$(".inputcell").change(function() {
-	
 		var callback = "<?=site_url('update_statistics/updateStudentInfo')?>";
 		var changed_cell = $(this);
 		

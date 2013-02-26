@@ -75,7 +75,7 @@
 			if ($this->db->affected_rows() > 0){
 				return true;
 			}
-			else{			
+			else {
 				throw new Exception("Error in update of grade.");
 			}
 		}//end change grade
