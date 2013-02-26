@@ -1,13 +1,6 @@
 <script type = "text/javascript" src = "assets/js/jquery-1.8.3.js"></script>
 <script language = "JavaScript" type = "text/javascript">
-function loading() {
-	var loading_gif = "<?= base_url('images/loading.gif') ?>";
-	
-	 //alert("<img src='" + loading_gif + "' alt='Loading...'>");
-	 //document.getElementById('container').innerHTML = "<img src='" + loading_gif + "' alt='Loading...'>";
-	 //$("#container").html("<img src=" + loading_gif + " alt='Loading...'>").show();
-	 //alert(document.getElementById('container').innerHTML);
-}
+
 </script>
 <span class="page-header">
 	<h3><?=$upload_header?></h3>
@@ -46,7 +39,7 @@ else if ($success) {
 			<td></td>
 			<td></td>
 			<td>
-				<input type="submit" class="btn btn-primary" onclick="loading()" name="submit" value="Submit" />
+				<input type="submit" class="btn btn-primary" onclick="$('#loading').show();" name="submit" value="Submit" />
 				<input type="reset" class="btn" name="cancel" value="Cancel"/>
 			</td>
 		</tr>
@@ -55,6 +48,7 @@ else if ($success) {
 		echo '<input type="hidden" name="pg_bin_dir" value='.escapeshellarg($pg_bin_dir).'>';
 	?>
 </form>
+<div id="loading" style="display:none;"><img src="images/loading.gif" alt="" />Please wait</div>
 <?php
 if (isset($success) && $success) {
 	echo "<br><b><span class='success'>$success_rows</span></b> rows added, ";
